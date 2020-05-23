@@ -94,11 +94,6 @@ td a{
     text-decoration: none;
 }
 
-
-
-
-
-
 /* FORM */
 
 label{
@@ -161,9 +156,6 @@ input[type="date"]{
     width: 100%
 }
 
-
-
-
 i.delete{
     color: #bbb;
 }
@@ -178,11 +170,6 @@ i.delete, i.delete:before {
 i.delete:hover {
     color: darkred;
 }
-
-
-
-
-
 
 /* For Desktop */
 @media only screen and (min-width: 768px) {

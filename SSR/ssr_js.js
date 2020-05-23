@@ -26,9 +26,17 @@ $(document).ready(function(){
     $("#tableSearchInputSSR").on("keyup", function() {
         var value = $(this).val().toLowerCase();
 
-        $(".table-fields label").filter(function() {
+
+        $(".table-fields .checkboxes label").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+
         });
+
+
+        $(".table-fields .title-part").filter(function() {
+            $(this).toggle($(this).siblings().text().toLowerCase().indexOf(value) > -1);
+        });
+
     });
 });
 
@@ -36,7 +44,15 @@ $(document).ready(function(){
 /* SELECT ALL CHECKBOXES FOR CURRENT GROUP */
 
 $(document).ready(function(){
-    $("#group1").on(click, function () {
-        $(".group1 label :checkbox").prop.toggle("checked");
+    $(".groups").on("click", function () {
+
+        var id = $(this).attr('id');
+
+        var allChecked = $(this).prop("checked");
+
+
+        $("." + id).prop({
+            checked: allChecked
+        });
     });
 });
