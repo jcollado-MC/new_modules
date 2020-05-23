@@ -1,5 +1,5 @@
 <?php
-include 'ssr.php';
+include 'class.ssr.php';
 $ssr = new ssr();
 
 ?>
@@ -9,7 +9,7 @@ $ssr = new ssr();
         <meta charset="UTF-8">
         <title>Reports Mockup</title>
         <script src="../Jquery/jquery-3.4.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="ssr_styles.css">
+        <link rel="stylesheet" type="text/css" href="ssr_css.css">
         <link rel="stylesheet" type="text/css" href="../Styles/styles.css">
         <link rel="stylesheet" type="text/css" href="../Styles/dropdown.css">
         <link rel="stylesheet" type="text/css" href="../Styles/toggle_switch.css">
