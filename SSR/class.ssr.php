@@ -362,7 +362,7 @@
 
             $code .= "
                     <div class='dropdown'>
-                        <button onclick='dropdownFunction('timespan')' class='dropbtn'><h5>Timespan <i class='fas fa-caret-down'></i></h5> </button>
+                        <button onclick='dropdownFunction(\"timespan\")' class='dropbtn'><h5>Timespan <i class='fas fa-caret-down'></i></h5> </button>
                         <div class='dropdown-content' id='timespan'>
                             <div class='col-12 row'>
                                 <label>
@@ -392,7 +392,11 @@
                     </div>";
             $code .= "
                     <div class='dropdown'>
-                        <button onclick='dropdownFunction('filters')' class='dropbtn'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>
+                        <button onclick='dropdownFunction(\"filters\")' class='dropbtn'>
+                            <h5>Custom Filters 
+                                <i class='fas fa-caret-down'></i>
+                            </h5> 
+                        </button>
                         <div id='filters' class='dropdown-content'>
                             <button class='add' >
                             <i class='fas fa-plus'></i>

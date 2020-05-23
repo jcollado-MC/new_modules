@@ -11,9 +11,6 @@ $ssr = new ssr();
         <script src="../Jquery/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="ssr_css.css">
         <link rel="stylesheet" type="text/css" href="../Styles/styles.css">
-        <link rel="stylesheet" type="text/css" href="../Styles/dropdown.css">
-        <link rel="stylesheet" type="text/css" href="../Styles/toggle_switch.css">
-        <link rel="stylesheet" type="text/css" href="../Styles/sidebar.css">
         <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
     </head>
 
@@ -29,6 +26,6 @@ $ssr = new ssr();
             </div>
         </main>
         <script src="ssr_js.js"></script>
-        <script src="../js/dropdown.js"></script>
+        <script src="../JS/scripts.js"></script>
     </body>
 </html>
