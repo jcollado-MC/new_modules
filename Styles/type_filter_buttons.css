@@ -1,0 +1,39 @@
+/*FILTER*/
+
+.filter-container{
+    float: right;
+    margin: 15px 0 15px 0;
+}
+
+.filter, .type-filter {
+    display: none; /* Hidden by default */
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+    display: block;
+}
+
+.show-table{
+    display: table-row;
+}
+
+/* Style the buttons */
+.btn, .type-btn {
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Add a light grey background on mouse-over */
+.btn:hover, .type-btn:hover {
+    background-color: #ddd;
+}
+
+/* Add a dark background to the active button */
+.btn.active, .type-btn.type-active {
+    background-color: #3f48cc;
+    color: white;
+}
