@@ -42,14 +42,59 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $(".groups").on("click", function () {
-
         var id = $(this).attr('id');
-
         var allChecked = $(this).prop("checked");
-
-
         $("." + id).prop({
             checked: allChecked
         });
     });
 });
+
+
+
+$(document).ready(function(){
+    /* ADD IMAGE-GALLERY-SIDEBAR FIELDS */
+    $(".add-gallery-fields").on("click", function () {
+        var id = $(this).attr('id');
+        $(".first-field ." + id ).clone().appendTo("#" + id + "~ .field-container").append("<i class='fas fa-times delete col-1'></i>");
+    });
+    /* REMOVE IMAGE-GALLERY-SIDEBAR FIELDS*/
+    $(".field-container").on("click", ".delete", function () {
+        $(this).siblings().remove();
+        $(this).remove();
+    });
+});
+
+
+
+/* TOGGLE BETWEEN SPECIFIC AND PERIOD TIMESPAN */
+$(document).ready(function(){
+    $(".period-timespan").hide();
+    $("#period-timespan").on("change", function(){
+        var checked = $("#period-timespan").prop("checked");
+        $(".specific-timespan").toggle(!checked);
+        $(".period-timespan").toggle(checked);
+    });
+});
+
+
+
+
+$(document).ready(function(){
+
+    /* ADD CUSTOM FILTER FIELDS */
+    $(".add-filter-fields").on("click", function () {
+        $(".custom-filter-group#first").clone().appendTo("#new-filter").removeAttr("id");
+    });
+
+    /* REMOVE CUSTOM FILTER FIELDS*/
+    $("#new-filter").on("click", ".delete", function () {
+        $(this).parent().parent("div").remove();
+        $(this).remove();
+    });
+
+});
+
+
+
+

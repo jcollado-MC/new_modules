@@ -1,6 +1,6 @@
 <?php
-include 'class.ssr.php';
-$ssr = new ssr();
+include 'class.ssralex.php';
+$ssr = new ssr2(1, 'GALLERY');
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,8 @@ $ssr = new ssr();
             <div class="content col-12">
                 <?php
 
-                echo ssr::show(3);
+                echo $ssr->sidebar();
+                echo $ssr->filter();
 
                 ?>
             </div>

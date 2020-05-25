@@ -138,21 +138,21 @@ var $types = ['TABLE', 'MATRIX', 'GALLERY', 'MAP'];
           default: $l = 'en_EN';
         }
         // LOAD FIELDS
-        $fields[] = ['description'=>'Store', 'name'=>'ID'];
-        $fields[] = ['description'=>'', 'name'=>'Name'];
-        $fields[] = ['description'=>'', 'name'=>'Street'];
-        $fields[] = ['description'=>'', 'name'=>'City'];
-        $fields[] = ['description'=>'', 'name'=>'Region'];
-        $fields[] = ['description'=>'Store2', 'name'=>'ID'];
-        $fields[] = ['description'=>'', 'name'=>'Name'];
-        $fields[] = ['description'=>'', 'name'=>'Street'];
-        $fields[] = ['description'=>'', 'name'=>'City'];
-        $fields[] = ['description'=>'', 'name'=>'Region'];
-        $fields[] = ['description'=>'Store3', 'name'=>'ID'];
-        $fields[] = ['description'=>'', 'name'=>'Name'];
-        $fields[] = ['description'=>'', 'name'=>'Street'];
-        $fields[] = ['description'=>'', 'name'=>'City'];
-        $fields[] = ['description'=>'', 'name'=>'Region'];
+        $fields[] = ['id' => 0,'description'=>'Store', 'name'=>'ID'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region'];
+        $fields[] = ['id' => 0,'description'=>'Store2', 'name'=>'ID'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name2'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street2'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City2'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region2'];
+        $fields[] = ['id' => 0,'description'=>'Store3', 'name'=>'ID2'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City'];
+        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region'];
         foreach($fields as $row){
           if($row['description']<>'') $group = $row['description'];
           $field = [];
@@ -218,10 +218,14 @@ function sidebar(){
   switch($this->type){
     case "TABLE": return $this->sidebarTable();
     case "MATRIX": return $this->sidebarMatrix();
-    // case "GALLERY": return self::sidebarGallery();
+     case "GALLERY": return self::sidebarGallery();
   }
   throw new exception("[18150-1]: Sidebar Type not defined");
 }
+
+
+
+
 
       //------------START SUBTASK BLOCK---------------------------------
 private function sidebarTable(){
@@ -262,21 +266,14 @@ private function sidebarTable(){
   }
   $code .="</form>";
   $code .="</div>";
-  $code .="<button id='save'>Save</button>";
+  $code .="<button id='save' type='submit'>Save</button>";
   // TODO: Only show delete when saved
   $code .= "<button id='delete'>Delete</button>";
   $code .= "</div>";
   return $code;
 }
       //------------START SUBTASK BLOCK---------------------------------
-
-
-
-
-
-
-
-      private function sidebarMatrix(){
+    private function sidebarMatrix(){
         global $myPageBody;
         $code = "
 		<div class='col-3'>
@@ -352,7 +349,7 @@ private function sidebarTable(){
 
         $code .="</form>";
         $code .="</div>";
-        $code .="<button id='save'>Save</button>";
+        $code .="<button id='save' type='submit'>Save</button>";
         // TODO: Only show delete when saved
         $code .= "<button id='delete'>Delete</button>";
         $code .= "</div>";
@@ -364,12 +361,252 @@ private function sidebarTable(){
 
 
 
-
-
-
-
-
       //------------START SUBTASK BLOCK---------------------------------
+      private function sidebarGallery(){
+        global $myPageBody;
+        $code = "
+		<div class='col-3'>
+
+                <div class='col-12 tabs'>
+    
+                    <h2>Gallery Settings</h2>";
+        $code .= "<form>";
+
+
+        $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-12'>
+                                <h5>Maximum Images per Row</h5>
+                            </label>";
+        $code .= "<hr class='col-12'>";
+        $code .= "<select class='col-2'>";
+        $code .= "<option>1</option>";
+        $code .= "<option>2</option>";
+        $code .= "<option selected='selected'>3</option>";
+        $code .= "</select>";
+        $code .= "</div>";
+
+
+        $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-11'>
+                                <h5>Group Title</h5>
+                            </label>
+                            <button class='add-gallery-fields add col-1' type='button' id='group-title-fields'>
+                                <i class='fas fa-plus'></i>
+                            </button>
+                            <hr class='col-12'>";
+        // TODO RENAME FIELDS
+        $code .= "<div class='first-field'>";
+        $code .= "<div class='group-title-fields'>";
+        $code .= "<input type='text' list='value-list' class='col-11'>
+                                    <datalist id='value-list'>";
+        foreach($this->groups as $name => $fields) {
+          $code .= "<optgroup label='$name'>";
+          foreach ($fields as $field) {
+            $code .= "<option>";
+            $code .= $field['name'];
+            $code .= "</option>";
+          }
+        }
+        $code .= "</datalist>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "<div class='field-container'>";
+        $code .="</div>";
+        $code .="</div>";
+
+
+        $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-11'>
+                                <h5>Image Title</h5>
+                            </label>
+                            <button class='add-gallery-fields add col-1' type='button' id='image-title-fields'>
+                                <i class='fas fa-plus'></i>
+                            </button>
+                            <hr class='col-12'>";
+        // TODO RENAME FIELDS
+        $code .= "<div class='first-field'>";
+        $code .= "<div class='image-title-fields'>";
+        $code .= "<input type='text' list='value-list' class='col-11'>
+                                    <datalist id='value-list'>";
+        foreach($this->groups as $name => $fields) {
+          $code .= "<optgroup label='$name'>";
+          foreach ($fields as $field) {
+            $code .= "<option>";
+            $code .= $field['name'];
+            $code .= "</option>";
+          }
+        }
+        $code .= "</datalist>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "<div class='field-container'>";
+        $code .="</div>";
+        $code .="</div>";
+
+
+        $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-11'>
+                                <h5>Image Text</h5>
+                            </label>
+                            <button class='add-gallery-fields add col-1' type='button' id='image-text-fields'>
+                                <i class='fas fa-plus'></i>
+                            </button>
+                            <hr class='col-12'>";
+        // TODO RENAME FIELDS
+        $code .= "<div class='first-field'>";
+        $code .= "<div class='image-text-fields'>";
+        $code .= "<input type='text' list='value-list' class='col-11'>
+                                    <datalist id='value-list'>";
+        foreach($this->groups as $name => $fields) {
+          $code .= "<optgroup label='$name'>";
+          foreach ($fields as $field) {
+            $code .= "<option>";
+            $code .= $field['name'];
+            $code .= "</option>";
+          }
+        }
+        $code .= "</datalist>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "<div class='field-container'>";
+        $code .="</div>";
+        $code .="</div>";
+
+
+        $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-11'>
+                                <h5>Image Subtitle</h5>
+                            </label>
+                            <button class='add-gallery-fields add col-1' type='button' id='image-subtitle-fields'>
+                                <i class='fas fa-plus'></i>
+                            </button>
+                            <hr class='col-12'>";
+        $code .= "<div class='first-field'>";
+            $code .= "<div class='image-subtitle-fields'>";
+        $code .= "<input type='text' list='value-list' class='col-11'>
+                                    <datalist id='value-list'>";
+        foreach($this->groups as $name => $fields) {
+          $code .= "<optgroup label='$name'>";
+          foreach ($fields as $field) {
+            $code .= "<option>";
+            $code .= $field['name'];
+            $code .= "</option>";
+          }
+        }
+        $code .= "</datalist>";
+            $code .= "</div>";
+        $code .= "</div>";
+        $code .= "<div class='field-container'>";
+        $code .="</div>";
+        $code .="</div>";
+
+
+        $code .="</form>";
+
+        $code .="</div>";
+        $code .="<button id='save' type='submit'>Save</button>";
+        // TODO: Only show delete when saved
+        $code .= "<button id='delete'>Delete</button>";
+        $code .= "</div>";
+        return $code;
+      }
+
+
+//------------START SUBTASK BLOCK---------------------------------
+  function filter(){
+    $code = "
+            <div class='report-content col-9'>
+                <div class='row col-9 filters'>";
+
+    $code .= "
+                    <div class='dropdown'>
+                        <button id='timespan' class='dropbtn'><h5>Timespan <i class='fas fa-caret-down'></i></h5> </button>
+                        <div class='dropdown-content timespan'>
+                            <div class='col-12 row'>
+                                <label>
+                                    <input type='checkbox' id='period-timespan'>
+                                    Period Timespan
+                                </label>
+                                
+                                <div class='specific-timespan'>
+    
+                                  <div class='col-12'>
+                                      <label>From</label>
+                                      <input type='date'>
+                                  </div>
+                                  <div class='col-12'>
+                                      <label>To</label>
+                                      <input type='date'>
+                                  </div>
+                                </div>
+                                
+                                <div class='period-timespan'>
+                                    <select class='col-12'>
+                                        <option>yesterday</option>
+                                        <option>last week</option>
+                                        <option>last month</option>
+                                        <option>last year</option>
+                                        <option>last half year</option>
+                                    </select>
+                                 </div>
+                            </div>
+                            <button class='update col-12'> <i class='fas fa-sync-alt'> </i> Update</button>
+                        </div>
+                    </div>";
+    $code .= "
+                    <div class='dropdown'>
+                        <button id='filter' class='dropbtn'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>
+                        <div class='dropdown-content filter'>
+                            <button class='add add-filter-fields'>
+                            <i class='fas fa-plus'></i>
+                            </button>
+                            
+                            <div class='custom-filter-group col-12' id='first'>
+                                <div class='filter-header'>
+                                <label class='col-11'>Filter:</label>
+                                <i class='fas fa-times delete col-1'></i>
+                                </div>
+                                
+                                <div class='col-12'>
+                                    <select class='col-12'>
+                                        <option>Store Number</option>
+                                        <option>Store</option>
+                                        <option>Visit Date</option>
+                                        <option>Activity</option>
+                                    </select>
+                                </div>
+                                <div class='col-12'>
+                                    <select class='col-12'>
+                                        <option> contains </option>
+                                        <option>does not contain</option>
+                                        <option> starts with </option>
+                                        <option>is equal to</option>
+                                        <option> is greater than </option>
+                                        <option> is less than </option>
+                                        <option> is empty </option>
+                                    </select>
+                                </div>
+                                <div class='col-12'>
+                                    <input type='text' list='value-list' class='col-12'>
+                                    <datalist id='value-list'>
+                                        <option>Store Number</option>
+                                        <option>Store</option>
+                                        <option>Visit Date</option>
+                                        <option>Activity</option>
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div id='new-filter'></div>
+                 
+                            <button class='update col-12'> <i class='fas fa-sync-alt'> </i> Update</button>
+                        </div>
+                    </div>";
+
+    $code .= "
+                </div>";
+
+    return $code;
+  }
 
       //------------START SUBTASK BLOCK---------------------------------
 function content(){

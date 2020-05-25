@@ -329,11 +329,11 @@
                             <label  class='col-11'>
                                 <h5>Image Subtitle</h5>
                             </label>
-                            <button class='add col-1' >
+                            <button class='add col-1'>
                                 <i class='fas fa-plus'></i>
                             </button>
                             <hr class='col-12'>
-                            <select class='col-11'>
+                            <select class='col-11' >
                                 <option>Store Number</option>
                                 <option>Store</option>
                                 <option>Visit Date</option>

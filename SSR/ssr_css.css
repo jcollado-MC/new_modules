@@ -67,7 +67,6 @@ input#tableSearchInputSSR{
     margin: 5px 0;
 }
 
-
-
-
-
+.custom-filter-group#first i.delete{
+    display: none;
+}
