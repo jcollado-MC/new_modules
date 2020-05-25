@@ -14,7 +14,7 @@ input#tableSearchInputSSR{
 
 /* CONTROLS */
 
-.add, .share, .download, .copy{
+.add, .share, .download, .copy, .newsletter{
     font-size: 1.2rem;
     color: #3f48cc;
     border: none;
@@ -26,7 +26,7 @@ input#tableSearchInputSSR{
     margin: 15px 0;
 }
 
-.actions button{
+.actions button.share, .actions button.download, .actions button.copy, .actions button.newsletter{
     float: right;
     margin: 0;
 }

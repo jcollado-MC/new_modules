@@ -225,6 +225,63 @@ function sidebar(){
 
 
 
+function save(){
+  $code = "<button id='save' class='modal-button'>Save</button>";
+
+  $code .= "<div class='save save-modal'>
+                        <div class='modal-content'>";
+  $code .= "               <span class='close'><i class='fas fa-times delete'></i></span>";
+
+  $code .= "<div>";
+
+  $code .= "<h5>Save this report</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "<label>Choose a name:</label>";
+  $code .= "<input class='col-12' type='text' placeholder='Unknown'>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save'>Save</button>";
+  $code .= "<button id='delete' class='cancel'>Cancel</button>";
+
+
+  $code .= "</div>";
+  $code .= "</div>";
+
+  $code .= "            </div>
+                    </div>";
+
+  return $code;
+}
+
+function delete(){
+
+
+//        TODO: only show button if saved
+  $code = "<button id='delete' class='modal-button'>Delete</button>";
+
+  $code .= "<div class='delete delete-modal'>
+                        <div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+
+  $code .= "<div>";
+
+  $code .= "<h5>Do you really want to delete this report?</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "<p>It will be gone forever</p>";
+  $code .= "<button id='delete'  class='cancel'>Cancel</button>";
+  $code .= "<button id='save'>Delete</button>";
+
+
+
+
+
+  $code .= "</div>";
+
+  $code .= "            </div>
+                    </div>";
+
+  return $code;
+}
+
 
 
       //------------START SUBTASK BLOCK---------------------------------
@@ -266,9 +323,8 @@ private function sidebarTable(){
   }
   $code .="</form>";
   $code .="</div>";
-  $code .="<button id='save' type='submit'>Save</button>";
-  // TODO: Only show delete when saved
-  $code .= "<button id='delete'>Delete</button>";
+  $code .= $this->save();
+  $code .= $this->delete();
   $code .= "</div>";
   return $code;
 }
@@ -349,9 +405,10 @@ private function sidebarTable(){
 
         $code .="</form>";
         $code .="</div>";
-        $code .="<button id='save' type='submit'>Save</button>";
-        // TODO: Only show delete when saved
-        $code .= "<button id='delete'>Delete</button>";
+
+        $code .= $this->save();
+        $code .= $this->delete();
+
         $code .= "</div>";
         return $code;
       }
@@ -504,9 +561,8 @@ private function sidebarTable(){
         $code .="</form>";
 
         $code .="</div>";
-        $code .="<button id='save' type='submit'>Save</button>";
-        // TODO: Only show delete when saved
-        $code .= "<button id='delete'>Delete</button>";
+        $code .= $this->save();
+        $code .= $this->delete();
         $code .= "</div>";
         return $code;
       }
@@ -617,45 +673,143 @@ private function sidebarTable(){
 
       //------------START SUBTASK BLOCK---------------------------------
   function actions(){
-    $code = "
-                <div class='col-3 actions'>
-                    <button class='modal-button share' type='button' id='share-modal'>
-                        <i class='fas fa-share-alt'></i>
-                    </button>
+
+    $code = "";
+
+
+
+    $code .= "<div class='col-3 actions'>";
+
+//    TODO: only show newsletter and share if saved
+
+    $code .= "<button class='newsletter' type='button'>
+                <i class='fas fa-envelope-open-text'></i>
+              </button>";
+    $code .= "<button class='modal-button share' type='button' id='share-modal'>
+                  <i class='fas fa-share-alt'></i>
+              </button>
                     
                     <div class='share-modal'>
-                    <div class='modal-content'>
-                    <span class='close'>&times;</span>
-                      SHARE!
-                      </div>
-                    </div>
-                    
-                    
-                    <button class='modal-button download' type='button' id='download-modal'>
-                        <i class='fas fa-file-download'></i>
-                    </button>
-                    
-                    <div class='download-modal'>
-                    <div class='modal-content'>
-                    <span class='close'>&times;</span>
-                      DOWNLOAD!
-                      </div>
-                    </div>
-                    
-                    <button class='modal-button copy' type='button' id='copy-modal'>
-                        <i class='fas fa-copy'></i>
-                    </button>
-                    <div class='copy-modal'>           
-                      <div class='modal-content'>
-                      <span class='close'>&times;</span>
-                      COPY!
-                      </div>
-                    </div>
-                </div>";
+                      <div class='modal-content'>";
+                        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+
+                        $code .= "<div>";
+
+                          $code .= "<h5>Share this Report</h5>";
+                          $code .= "<hr class='col-12'>";
+                          $code .= "<label>With other users:</label>";
+//                          TODO: Iterate over user list!
+                          $code .= "<form>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            User 1
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox' CHECKED>
+                            User 2
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Super U
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Monoprix
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Cora
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Carrefour
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Intermarché
+                        </label>
+                        <label  class='col-4'>
+                            <input type='checkbox'>
+                            Géant
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Monoprix
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Cora
+                        </label>
+                        <label  class='col-4'>
+                            <input type='checkbox'>
+                            Carrefour
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            User 1
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox' CHECKED>
+                            User 2
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Super U
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Monoprix
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Cora
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Carrefour
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Intermarché
+                        </label>
+                        <label  class='col-4'>
+                            <input type='checkbox'>
+                            Géant
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Monoprix
+                        </label>
+                        <label class='col-4'>
+                            <input type='checkbox'>
+                            Cora
+                        </label>
+                        <label  class='col-4'>
+                            <input type='checkbox'>
+                            Carrefour
+                        </label>
+                    </form>";
+
+                          $code .= "<button id='save'>Share</button>";
+                          $code .= "<button id='delete' class='cancel'>Cancel</button>";
+                        $code .= "</div>";
+                      $code .= "</div>";
+                    $code .= "</div>";
+
+  $code .= "<button class='download' type='button'>
+                <i class='fas fa-file-download'></i>
+             </button>
+              
+             
+              
+              <button class='copy' type='button'>
+                  <i class='fas fa-copy'></i>
+              </button>
+             
+          </div>";
 
     return $code;
   }
-
 
   //------------START SUBTASK BLOCK---------------------------------
 function content(){

@@ -61,6 +61,18 @@ $(document).ready(function() {
         $("."+id).show();
     });
 
+
+    $(".modal-content span.close").on("click", function() {
+
+        $(this).parent().parent().hide();
+
+    });
+
+    $(".modal-buttons.cancel").on("click", function() {
+
+        $("[class$='-modal']").hide();
+
+    });
 });
 
 
