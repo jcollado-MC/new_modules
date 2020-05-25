@@ -448,7 +448,6 @@
 
 
         static function actions(){
-
             $code = "
                 <div class='col-3 actions'>
                     <button class='share'>
@@ -463,7 +462,6 @@
                 </div>";
 
             return $code;
-
         }
 
 

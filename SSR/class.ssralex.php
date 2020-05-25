@@ -560,21 +560,26 @@ private function sidebarTable(){
                             <button class='add add-filter-fields'>
                             <i class='fas fa-plus'></i>
                             </button>
-                            
+                           
                             <div class='custom-filter-group col-12' id='first'>
                                 <div class='filter-header'>
                                 <label class='col-11'>Filter:</label>
                                 <i class='fas fa-times delete col-1'></i>
-                                </div>
+                                </div>";
                                 
-                                <div class='col-12'>
-                                    <select class='col-12'>
-                                        <option>Store Number</option>
-                                        <option>Store</option>
-                                        <option>Visit Date</option>
-                                        <option>Activity</option>
-                                    </select>
-                                </div>
+                                $code .="<div class='col-12'>";
+                                $code .= "<input type='text' list='value-list' class='col-12'>
+                                         <datalist id='value-list'>";
+                                foreach($this->groups as $name => $fields) {
+                                  $code .= "<optgroup label='$name'>";
+                                  foreach ($fields as $field) {
+                                    $code .= "<option>";
+                                    $code .= $field['name'];
+                                    $code .= "</option>";
+                                  }
+                                }
+                                $code .= "</datalist>";
+                                $code .= "</div>
                                 <div class='col-12'>
                                     <select class='col-12'>
                                         <option> contains </option>
@@ -586,29 +591,73 @@ private function sidebarTable(){
                                         <option> is empty </option>
                                     </select>
                                 </div>
-                                <div class='col-12'>
-                                    <input type='text' list='value-list' class='col-12'>
-                                    <datalist id='value-list'>
-                                        <option>Store Number</option>
-                                        <option>Store</option>
-                                        <option>Visit Date</option>
-                                        <option>Activity</option>
-                                    </datalist>
+                                <div class='col-12'>";
+                                $code .= "<input type='text' list='value-list' class='col-12'>
+                                         <datalist id='value-list'>";
+                                foreach($this->groups as $name => $fields) {
+                                  $code .= "<optgroup label='$name'>";
+                                  foreach ($fields as $field) {
+                                    $code .= "<option>";
+                                    $code .= $field['name'];
+                                    $code .= "</option>";
+                                  }
+                                }
+                                $code .= "</datalist>";
+                                $code .= "</div>
                                 </div>
-                            </div>
                             <div id='new-filter'></div>
                  
                             <button class='update col-12'> <i class='fas fa-sync-alt'> </i> Update</button>
                         </div>
                     </div>";
-
-    $code .= "
-                </div>";
+    $code .= "</div>";
 
     return $code;
   }
 
       //------------START SUBTASK BLOCK---------------------------------
+  function actions(){
+    $code = "
+                <div class='col-3 actions'>
+                    <button class='modal-button share' type='button' id='share-modal'>
+                        <i class='fas fa-share-alt'></i>
+                    </button>
+                    
+                    <div class='share-modal'>
+                    <div class='modal-content'>
+                    <span class='close'>&times;</span>
+                      SHARE!
+                      </div>
+                    </div>
+                    
+                    
+                    <button class='modal-button download' type='button' id='download-modal'>
+                        <i class='fas fa-file-download'></i>
+                    </button>
+                    
+                    <div class='download-modal'>
+                    <div class='modal-content'>
+                    <span class='close'>&times;</span>
+                      DOWNLOAD!
+                      </div>
+                    </div>
+                    
+                    <button class='modal-button copy' type='button' id='copy-modal'>
+                        <i class='fas fa-copy'></i>
+                    </button>
+                    <div class='copy-modal'>           
+                      <div class='modal-content'>
+                      <span class='close'>&times;</span>
+                      COPY!
+                      </div>
+                    </div>
+                </div>";
+
+    return $code;
+  }
+
+
+  //------------START SUBTASK BLOCK---------------------------------
 function content(){
   switch($this->type){
     case "TABLE": return $this->contentTable();

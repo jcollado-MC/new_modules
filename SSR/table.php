@@ -19,9 +19,9 @@ $ssr = new ssr2(1, 'TABLE');
         <main>
             <div class="content col-12">
                 <?php
-
                 echo $ssr->sidebar();
-
+                echo $ssr->filter();
+                echo $ssr->actions();
                 ?>
             </div>
         </main>

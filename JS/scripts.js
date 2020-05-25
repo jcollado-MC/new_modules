@@ -49,7 +49,19 @@ $(document).ready(function() {
     });
 });
 
+/* MODALS */
 
+$(document).ready(function() {
+
+    $("[class$='-modal']").hide();
+
+
+    $(".modal-button").on("click", function(){
+       var id = $(this).attr('id');
+        $("."+id).show();
+    });
+
+});
 
 
 //

@@ -21,7 +21,8 @@ $ssr = new ssr2(1, 'MATRIX');
                 <?php
 
                 echo $ssr->sidebar();
-
+                echo $ssr->filter();
+                echo $ssr->actions();
                 ?>
             </div>
         </main>

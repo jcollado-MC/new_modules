@@ -22,6 +22,7 @@ $ssr = new ssr2(1, 'GALLERY');
 
                 echo $ssr->sidebar();
                 echo $ssr->filter();
+                echo $ssr->actions();
 
                 ?>
             </div>
