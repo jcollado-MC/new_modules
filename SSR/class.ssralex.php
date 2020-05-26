@@ -295,7 +295,6 @@ private function sidebarTable(){
          <i class='fas fa-search search-icon col-1'></i>
           <input class='col-11' type='text' id='tableSearchInputSSR' placeholder='Search'>
     </div>";
-  $code .= "<form>";
   $cnt = 0;
   foreach($this->groups as $name => $fields){
     $cnt++;
@@ -321,7 +320,6 @@ private function sidebarTable(){
     $code .= "</div> "; // FIELDS
     $code .= "</div>"; // GROUP
   }
-  $code .="</form>";
   $code .="</div>";
   $code .= $this->save();
   $code .= $this->delete();
@@ -675,9 +673,6 @@ private function sidebarTable(){
   function actions(){
 
     $code = "";
-
-
-
     $code .= "<div class='col-3 actions'>";
 
 //    TODO: only show newsletter and share if saved

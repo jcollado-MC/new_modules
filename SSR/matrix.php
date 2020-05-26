@@ -1,5 +1,5 @@
 <?php
-include 'class.ssralex.php';
+include 'class.ssr2.php';
 $ssr = new ssr2(1, 'MATRIX');
 
 ?>
@@ -19,10 +19,7 @@ $ssr = new ssr2(1, 'MATRIX');
         <main>
             <div class="content col-12">
                 <?php
-
-                echo $ssr->sidebar();
-                echo $ssr->filter();
-                echo $ssr->actions();
+                    echo $ssr->show();
                 ?>
             </div>
         </main>

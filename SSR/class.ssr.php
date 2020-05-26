@@ -483,12 +483,9 @@
         }
 
         static function contentGallery(){
-            $code = "
+            $code = "<div class='image-gallery'>";
 
-                <div class='image-gallery'>";
-
-            $code .= "
-                    <div class='col-12 gallery-group'> 
+            $code .= "<div class='col-12 gallery-group'> 
                         <h3>First Store</h3>";
             $code .= "
                         <div class='card col-4'>

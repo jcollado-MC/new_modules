@@ -70,3 +70,51 @@ input#tableSearchInputSSR{
 .custom-filter-group#first i.delete{
     display: none;
 }
+
+.content{
+    position: relative;
+    min-height: 400px;
+}
+
+
+.update-overlay{
+    position: absolute; /* Stay in place */
+    z-index: 333; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    box-shadow: 0 20px 20px 0 rgba(0,0,0,0.4);
+}
+
+.update-overlay button.update{
+    width: 120px;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    filter: none;
+}
+
+.filter-tags{
+    display: inline-block;
+}
+
+
+.filter-tags p{
+    display: inline;
+    background-color: #eee;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    padding: 5px;
+    color:#777;
+    margin: 5px;
+}
+
+.filter-tags i.delete, .filter-tags i.delete:before{
+    float: none;
+}

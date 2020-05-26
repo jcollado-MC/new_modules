@@ -47,6 +47,15 @@ $(document).ready(function() {
 
         $(".dropdown-content").not("."+id).hide();
     });
+
+    $(document).mouseup(function(e){
+        var container = $(".dropdown-content");
+
+        // If the target of the click isn't the container
+        if(!container.is(e.target) && container.has(e.target).length === 0){
+            container.hide();
+        }
+    });
 });
 
 /* MODALS */
