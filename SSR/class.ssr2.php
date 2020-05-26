@@ -31,7 +31,6 @@ static function Header(){
   $myHeader .= "<script>
 
 
-
 /* SEARCH */
 $(document).ready(function(){
     $('#reports-search-bar').on('keyup', function() {
@@ -88,7 +87,7 @@ $(document).ready(function(){
     /* ADD IMAGE-GALLERY-SIDEBAR FIELDS */
     $('.add-gallery-fields').on('click', function () {
         var id = $(this).attr('id');
-        $('.first-field .' + id ).clone().appendTo('#' + id + '~ .field-container').append('<i class=\"fas fa-times delete col-1\"></i>');
+        $('.first-field .' + id ).clone().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
     });
     /* REMOVE IMAGE-GALLERY-SIDEBAR FIELDS*/
     $('.field-container').on('click', '.delete', function () {
@@ -183,9 +182,9 @@ $(document).ready(function(){
         console.log($(this).attr('id'));
         var id = $(this).attr('id');
 
-        if(id = 'period-timespan'){
+        if(id == 'period-timespan'){
             $('input:checkbox#' + id).prop('checked', false).trigger('change');
-        }else if(id = 'specific-timespan'){
+        }else if(id == 'specific-timespan'){
             $('.' + id + ' input').val('').trigger('change');
         }
 
@@ -197,7 +196,7 @@ $(document).ready(function(){
 
 
 
-  </script>";
+</script>";
   $myHeader .= "<style>
 
   .report-content{
