@@ -69,7 +69,14 @@ $(document).ready(function(){
 
 /* TOGGLE BETWEEN SPECIFIC AND PERIOD TIMESPAN */
 $(document).ready(function(){
-    $('.period-timespan').hide();
+
+    if($('input:checkbox#period-timespan').prop('checked')){
+        $('.period-timespan').show()
+        $('.specific-timespan').hide();
+    }else {
+        $('.period-timespan').hide();
+        $('.specific-timespan').show();
+    }
     $('#period-timespan').on('change', function(){
         var checked = $('#period-timespan').prop('checked');
         $('.specific-timespan').toggle(!checked);
@@ -90,6 +97,7 @@ $(document).ready(function(){
     $('#new-filter').on('click', '.delete', function () {
         $(this).parent().parent('div').remove();
         $(this).remove();
+        $('.dropdown-content').trigger('change');
     });
 });
 
@@ -97,9 +105,27 @@ $(document).ready(function(){
 $(document).ready(function(){
 
 
-    $('.specific-time-tag').hide();
-    $('.period-time-tag').hide();
-    $('.filter-tag').hide();
+    if($('input:checkbox#period-timespan').prop('checked')){
+        $('p.period-time-tag span').html($('.period-timespan select').val());
+        $('.period-time-tag').show();
+        $('.specific-time-tag').hide();
+    } else if(($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0){
+        $('.period-time-tag').hide();
+
+        var startdate = $('.timespan input#start-date').val().split('-');
+        startdate = startdate[2] + '.' + startdate[1] + '.' + startdate[0].slice(-2);
+
+        var enddate = $('.timespan input#end-date').val().split('-');
+        enddate = enddate[2] + '.' + enddate[1] + '.' + enddate[0].slice(-2);
+
+        $('p.specific-time-tag .start').html(startdate);
+        $('p.specific-time-tag .end').html(' - ' + enddate);
+
+        $('.specific-time-tag').show();
+    }else{
+        $('.period-time-tag').hide();
+        $('.specific-time-tag').hide();
+    }
 
 
     $('.update-overlay').hide();
@@ -112,13 +138,13 @@ $(document).ready(function(){
 
         $('.specific-time-tag').hide();
         $('.period-time-tag').hide();
-        $('.filter-tag').hide();
 
-        if($('input:checkbox#period-timespan').prop('checked')){
+
+        if ($('input:checkbox#period-timespan').prop('checked')) {
             $('.specific-time-tag').hide();
             $('p.period-time-tag span').html($('.period-timespan select').val());
             $('.period-time-tag').show();
-        } else if(($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0){
+        } else if (($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0) {
             $('.period-time-tag').hide();
 
             var startdate = $('.timespan input#start-date').val().split('-');
@@ -133,14 +159,42 @@ $(document).ready(function(){
             $('.specific-time-tag').show();
         }
 
-        var filters = $('.custom-filter-group');
+        // var filters = $('.custom-filter-group');
+        //
+        // var filtertexts = [];
+        //
+        // filters.each(function () {
+        //     var inputvalues = [];
+        //     var selector = $(this).find('select').val();
+        //     var inputs = $(this).find('input');
+        //     inputs.each(function () {
+        //         inputvalues.push($(this).val());
+        //     });
+        //
+        //     filtertexts.push(inputvalues[0] + " " + selector + " " + inputvalues[1]);
+        // });
+        //
+        // console.log(filtertexts);
 
-        for (let filter of filters){
-            console.log(filter);
-        }
+        // for (let i = 0; filters.length - 1 > i; i++) {
+        //     $('#first-filter-tag').clone().appendTo('.filter-tags').removeAttr('id');
+        // }
 
+        // var filtertags = $('.filter-tag');
+
+        // if (filtertexts[0].length <= 0) {
+        //     $('.filter-tag').hide();
+        // } else {
+        //     filtertags.each(function(){
+        //         for (let i = 0; filtertexts.length > i; i++) {
+        //             $(this).find('span').end().html(filtertexts[i]);
+        //         }
+        //     });
+        // }
 
     });
+
+
 });
 
 

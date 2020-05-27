@@ -30,7 +30,6 @@ static function Header(){
   self::$header=TRUE;
   $myHeader .= "<script>
 
-
 /* SEARCH */
 $(document).ready(function(){
     $('#reports-search-bar').on('keyup', function() {
@@ -100,7 +99,14 @@ $(document).ready(function(){
 
 /* TOGGLE BETWEEN SPECIFIC AND PERIOD TIMESPAN */
 $(document).ready(function(){
-    $('.period-timespan').hide();
+
+    if($('input:checkbox#period-timespan').prop('checked')){
+        $('.period-timespan').show()
+        $('.specific-timespan').hide();
+    }else {
+        $('.period-timespan').hide();
+        $('.specific-timespan').show();
+    }
     $('#period-timespan').on('change', function(){
         var checked = $('#period-timespan').prop('checked');
         $('.specific-timespan').toggle(!checked);
@@ -121,6 +127,7 @@ $(document).ready(function(){
     $('#new-filter').on('click', '.delete', function () {
         $(this).parent().parent('div').remove();
         $(this).remove();
+        $('.dropdown-content').trigger('change');
     });
 });
 
@@ -128,9 +135,27 @@ $(document).ready(function(){
 $(document).ready(function(){
 
 
-    $('.specific-time-tag').hide();
-    $('.period-time-tag').hide();
-    $('.filter-tag').hide();
+    if($('input:checkbox#period-timespan').prop('checked')){
+        $('p.period-time-tag span').html($('.period-timespan select').val());
+        $('.period-time-tag').show();
+        $('.specific-time-tag').hide();
+    } else if(($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0){
+        $('.period-time-tag').hide();
+
+        var startdate = $('.timespan input#start-date').val().split('-');
+        startdate = startdate[2] + '.' + startdate[1] + '.' + startdate[0].slice(-2);
+
+        var enddate = $('.timespan input#end-date').val().split('-');
+        enddate = enddate[2] + '.' + enddate[1] + '.' + enddate[0].slice(-2);
+
+        $('p.specific-time-tag .start').html(startdate);
+        $('p.specific-time-tag .end').html(' - ' + enddate);
+
+        $('.specific-time-tag').show();
+    }else{
+        $('.period-time-tag').hide();
+        $('.specific-time-tag').hide();
+    }
 
 
     $('.update-overlay').hide();
@@ -143,13 +168,13 @@ $(document).ready(function(){
 
         $('.specific-time-tag').hide();
         $('.period-time-tag').hide();
-        $('.filter-tag').hide();
 
-        if($('input:checkbox#period-timespan').prop('checked')){
+
+        if ($('input:checkbox#period-timespan').prop('checked')) {
             $('.specific-time-tag').hide();
             $('p.period-time-tag span').html($('.period-timespan select').val());
             $('.period-time-tag').show();
-        } else if(($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0){
+        } else if (($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0) {
             $('.period-time-tag').hide();
 
             var startdate = $('.timespan input#start-date').val().split('-');
@@ -164,14 +189,9 @@ $(document).ready(function(){
             $('.specific-time-tag').show();
         }
 
-        var filters = $('.custom-filter-group');
-
-        for (let filter of filters){
-            console.log(filter);
-        }
-
-
     });
+
+
 });
 
 
@@ -198,8 +218,7 @@ $(document).ready(function(){
 
 </script>";
   $myHeader .= "<style>
-
-  .report-content{
+.report-content{
     padding: 0 15px;
     margin-bottom: 15px;
 }
@@ -227,6 +246,10 @@ input#tableSearchInputSSR{
     margin: 15px 0;
 }
 
+
+.add-filter-fields{
+    margin-top: 5px;
+}
 .actions button.share, .actions button.download, .actions button.copy, .actions button.newsletter{
     float: right;
     margin: 0;
@@ -260,7 +283,7 @@ input#tableSearchInputSSR{
 
 .custom-filter-group{
     background-color: #eeeeee;
-    padding: 10px 15px;
+    padding: 5px 10px;
     margin-top: 5px;
 }
 
@@ -322,61 +345,7 @@ input#tableSearchInputSSR{
 </style>";
 }
 //SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
-
-
-
-
-function __construct($dmid, $type='', $report_id=0){
-        global $CFR_USER, $myPageBody;
-        self::header();
-        ini_set("memory_limit", "1024M");
-        ini_set("max_execution_time", "1200");
-        $this->dm = "Stores";
-        if($this->dm=='') $mypage->PageDenied();
-        $this->dmid = $dmid;
-        // CHECK TYPE & LANGUAGE
-        $this->type = $type;
-        if(!in_array($type, $this->types)){
-            throw new exception("[18153-1] Report Type not defined");
-        }
-        $l = trim($CFR_USER['lang']);
-        switch($l){
-            case 'lang_es': $l = 'es_ES';break;
-            case 'lang_de': $l = 'de_DE';break;
-            default: $l = 'en_EN';
-        }
-        // LOAD FIELDS
-        $fields[] = ['id' => 0,'description'=>'Store', 'name'=>'ID'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region'];
-        $fields[] = ['id' => 0,'description'=>'Store2', 'name'=>'ID'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name2'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street2'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City2'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region2'];
-        $fields[] = ['id' => 0,'description'=>'Store3', 'name'=>'ID2'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Name'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Street'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'City'];
-        $fields[] = ['id' => 0,'description'=>'', 'name'=>'Region'];
-        foreach($fields as $row){
-            if($row['description']<>'') $group = $row['description'];
-            $field = [];
-            $field['id'] = $row['id'];
-            $field['name'] = $row['name'];
-            $field['label'] = $row['name'];
-            $field['type'] = $row[''];
-            $field['group'] = $row[''];
-            $this->groups[$group][] = $field;
-        }
-    }
-
-
-
-
-function __construct2($dmid, $type='', $report_id=0){
+function __construct1($dmid, $type='', $report_id=0){
   global $CFR_USER, $myPageBody;
   self::header();
   $sql =" SELECT field_name
@@ -790,9 +759,7 @@ function sidebar(){
                     <div class='dropdown'>
                         <button id='filter' class='dropbtn' type='button'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>
                         <div class='dropdown-content filter'>
-                            <button class='add add-filter-fields' type='button'>
-                            <i class='fas fa-plus'></i>
-                            </button>
+                            
                            
                             <div class='custom-filter-group col-12' id='first'>
                                 <div class='filter-header'>
@@ -801,7 +768,7 @@ function sidebar(){
                                 </div>";
 
                                 $code .="<div class='col-12'>";
-                                $code .= "<input type='text' list='value-list' class='col-12'>
+                                $code .= "<input type='text' list='value-list' class='col-12' >
                                          <datalist id='value-list'>";
                                 foreach($this->groups as $name => $fields) {
                                   $code .= "<optgroup label='$name'>";
@@ -838,7 +805,10 @@ function sidebar(){
                                 $code .= "</datalist>";
                                 $code .= "</div>
                                 </div>
-                            <div id='new-filter'></div>         
+                            <div id='new-filter'></div> 
+                            <button class='add add-filter-fields' type='button'>
+                            <i class='fas fa-plus'></i>
+                            </button>        
                         </div>
                     </div>";
         $code .= "<div class='filter-tags'>";
@@ -850,10 +820,6 @@ function sidebar(){
         $code .= "<p class='period-time-tag'>";
         $code .= "<span></span>";
         $code .= "<i class='fas fa-times delete' id='period-timespan'></i>";
-        $code .= "</p>";
-        $code .= "<p class='filter-tag'>";
-        $code .= "<span></span>";
-        $code .= "<i class='fas fa-times delete' id='filter-tag'></i>";
         $code .= "</p>";
         $code .= "</div>";
     $code .= "</div>";

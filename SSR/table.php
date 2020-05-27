@@ -1,6 +1,6 @@
 <?php
-include 'class.ssr2.php';
-$ssr = new ssr2(1, 'TABLE');
+include 'class.mySSR2.php';
+$ssr = new mySSR2(1, 'TABLE');
 
 ?>
 <!DOCTYPE html>

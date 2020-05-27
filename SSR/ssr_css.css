@@ -26,6 +26,10 @@ input#tableSearchInputSSR{
     margin: 15px 0;
 }
 
+
+.add-filter-fields{
+    margin-top: 5px;
+}
 .actions button.share, .actions button.download, .actions button.copy, .actions button.newsletter{
     float: right;
     margin: 0;
@@ -59,7 +63,7 @@ input#tableSearchInputSSR{
 
 .custom-filter-group{
     background-color: #eeeeee;
-    padding: 10px 15px;
+    padding: 5px 10px;
     margin-top: 5px;
 }
 

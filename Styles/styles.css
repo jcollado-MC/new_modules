@@ -274,6 +274,7 @@ ul.breadcrumb li a:hover {
     cursor: pointer;
     padding: 5px 10px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 /* Dropdown button on hover & focus */
@@ -295,7 +296,7 @@ ul.breadcrumb li a:hover {
     border-radius: 5px;
     min-width: 250px;
     z-index: 444;
-    padding: 15px;
+    padding: 10px 15px;
     margin-top: 10px;
 }
 

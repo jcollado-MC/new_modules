@@ -48,6 +48,7 @@ $(document).ready(function() {
         $(".dropdown-content").not("."+id).hide();
     });
 
+
     $(document).mouseup(function(e){
         var container = $(".dropdown-content");
 
@@ -56,11 +57,14 @@ $(document).ready(function() {
             container.hide();
         }
     });
+
 });
 
 /* MODALS */
 
 $(document).ready(function() {
+
+
 
     $("[class$='-modal']").hide();
 
