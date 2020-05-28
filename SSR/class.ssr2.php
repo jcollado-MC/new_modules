@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-05-26 
+  // Date of creation: 2020-05-28 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -13,6 +13,57 @@
     }
     class SSR2{
 //[SUBTASKS]
+//SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
+function __construct($dmid, $type='', $report_id=0){
+  global $CFR_USER, $myPageBody;
+  self::header();
+  $sql =" SELECT field_name
+            FROM cfr_fielddev 
+           WHERE table_name = 'TABLE' 
+             AND id = ".$dmid." 
+             AND drs_searchable <> 'FALSE' 
+             AND FIND_IN_SET('".$CFR_USER['team']."', user_groups)>0
+    ";
+  ini_set("memory_limit", "1024M");
+  ini_set("max_execution_time", "1200");
+  $this->dm = db_value($sql);
+  if($this->dm=='') $mypage->PageDenied();
+  $this->dmid = $dmid;
+  // CHECK TYPE & LANGUAGE
+  $this->type = $type;
+  if(!in_array($type, $this->types)){
+    throw new exception("[18153-1] Report Type not defined");
+  }
+  $l = trim($CFR_USER['lang']);
+  switch($l){
+    case 'lang_es': $l = 'es_ES';break;
+    case 'lang_de': $l = 'de_DE';break;
+    case 'lang_fr': $l = 'fr_FR';break;
+    case 'lang_it': $l = 'it_IT';break;
+    default: $l = 'en_EN'; 
+  }
+  db_query("SET lc_time_names = '$l'"); // get lang
+
+  // LOAD FIELDS
+  $sql= "SELECT id, 
+  							name, 
+                description 
+           FROM cfr_fielddev 
+          WHERE table_name = '".$this->dm."' 
+         		AND UPPER(drs_searchable)='TRUE' 
+      	ORDER BY position, id";
+  $result = db_query($sql);
+  while($row = db_fetch_row($result)){
+    if($row['description']<>'') $group = $row['description'];
+    $field = [];
+    $field['id'] = $row['id'];
+    $field['name'] = $row['name'];
+    $field['label'] = $row['name'];
+    $field['type'] = $row[''];
+    $field['group'] = $row[''];
+    $this->groups[$group][] = $field;
+  }
+}
 //SUBTASK 18163: "VARS" --------------------------------------------
 var $dm = [];
 var $dmid = [];
@@ -21,14 +72,12 @@ var $dfn = [];
 var $groups = [];
 var $type = '';
 var $types = ['TABLE', 'MATRIX', 'GALLERY', 'MAP'];
-
 //SUBTASK 18154: "STATIC: HEADER" --------------------------------------------
 private static $header;
 static function Header(){
-  global $myHeader;
   if(self::$header==TRUE) return;
   self::$header=TRUE;
-  $myHeader .= "<script>
+  $code = "<script>
 
 /* SEARCH */
 $(document).ready(function(){
@@ -217,7 +266,7 @@ $(document).ready(function(){
 
 
 </script>";
-  $myHeader .= "<style>
+  $code .= "<style>
 .report-content{
     padding: 0 15px;
     margin-bottom: 15px;
@@ -343,57 +392,7 @@ input#tableSearchInputSSR{
     float: none;
 }
 </style>";
-}
-//SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
-function __construct1($dmid, $type='', $report_id=0){
-  global $CFR_USER, $myPageBody;
-  self::header();
-  $sql =" SELECT field_name
-            FROM cfr_fielddev 
-           WHERE table_name = 'TABLE' 
-             AND id = ".$dmid." 
-             AND drs_searchable <> 'FALSE' 
-             AND FIND_IN_SET('".$CFR_USER['team']."', user_groups)>0
-    ";
-  ini_set("memory_limit", "1024M");
-  ini_set("max_execution_time", "1200");
-  $this->dm = db_value($sql);
-  if($this->dm=='') $mypage->PageDenied();
-  $this->dmid = $dmid;
-  // CHECK TYPE & LANGUAGE
-  $this->type = $type;
-  if(!in_array($type, $this->types)){
-    throw new exception("[18153-1] Report Type not defined");
-  }
-  $l = trim($CFR_USER['lang']);
-  switch($l){
-    case 'lang_es': $l = 'es_ES';break;
-    case 'lang_de': $l = 'de_DE';break;
-    case 'lang_fr': $l = 'fr_FR';break;
-    case 'lang_it': $l = 'it_IT';break;
-    default: $l = 'en_EN'; 
-  }
-  db_query("SET lc_time_names = '$l'"); // get lang
-
-  // LOAD FIELDS
-  $sql= "SELECT id, 
-  							name, 
-                description 
-           FROM cfr_fielddev 
-          WHERE table_name = '".$this->dm."' 
-         		AND UPPER(drs_searchable)='TRUE' 
-      	ORDER BY position, id";
-  $result = db_query($sql);
-  while($row = db_fetch_row($result)){
-    if($row['description']<>'') $group = $row['description'];
-    $field = [];
-    $field['id'] = $row['id'];
-    $field['name'] = $row['name'];
-    $field['label'] = $row['name'];
-    $field['type'] = $row[''];
-    $field['group'] = $row[''];
-    $this->groups[$group][] = $field;
-  }
+  return $code;
 }
 //SUBTASK 18161: "LOAD" --------------------------------------------
 function load($report_id){
@@ -437,11 +436,12 @@ function open($dfn){
   $this->matrix1 = $dfn['matrix1'];
   $this->matrix2 = $dfn['matrix2'];
   // $myPageBody .= "<pre>".print_r($this,true)."</pre>";
+
 }
 //SUBTASK 18165: "SHOW" --------------------------------------------
 function show(){
   global $myPageBody;
-  $code ="<form>";
+  $code ="<form method='post'>";
   $code .= $this->sidebar();
   $code .= $this->save();
   $code .= $this->delete();
@@ -449,19 +449,18 @@ function show(){
   $code .= $this->actions();
   $code .= $this->content();
   $code .="</form>";//*/
+  $code .= self::header();
   return $code;
 }
-
 //SUBTASK 18150: "SIDEBAR: MAIN" --------------------------------------------
 function sidebar(){
-    switch($this->type){
-        case "TABLE": return $this->sidebarTable();
-        case "MATRIX": return $this->sidebarMatrix();
-        case "GALLERY": return self::sidebarGallery();
-    }
-    throw new exception("[18150-1]: Sidebar Type not defined");
+  switch($this->type){
+    case "TABLE": return $this->sidebarTable();
+    case "MATRIX": return $this->sidebarMatrix();
+    case "GALLERY": return self::sidebarGallery();
+  }
+  throw new exception("[18150-1]: Sidebar Type not defined");
 }
-
 //SUBTASK 18151: "SIDEBAR: TABLE" --------------------------------------------
     private function sidebarTable(){
         global $myPageBody;
@@ -574,7 +573,6 @@ function sidebar(){
 
         return $code;
     }
-
 //SUBTASK 18160: "SIDEBAR: GALLERY" --------------------------------------------
   private function sidebarGallery(){
         global $myPageBody;
@@ -713,7 +711,6 @@ function sidebar(){
 
         return $code;
       }
-
 
 //SUBTASK 18166: "ELEMENT: FILTER" --------------------------------------------
     private function filter(){
@@ -956,46 +953,44 @@ function sidebar(){
     return $code;
   }
 //SUBTASK 18172: "ELEMENT: SAVE" --------------------------------------------
-    private function save(){
-        $code = "<button id='save' class='modal-button' type='button'>Save</button>";
-        $code .= "<div class='save save-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code .= "<div>";
-        $code .= "<h5>Save this report</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "<label>Choose a name:</label>";
-        $code .= "<input class='col-12' type='text' placeholder='Unknown'>";
-        $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save'>Save</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>Cancel</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        return $code;
-    }
+private function save(){
+  $code = "<button id='save' class='modal-button' type='button'>Save</button>";
+  $code .= "<div class='save save-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code .= "<div>";
+  $code .= "<h5>Save this report</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "<label>Choose a name:</label>";
+  $code .= "<input class='col-12' type='text' placeholder='Unknown'>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save'>Save</button>";
+  $code .= "<button id='delete' class='cancel' type='button'>Cancel</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>"; 
+  return $code;
+}
 //SUBTASK 18173: "ELEMENT DELETE" --------------------------------------------
-    private function delete(){
-//        TODO: only show button if saved
-        $code = "<button id='delete' class='modal-button' type='button'>Delete</button>";
-        $code .= "<div class='delete delete-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code .= "<div>";
-        $code .= "<h5>Do you really want to delete this report?</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "<p>It will be gone forever</p>";
-        $code .= "<button id='delete'  class='cancel' type='button'>Cancel</button>";
-        $code .= "<button id='save'>Delete</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .="</div>"; //CLOSE SIDEBAR
-
-        return $code;
-    }
+private function delete(){
+  //        TODO: only show button if saved
+  $code = "<button id='delete' class='modal-button' type='button'>Delete</button>";
+  $code .= "<div class='delete delete-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code .= "<div>";
+  $code .= "<h5>Do you really want to delete this report?</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "<p>It will be gone forever</p>";
+  $code .= "<button id='delete'  class='cancel' type='button'>Cancel</button>";
+  $code .= "<button id='save'>Delete</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .="</div>"; //CLOSE SIDEBAR
+  return $code;
+}
 
 //SUBTASK 18155: "CONTENT: MAIN" --------------------------------------------
 function content(){
@@ -1007,7 +1002,6 @@ function content(){
   }
   throw new exception("[18155-1] Content Type not defined");
 }
-
 //SUBTASK 18156: "CONTENT: TABLE" --------------------------------------------
     private function contentTable(){
     $code = "";
@@ -1023,7 +1017,6 @@ function content(){
 
     return $code;
     }
-
 //SUBTASK 18157: "CONTENT: MATRIX" --------------------------------------------
     private function contentMatrix(){
     $code = "";
@@ -1039,8 +1032,8 @@ function content(){
     }
 
 //SUBTASK 18158: "CONTENT: GALLERY" --------------------------------------------
-    private function contentGallery(){
-    $code = "";
+private function contentGallery(){
+  $code = "";
     $code = "<div class='image-gallery col-12 content'>";
         $code .= "<div class='col-12 update-overlay'>";
         $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
@@ -1122,7 +1115,6 @@ function content(){
     $code .= "</div>";
     return $code;
     }
-
 //[/SUBTASKS]
   }
 ?>
