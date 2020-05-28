@@ -16,7 +16,6 @@
 //SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
 function __construct($dmid, $type='', $report_id=0){
   global $CFR_USER, $myPageBody;
-  self::header();
   $sql =" SELECT field_name
             FROM cfr_fielddev 
            WHERE table_name = 'TABLE' 
