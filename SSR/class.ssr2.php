@@ -77,7 +77,6 @@ static function Header(){
   if(self::$header==TRUE) return;
   self::$header=TRUE;
   $code = "<script>
-
 /* SEARCH */
 $(document).ready(function(){
     $('#reports-search-bar').on('keyup', function() {
@@ -993,54 +992,38 @@ private function delete(){
 
 //SUBTASK 18155: "CONTENT: MAIN" --------------------------------------------
 function content(){
-//  return $this->report->build();
-    switch($this->type){
-    case "TABLE": return $this->contentTable();
-     case "MATRIX": return $this->contentMatrix();
-     case "GALLERY": return $this->contentGallery();
+  // return $this->report->build();
+  $code  = "<div class='wrapper'>";
+  $code .= "<div class='matrix col-12 content'>";
+  $code .= "<div class='col-12 update-overlay'>";
+  $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
+  $code .= "</div>";
+  switch($this->type){
+    case "TABLE": $code .= $this->contentTable(); break;
+    case "MATRIX": $code .=  $this->contentMatrix(); break;
+    case "GALLERY": $code .=  $this->contentGallery();break;
+    default: throw new exception("[18155-1] Content Type not defined");
   }
-  throw new exception("[18155-1] Content Type not defined");
+  $code .= "</div>";
+  $code .= "</div>";
+  return $code;
 }
 //SUBTASK 18156: "CONTENT: TABLE" --------------------------------------------
-    private function contentTable(){
-    $code = "";
-
-    $code .= "<div class='table col-12 content'>";
-
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-
-    $code .= "TABLE";
-    $code .= "</div>";
-
-    return $code;
-    }
+private function contentTable(){
+  $code = "";
+  $code .= "TABLE";
+  return $code;
+}
 //SUBTASK 18157: "CONTENT: MATRIX" --------------------------------------------
-    private function contentMatrix(){
-    $code = "";
-    $code .= "<div class='wrapper'>";
-    $code .= "<div class='matrix col-12 content'>";
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-    $code .= "MATRIX";
-    $code .= "</div>";
-    $code .= "</div>";
-    return $code;
-    }
+private function contentMatrix(){
+  return "MATRIX";
+}
 
 //SUBTASK 18158: "CONTENT: GALLERY" --------------------------------------------
 private function contentGallery(){
-  $code = "";
-    $code = "<div class='image-gallery col-12 content'>";
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-        $code .= "<div class='col-12 gallery-group'> 
-                        <h3>First Store</h3>";
-        $code .= "
-                        <div class='card col-4'>
+  $code  = "<div class='col-12 gallery-group'>";
+  $code .= "<h3>First Store</h3>";
+  $code .= "<div class='card col-4'>
                             <div class='image ' style='background-image: url(Images/img_10742_11_377_4.jpg)'>
                                 <i class='fas fa-expand'></i>
                             </div>
@@ -1111,9 +1094,9 @@ private function contentGallery(){
                     </div>
                 </div>
             </div>";
-    $code .= "</div>";
-    return $code;
-    }
+  $code .= "</div>";
+  return $code;
+}
 //[/SUBTASKS]
   }
 ?>
