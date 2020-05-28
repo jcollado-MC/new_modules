@@ -64,8 +64,6 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-
-
     $("[class$='-modal']").hide();
 
 
@@ -81,7 +79,7 @@ $(document).ready(function() {
 
     });
 
-    $(".modal-buttons.cancel").on("click", function() {
+    $(".modal-content button.cancel").on("click", function() {
 
         $("[class$='-modal']").hide();
 
