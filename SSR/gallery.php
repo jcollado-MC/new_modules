@@ -10,7 +10,7 @@ $ssr = new mySSR2(1, 'GALLERY');
         <title>Reports Mockup</title>
         <script src="../Jquery/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="ssr_css.css">
-        <link rel="stylesheet" type="text/css" href="../Styles/styles.css">
+        <link rel="stylesheet" type="text/css" href="../columns/styles.css">
         <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
     </head>
 
@@ -24,6 +24,6 @@ $ssr = new mySSR2(1, 'GALLERY');
             </div>
         </main>
         <script src="ssr_js.js"></script>
-        <script src="../JS/scripts.js"></script>
+        <script src="../columns/scripts.js"></script>
     </body>
 </html>

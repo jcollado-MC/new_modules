@@ -56,7 +56,7 @@ $(document).ready(function(){
     /* ADD IMAGE-GALLERY-SIDEBAR FIELDS */
     $('.add-gallery-fields').on('click', function () {
         var id = $(this).attr('id');
-        $('.first-field .' + id ).clone().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
+        $('.first-field .' + id ).clone().find('input:text').val('').end().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
     });
     /* REMOVE IMAGE-GALLERY-SIDEBAR FIELDS*/
     $('.field-container').on('click', '.delete', function () {

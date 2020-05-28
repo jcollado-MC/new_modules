@@ -1,34 +1,82 @@
 <?php
-  // Script created with CFB Framework Builder 
-  // Client:  MARKET CONTROL
-  // Project: MASTER I
-  // Class Revision: 2
-  // Date of creation: 2020-05-26 
-  // All Copyrights reserved 
-  // This is a class file and can not be executed directly 
-  // CLASS FILE
-    if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){ 
-      header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-      exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
-    }
-    class SSR2{
+// Script created with CFB Framework Builder
+// Client:  MARKET CONTROL
+// Project: MASTER I
+// Class Revision: 2
+// Date of creation: 2020-05-28
+// All Copyrights reserved
+// This is a class file and can not be executed directly
+// CLASS FILE
+if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){
+    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
+}
+class SSR2{
 //[SUBTASKS]
-//SUBTASK 18163: "VARS" --------------------------------------------
-var $dm = [];
-var $dmid = [];
-var $report;
-var $dfn = [];
-var $groups = [];
-var $type = '';
-var $types = ['TABLE', 'MATRIX', 'GALLERY', 'MAP'];
+//SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
+    function __construct($dmid, $type='', $report_id=0){
+        global $CFR_USER, $myPageBody;
+        $sql =" SELECT field_name
+            FROM cfr_fielddev 
+           WHERE table_name = 'TABLE' 
+             AND id = ".$dmid." 
+             AND drs_searchable <> 'FALSE' 
+             AND FIND_IN_SET('".$CFR_USER['team']."', user_groups)>0
+    ";
+        ini_set("memory_limit", "1024M");
+        ini_set("max_execution_time", "1200");
+        $this->dm = db_value($sql);
+        if($this->dm=='') $mypage->PageDenied();
+        $this->dmid = $dmid;
+        // CHECK TYPE & LANGUAGE
+        $this->type = $type;
+        if(!in_array($type, $this->types)){
+            throw new exception("[18153-1] Report Type not defined");
+        }
+        $l = trim($CFR_USER['lang']);
+        switch($l){
+            case 'lang_es': $l = 'es_ES';break;
+            case 'lang_de': $l = 'de_DE';break;
+            case 'lang_fr': $l = 'fr_FR';break;
+            case 'lang_it': $l = 'it_IT';break;
+            default: $l = 'en_EN';
+        }
+        db_query("SET lc_time_names = '$l'"); // get lang
 
+        // LOAD FIELDS
+        $sql= "SELECT id, 
+  							name, 
+                description 
+           FROM cfr_fielddev 
+          WHERE table_name = '".$this->dm."' 
+         		AND UPPER(drs_searchable)='TRUE' 
+      	ORDER BY position, id";
+        $result = db_query($sql);
+        while($row = db_fetch_row($result)){
+            if($row['description']<>'') $group = $row['description'];
+            $field = [];
+            $field['id'] = $row['id'];
+            $field['name'] = $row['name'];
+            $field['label'] = $row['name'];
+            $field['type'] = $row[''];
+            $field['group'] = $row[''];
+            $this->groups[$group][] = $field;
+        }
+    }
+//SUBTASK 18163: "VARS" --------------------------------------------
+    var $dm = [];
+    var $dmid = [];
+    var $report;
+    var $dfn = [];
+    var $groups = [];
+    var $type = '';
+    var $types = ['TABLE', 'MATRIX', 'GALLERY', 'MAP'];
 //SUBTASK 18154: "STATIC: HEADER" --------------------------------------------
-private static $header;
-static function Header(){
-  global $myHeader;
-  if(self::$header==TRUE) return;
-  self::$header=TRUE;
-  $myHeader .= "<script>
+    private static $header;
+    static function Header(){
+        if(self::$header==TRUE) return;
+        self::$header=TRUE;
+        $code = "<script>
 
 /* SEARCH */
 $(document).ready(function(){
@@ -86,7 +134,7 @@ $(document).ready(function(){
     /* ADD IMAGE-GALLERY-SIDEBAR FIELDS */
     $('.add-gallery-fields').on('click', function () {
         var id = $(this).attr('id');
-        $('.first-field .' + id ).clone().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
+        $('.first-field .' + id ).clone().find('input:text').val('').end().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
     });
     /* REMOVE IMAGE-GALLERY-SIDEBAR FIELDS*/
     $('.field-container').on('click', '.delete', function () {
@@ -188,7 +236,6 @@ $(document).ready(function(){
 
             $('.specific-time-tag').show();
         }
-
     });
 
 
@@ -217,23 +264,18 @@ $(document).ready(function(){
 
 
 </script>";
-  $myHeader .= "<style>
+        $code .= "<style>
 .report-content{
     padding: 0 15px;
     margin-bottom: 15px;
 }
-
-
 input#tableSearchInputSSR{
     background: none;
     border: none;
     border-bottom: 1px solid black;
     padding: 5px 10px;
 }
-
-
 /* CONTROLS */
-
 .add, .share, .download, .copy, .newsletter{
     font-size: 1.2rem;
     color: #3f48cc;
@@ -241,12 +283,9 @@ input#tableSearchInputSSR{
     background: none;
     float: right;
 }
-
 .add-report{
     margin: 15px 0;
 }
-
-
 .add-filter-fields{
     margin-top: 5px;
 }
@@ -254,53 +293,39 @@ input#tableSearchInputSSR{
     float: right;
     margin: 0;
 }
-
 .table-fields, .matrix-fields, .gallery-fields{
     margin-top: 20px;
 }
-
-
 #group-by-dropdown , #sort-by-dropdown {
     padding: 0;
 }
-
 #group-by-dropdown ul, #sort-by-dropdown ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-
 #group-by-dropdown ul li, #sort-by-dropdown ul li{
     padding: 5px;
     text-align: left;
 }
-
 #group-by-dropdown ul li:hover, #sort-by-dropdown ul li:hover, #group-by-dropdown ul li:active, #sort-by-dropdown ul li:active{
     background-color: #cccccc;
 }
-
-
-
 .custom-filter-group{
     background-color: #eeeeee;
     padding: 5px 10px;
     margin-top: 5px;
 }
-
 .custom-filter-group select, input{
     margin: 5px 0;
 }
-
 .custom-filter-group#first i.delete{
     display: none;
 }
-
 .content{
     position: relative;
     min-height: 400px;
 }
-
-
 .update-overlay{
     position: absolute; /* Stay in place */
     z-index: 333; /* Sit on top */
@@ -313,7 +338,6 @@ input#tableSearchInputSSR{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     box-shadow: 0 20px 20px 0 rgba(0,0,0,0.4);
 }
-
 .update-overlay button.update{
     width: 120px;
     position: absolute;
@@ -323,12 +347,9 @@ input#tableSearchInputSSR{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
 }
-
 .filter-tags{
     display: inline-block;
 }
-
-
 .filter-tags p{
     display: inline;
     background-color: #eee;
@@ -338,130 +359,79 @@ input#tableSearchInputSSR{
     color:#777;
     margin: 5px;
 }
-
 .filter-tags i.delete, .filter-tags i.delete:before{
     float: none;
 }
 </style>";
-}
-//SUBTASK 18153: "_CONSTRUCT" --------------------------------------------
-function __construct1($dmid, $type='', $report_id=0){
-  global $CFR_USER, $myPageBody;
-  self::header();
-  $sql =" SELECT field_name
-            FROM cfr_fielddev 
-           WHERE table_name = 'TABLE' 
-             AND id = ".$dmid." 
-             AND drs_searchable <> 'FALSE' 
-             AND FIND_IN_SET('".$CFR_USER['team']."', user_groups)>0
-    ";
-  ini_set("memory_limit", "1024M");
-  ini_set("max_execution_time", "1200");
-  $this->dm = db_value($sql);
-  if($this->dm=='') $mypage->PageDenied();
-  $this->dmid = $dmid;
-  // CHECK TYPE & LANGUAGE
-  $this->type = $type;
-  if(!in_array($type, $this->types)){
-    throw new exception("[18153-1] Report Type not defined");
-  }
-  $l = trim($CFR_USER['lang']);
-  switch($l){
-    case 'lang_es': $l = 'es_ES';break;
-    case 'lang_de': $l = 'de_DE';break;
-    case 'lang_fr': $l = 'fr_FR';break;
-    case 'lang_it': $l = 'it_IT';break;
-    default: $l = 'en_EN'; 
-  }
-  db_query("SET lc_time_names = '$l'"); // get lang
-
-  // LOAD FIELDS
-  $sql= "SELECT id, 
-  							name, 
-                description 
-           FROM cfr_fielddev 
-          WHERE table_name = '".$this->dm."' 
-         		AND UPPER(drs_searchable)='TRUE' 
-      	ORDER BY position, id";
-  $result = db_query($sql);
-  while($row = db_fetch_row($result)){
-    if($row['description']<>'') $group = $row['description'];
-    $field = [];
-    $field['id'] = $row['id'];
-    $field['name'] = $row['name'];
-    $field['label'] = $row['name'];
-    $field['type'] = $row[''];
-    $field['group'] = $row[''];
-    $this->groups[$group][] = $field;
-  }
-}
+        return $code;
+    }
 //SUBTASK 18161: "LOAD" --------------------------------------------
-function load($report_id){
-	global $myPageBody;
-  $sql = "SELECT id, 
+    function load($report_id){
+        global $myPageBody;
+        $sql = "SELECT id, 
   							 name, 
                  ssr 
             FROM cfr_ssr_bs 
         	 WHERE id = ".$report_id;
-  $report = db_direct($sql);
-  $myPageBody .= "<h2>".$report[1]."</h2>";
-  $all = unserialize(base64_decode($report['ssr']));
-  $definition = array_pop($all);
-  $this->open($definition);
-}
-//SUBTASK 18164: "OPEN" --------------------------------------------
-function open($dfn){
-  global $myPageBody;
-  // $myPageBody .= "<pre>".print_r($dfn,true)."</pre><hr>";
-  switch($dfn['type']){
-    case 1: 
-    	$report = new ListReport(); 
-      $this->type = "TABLE";
-      break;
-    case 3: 
-    	$report = new MatrixReport(); 
-      $this->type = "MATRIX";
-      break;
-    case 7: 
-    	$report = new GalleryReport(); 
-      $this->type = "GALLERY";
-      break;
-    case 8: 
-    	$report = new MapReport(); 
-      $this->type = "MAP";
-      break;
-    default: 
-    	throw new exception("[18164-1] Report Type not defined");
-  }
-  $this->report = $report;
-  $this->matrix1 = $dfn['matrix1'];
-  $this->matrix2 = $dfn['matrix2'];
-  // $myPageBody .= "<pre>".print_r($this,true)."</pre>";
-}
-//SUBTASK 18165: "SHOW" --------------------------------------------
-function show(){
-  global $myPageBody;
-  $code ="<form>";
-  $code .= $this->sidebar();
-  $code .= $this->save();
-  $code .= $this->delete();
-  $code .= $this->filter();
-  $code .= $this->actions();
-  $code .= $this->content();
-  $code .="</form>";//*/
-  return $code;
-}
-
-//SUBTASK 18150: "SIDEBAR: MAIN" --------------------------------------------
-function sidebar(){
-    switch($this->type){
-        case "TABLE": return $this->sidebarTable();
-        case "MATRIX": return $this->sidebarMatrix();
-        case "GALLERY": return self::sidebarGallery();
+        $report = db_direct($sql);
+        $myPageBody .= "<h2>".$report[1]."</h2>";
+        $all = unserialize(base64_decode($report['ssr']));
+        $definition = array_pop($all);
+        $this->open($definition);
     }
-    throw new exception("[18150-1]: Sidebar Type not defined");
-}
+//SUBTASK 18164: "OPEN" --------------------------------------------
+    function open($dfn){
+        global $myPageBody;
+        // $myPageBody .= "<pre>".print_r($dfn,true)."</pre><hr>";
+        switch($dfn['type']){
+            case 1:
+                $report = new ListReport();
+                $this->type = "TABLE";
+                break;
+            case 3:
+                $report = new MatrixReport();
+                $this->type = "MATRIX";
+                break;
+            case 7:
+                $report = new GalleryReport();
+                $this->type = "GALLERY";
+                break;
+            case 8:
+                $report = new MapReport();
+                $this->type = "MAP";
+                break;
+            default:
+                throw new exception("[18164-1] Report Type not defined");
+        }
+        $this->report = $report;
+        $this->matrix1 = $dfn['matrix1'];
+        $this->matrix2 = $dfn['matrix2'];
+        // $myPageBody .= "<pre>".print_r($this,true)."</pre>";
 
+    }
+//SUBTASK 18165: "SHOW" --------------------------------------------
+    function show(){
+        global $myPageBody;
+        $code ="<form method='post'>";
+        $code .= $this->sidebar();
+        $code .= $this->save();
+        $code .= $this->delete();
+        $code .= $this->filter();
+        $code .= $this->actions();
+        $code .= $this->content();
+        $code .="</form>";//*/
+        $code .= self::header();
+        return $code;
+    }
+//SUBTASK 18150: "SIDEBAR: MAIN" --------------------------------------------
+    function sidebar(){
+        switch($this->type){
+            case "TABLE": return $this->sidebarTable();
+            case "MATRIX": return $this->sidebarMatrix();
+            case "GALLERY": return self::sidebarGallery();
+        }
+        throw new exception("[18150-1]: Sidebar Type not defined");
+    }
 //SUBTASK 18151: "SIDEBAR: TABLE" --------------------------------------------
     private function sidebarTable(){
         global $myPageBody;
@@ -574,9 +544,8 @@ function sidebar(){
 
         return $code;
     }
-
 //SUBTASK 18160: "SIDEBAR: GALLERY" --------------------------------------------
-  private function sidebarGallery(){
+    private function sidebarGallery(){
         global $myPageBody;
         $code = "";
         $code .= "<div class='col-3'>";
@@ -609,12 +578,12 @@ function sidebar(){
         $code .= "<input type='text' list='value-list' class='col-11'>
                                     <datalist id='value-list'>";
         foreach($this->groups as $name => $fields) {
-          $code .= "<optgroup label='$name'>";
-          foreach ($fields as $field) {
-            $code .= "<option>";
-            $code .= $field['name'];
-            $code .= "</option>";
-          }
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
         }
         $code .= "</datalist>";
         $code .= "</div>";
@@ -638,12 +607,12 @@ function sidebar(){
         $code .= "<input type='text' list='value-list' class='col-11'>
                                     <datalist id='value-list'>";
         foreach($this->groups as $name => $fields) {
-          $code .= "<optgroup label='$name'>";
-          foreach ($fields as $field) {
-            $code .= "<option>";
-            $code .= $field['name'];
-            $code .= "</option>";
-          }
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
         }
         $code .= "</datalist>";
         $code .= "</div>";
@@ -667,12 +636,12 @@ function sidebar(){
         $code .= "<input type='text' list='value-list' class='col-11'>
                                     <datalist id='value-list'>";
         foreach($this->groups as $name => $fields) {
-          $code .= "<optgroup label='$name'>";
-          foreach ($fields as $field) {
-            $code .= "<option>";
-            $code .= $field['name'];
-            $code .= "</option>";
-          }
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
         }
         $code .= "</datalist>";
         $code .= "</div>";
@@ -691,19 +660,19 @@ function sidebar(){
                             </button>
                             <hr class='col-12'>";
         $code .= "<div class='first-field'>";
-            $code .= "<div class='image-subtitle-fields'>";
+        $code .= "<div class='image-subtitle-fields'>";
         $code .= "<input type='text' list='value-list' class='col-11'>
                                     <datalist id='value-list'>";
         foreach($this->groups as $name => $fields) {
-          $code .= "<optgroup label='$name'>";
-          foreach ($fields as $field) {
-            $code .= "<option>";
-            $code .= $field['name'];
-            $code .= "</option>";
-          }
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
         }
         $code .= "</datalist>";
-            $code .= "</div>";
+        $code .= "</div>";
         $code .= "</div>";
         $code .= "<div class='field-container'>";
         $code .="</div>";
@@ -712,16 +681,15 @@ function sidebar(){
         $code .="</div>";
 
         return $code;
-      }
-
+    }
 
 //SUBTASK 18166: "ELEMENT: FILTER" --------------------------------------------
     private function filter(){
-    $code = "
+        $code = "
             <div class='report-content col-9'>
                 <div class='row col-9 filters'>";
 
-    $code .= "
+        $code .= "
                     <div class='dropdown'>
                         <button id='timespan' class='dropbtn' type='button'><h5>Timespan <i class='fas fa-caret-down'></i></h5> </button>
                         <div class='dropdown-content timespan'>
@@ -755,7 +723,7 @@ function sidebar(){
                             </div>                            
                         </div>
                     </div>";
-    $code .= "
+        $code .= "
                     <div class='dropdown'>
                         <button id='filter' class='dropbtn' type='button'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>
                         <div class='dropdown-content filter'>
@@ -767,19 +735,19 @@ function sidebar(){
                                 <i class='fas fa-times delete col-1'></i>
                                 </div>";
 
-                                $code .="<div class='col-12'>";
-                                $code .= "<input type='text' list='value-list' class='col-12' >
+        $code .="<div class='col-12'>";
+        $code .= "<input type='text' list='value-list' class='col-12' >
                                          <datalist id='value-list'>";
-                                foreach($this->groups as $name => $fields) {
-                                  $code .= "<optgroup label='$name'>";
-                                  foreach ($fields as $field) {
-                                    $code .= "<option>";
-                                    $code .= $field['name'];
-                                    $code .= "</option>";
-                                  }
-                                }
-                                $code .= "</datalist>";
-                                $code .= "</div>
+        foreach($this->groups as $name => $fields) {
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
+        }
+        $code .= "</datalist>";
+        $code .= "</div>
                                 <div class='col-12'>
                                     <select class='col-12'>
                                         <option> contains </option>
@@ -792,18 +760,18 @@ function sidebar(){
                                     </select>
                                 </div>
                                 <div class='col-12'>";
-                                $code .= "<input type='text' list='value-list' class='col-12'>
+        $code .= "<input type='text' list='value-list' class='col-12'>
                                          <datalist id='value-list'>";
-                                foreach($this->groups as $name => $fields) {
-                                  $code .= "<optgroup label='$name'>";
-                                  foreach ($fields as $field) {
-                                    $code .= "<option>";
-                                    $code .= $field['name'];
-                                    $code .= "</option>";
-                                  }
-                                }
-                                $code .= "</datalist>";
-                                $code .= "</div>
+        foreach($this->groups as $name => $fields) {
+            $code .= "<optgroup label='$name'>";
+            foreach ($fields as $field) {
+                $code .= "<option>";
+                $code .= $field['name'];
+                $code .= "</option>";
+            }
+        }
+        $code .= "</datalist>";
+        $code .= "</div>
                                 </div>
                             <div id='new-filter'></div> 
                             <button class='add add-filter-fields' type='button'>
@@ -822,31 +790,31 @@ function sidebar(){
         $code .= "<i class='fas fa-times delete' id='period-timespan'></i>";
         $code .= "</p>";
         $code .= "</div>";
-    $code .= "</div>";
+        $code .= "</div>";
 
-    return $code;
-  }
+        return $code;
+    }
 //SUBTASK 18167: "ELEMENT: ACTIONS" --------------------------------------------
     private function actions(){
-    $code = "";
-    $code .= "<div class='col-3 actions'>";
+        $code = "";
+        $code .= "<div class='col-3 actions'>";
 //    TODO: only show newsletter and share if saved
-    $code .= "<button class='newsletter' type='button'>
+        $code .= "<button class='newsletter' type='button'>
                 <i class='fas fa-envelope-open-text'></i>
               </button>";
-    $code .= "<button class='modal-button share' type='button' id='share-modal'>
+        $code .= "<button class='modal-button share' type='button' id='share-modal'>
                   <i class='fas fa-share-alt'></i>
               </button>
                     
                     <div class='share-modal'>
                       <div class='modal-content'>";
-                        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-                        $code .= "<div>";
-                          $code .= "<h5>Share this Report</h5>";
-                          $code .= "<hr class='col-12'>";
-                          $code .= "<label>With other users:</label>";
+        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+        $code .= "<div>";
+        $code .= "<h5>Share this Report</h5>";
+        $code .= "<hr class='col-12'>";
+        $code .= "<label>With other users:</label>";
 //                          TODO: Iterate over user list!
-                          $code .= "<div class='row col-12'>
+        $code .= "<div class='row col-12'>
                         <label class='col-4'>
                             <input type='checkbox'>
                             User 1
@@ -936,25 +904,25 @@ function sidebar(){
                             Carrefour
                         </label>
                     </div>";
-                          $code .= "<button id='save'>Share</button>";
-                          $code .= "<button id='delete' class='cancel'>Cancel</button>";
-                        $code .= "</div>";
-                      $code .= "</div>";
-                    $code .= "</div>";
+        $code .= "<button id='save'>Share</button>";
+        $code .= "<button id='delete' class='cancel'>Cancel</button>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "</div>";
 
-  $code .= "<button class='download' type='button'>
+        $code .= "<button class='download' type='button'>
                 <i class='fas fa-file-download'></i>
              </button>";
 
 
-  $code .= "<button class='copy' type='button'>
+        $code .= "<button class='copy' type='button'>
               <i class='fas fa-copy'></i>
             </button>
              
           </div>";
 
-    return $code;
-  }
+        return $code;
+    }
 //SUBTASK 18172: "ELEMENT: SAVE" --------------------------------------------
     private function save(){
         $code = "<button id='save' class='modal-button' type='button'>Save</button>";
@@ -973,12 +941,11 @@ function sidebar(){
         $code .= "</div>";
         $code .= "</div>";
         $code .= "</div>";
-
         return $code;
     }
 //SUBTASK 18173: "ELEMENT DELETE" --------------------------------------------
     private function delete(){
-//        TODO: only show button if saved
+        //        TODO: only show button if saved
         $code = "<button id='delete' class='modal-button' type='button'>Delete</button>";
         $code .= "<div class='delete delete-modal'>";
         $code .= "<div class='modal-content'>";
@@ -993,62 +960,43 @@ function sidebar(){
         $code .= "</div>";
         $code .= "</div>";
         $code .="</div>"; //CLOSE SIDEBAR
-
         return $code;
     }
 
 //SUBTASK 18155: "CONTENT: MAIN" --------------------------------------------
-function content(){
-//  return $this->report->build();
-    switch($this->type){
-    case "TABLE": return $this->contentTable();
-     case "MATRIX": return $this->contentMatrix();
-     case "GALLERY": return $this->contentGallery();
-  }
-  throw new exception("[18155-1] Content Type not defined");
-}
-
+    function content(){
+        // return $this->report->build();
+        $code  = "<div class='wrapper'>";
+        $code .= "<div class='matrix col-12 content'>";
+        $code .= "<div class='col-12 update-overlay'>";
+        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
+        $code .= "</div>";
+        switch($this->type){
+            case "TABLE": $code .= $this->contentTable(); break;
+            case "MATRIX": $code .=  $this->contentMatrix(); break;
+            case "GALLERY": $code .=  $this->contentGallery();break;
+            default: throw new exception("[18155-1] Content Type not defined");
+        }
+        $code .= "</div>";
+        $code .= "</div>";
+        return $code;
+    }
 //SUBTASK 18156: "CONTENT: TABLE" --------------------------------------------
     private function contentTable(){
-    $code = "";
-
-    $code .= "<div class='table col-12 content'>";
-
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-
-    $code .= "TABLE";
-    $code .= "</div>";
-
-    return $code;
+        $code = "";
+        $code .= "TABLE";
+        return $code;
     }
-
 //SUBTASK 18157: "CONTENT: MATRIX" --------------------------------------------
     private function contentMatrix(){
-    $code = "";
-    $code .= "<div class='wrapper'>";
-    $code .= "<div class='matrix col-12 content'>";
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-    $code .= "MATRIX";
-    $code .= "</div>";
-    $code .= "</div>";
-    return $code;
+        return "MATRIX";
     }
 
 //SUBTASK 18158: "CONTENT: GALLERY" --------------------------------------------
     private function contentGallery(){
-    $code = "";
-    $code = "<div class='image-gallery col-12 content'>";
-        $code .= "<div class='col-12 update-overlay'>";
-        $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
-        $code .= "</div>";
-        $code .= "<div class='col-12 gallery-group'> 
-                        <h3>First Store</h3>";
-        $code .= "
-                        <div class='card col-4'>
+        $code  = "<div class='col-12 gallery-group'>";
+        $code .= "<h3>First Store</h3>";
+        $code .= "<div class='card col-4'>
                             <div class='image ' style='background-image: url(Images/img_10742_11_377_4.jpg)'>
                                 <i class='fas fa-expand'></i>
                             </div>
@@ -1119,10 +1067,9 @@ function content(){
                     </div>
                 </div>
             </div>";
-    $code .= "</div>";
-    return $code;
+        $code .= "</div>";
+        return $code;
     }
-
 //[/SUBTASKS]
-  }
+}
 ?>
