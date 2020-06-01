@@ -60,6 +60,7 @@ $myPageBody .= "<form method='post'>\n";
   $myPageBody .= "<tbody>\n";
   while($row = db_fetch_row($result)){
     $total = $row['quantity'];
+echo "<head>".$myHeader."</head>";
     if($row['dto1']>0)$dto = number_format($row['dto1'], 2, ',', '')."%"; else $dto = '';
     if($row['price_tarif']>0)$pnr = number_format($row['price_tarif'], 2, '.', '').""; else $pnr = '';
     if($row['price_neto']>0)$price = number_format($row['price_neto'], 2, '.', '').""; else $price = '';
@@ -70,6 +71,8 @@ $myPageBody .= "<form method='post'>\n";
     $myPageBody .= "      <td>".$row['sap_number']."</td>\n";
     $myPageBody .= "      <td>".$row['uc']."</td>\n";
     $myPageBody .= "      <td>".$row['quantity']."</td>\n";
+echo "<head>".$myHeader."</head>";
+echo "<head>".$myHeader."</head>";
     $myPageBody .= "      <td>".$row['pnr']."</td>\n";
     $myPageBody .= "      <td>".$row['dto']."</td>\n";
     $myPageBody .= "      <td>".$row['price']."</td>\n";
@@ -106,4 +109,12 @@ $myPageBody .= "</div>";
 
 $myPageBody .= "</form>\n";
 $myPageBody .= "</div>";
+                        
+echo "<html>";
+echo "<head>".$myHeader."</head>";
+echo "<body>".$myPageBody."</body>";
+echo "<html>";
+                        
+                        
+                        
 
