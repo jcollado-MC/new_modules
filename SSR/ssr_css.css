@@ -30,13 +30,9 @@ input#tableSearchInputSSR{
 .add-filter-fields{
     margin-top: 5px;
 }
-.actions button{
+.actions button.share, .actions button.download, .actions button.copy, .actions button.newsletter{
     float: right;
     margin: 0;
-    font-size: 1.2rem;
-    color: #3f48cc;
-    border: none;
-    background: none;
 }
 
 .table-fields, .matrix-fields, .gallery-fields{
