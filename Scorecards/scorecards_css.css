@@ -19,7 +19,7 @@ input#tableSearchInputSSR{
     color: #3f48cc;
     border: none;
     background: none;
-    float: right;
+    float: none;
 }
 
 .add-report{
@@ -75,6 +75,14 @@ input#tableSearchInputSSR{
     display: none;
 }
 
+.new-filter{
+    display: inline;
+}
+
+#first-filer i.delete{
+    display: none;
+}
+
 .content{
     position: relative;
     min-height: 400px;
@@ -102,23 +110,4 @@ input#tableSearchInputSSR{
     transform: translate(-50%, -50%);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
-}
-
-.filter-tags{
-    display: inline-block;
-}
-
-
-.filter-tags p{
-    display: inline;
-    background-color: #eee;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    padding: 5px;
-    color:#777;
-    margin: 5px;
-}
-
-.filter-tags i.delete, .filter-tags i.delete:before{
-    float: none;
 }
