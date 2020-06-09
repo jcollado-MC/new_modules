@@ -302,7 +302,8 @@ input#tableSearchInputSSR{
 .add-filter-fields{
     margin-top: 5px;
 }
-.actions button.share, .actions button.download, .actions button.copy, .actions button.newsletter{
+
+.actions button{
     float: right;
     margin: 0;
 }
@@ -310,27 +311,6 @@ input#tableSearchInputSSR{
 .table-fields, .matrix-fields, .gallery-fields{
     margin-top: 20px;
 }
-
-
-#group-by-dropdown , #sort-by-dropdown {
-    padding: 0;
-}
-
-#group-by-dropdown ul, #sort-by-dropdown ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-#group-by-dropdown ul li, #sort-by-dropdown ul li{
-    padding: 5px;
-    text-align: left;
-}
-
-#group-by-dropdown ul li:hover, #sort-by-dropdown ul li:hover, #group-by-dropdown ul li:active, #sort-by-dropdown ul li:active{
-    background-color: #cccccc;
-}
-
 
 
 .custom-filter-group{
@@ -343,7 +323,7 @@ input#tableSearchInputSSR{
     margin: 5px 0;
 }
 
-.custom-filter-group#first i.delete{
+#first-filter .dropdown-content i.delete{
     display: none;
 }
 
@@ -380,12 +360,6 @@ input#tableSearchInputSSR{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
 }
-
-.filter-tags{
-    display: inline-block;
-}
-
-
 
 </style>";
     return $code;
