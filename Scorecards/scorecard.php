@@ -7,7 +7,7 @@ $scorecard = new scorecard();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reports Mockup</title>
+    <title>Scorecards Mockup</title>
     <script src="../Jquery/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="scorecards_css.css">
     <link rel="stylesheet" type="text/css" href="../columns/styles.css">

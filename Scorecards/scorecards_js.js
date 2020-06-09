@@ -76,19 +76,16 @@ $(document).ready(function() {
 
     /* TABS */
 
-    $('.tabcontent').hide();
-
-
     if ($('button.tablinks').hasClass('active')){
-        var id = $(this).attr('id');
-        $('.tabcontent .' + id).show();
+        var id = $('button.tablinks').attr('id');
+        $('.tabcontent.' + id).show();
     }
 
 
     $('button.tablinks').on('click', function(){
         var id = $(this).attr('id');
-
-        $('.tabcontent .' + id).show();
+        $('.tabcontent').hide();
+        $('.tabcontent.' + id).show();
     });
 
 

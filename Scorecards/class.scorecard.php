@@ -29,9 +29,10 @@ class scorecard{
 
             <!-- Tab links -->
             <div class='scorecard-sidebar tab col-12'>
-                <button class='tablinks active' type='button' id='stores'><h3>Stores</h3></button>
-                <button class='tablinks' type='button' id='salesman'><h3>Salesman</h3></button>
-                <button class='tablinks' type='button' id='tags'><h3>Tags</h3></button>
+                <button class='tablinks active' type='button' id='stores'><h2>Stores</h2></button>
+                <button class='tablinks' type='button' id='salesman'><h2>Salesman</h2></button>
+                <button class='tablinks' type='button' id='tags'><h2>Tags</h2></button>
+                <button class='tablinks' type='button' id='products'><h2>Products</h2></button>
             </div>
 
             <div class='col-12'>";
@@ -173,7 +174,7 @@ class scorecard{
     }
 
     private function sidebarProducts(){
-        $code = "<div id='Products' class='tabcontent col-12'>
+        $code = "<div class='tabcontent col-12 products'>
                         <label>
                             <input type='checkbox'>
                             Product 1
