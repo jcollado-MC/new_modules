@@ -1,46 +1,69 @@
 
 
-/* SEARCH */
-$(document).ready(function(){
-    $('#reports-search-bar').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
+$(document).ready(function() {
 
-        $('table tbody tr').filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-
-        $('.accordion').filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 || $(this).siblings().text().toLowerCase().indexOf(value) > -1);
-        });
-
+    /* DROPDOWN */
+    $(document).on("click", 'button.dropbtn', function () {
+        // get button id
+        var id = $(this).attr('id');
+        // show dropdown-content when it's class is button id
+        $(".dropdown-content." + id).toggle();
+        // hide all other dropdowns then
+        $(".dropdown-content").not("." + id).hide();
     });
-});
+
+    $(document).mouseup(function (e) {
+        // set container value
+        var container = $(".dropdown-content");
+
+        // If the target of the click isn't the container, hide it
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+        }
+    });
 
 
 
+    /* MODALS */
+    // hide on initial
+    $("[class$='-modal']").hide();
 
-/* SEARCH TABLE SIDEBAR */
+    //show modal with class of button id
+    $(".modal-button").on("click", function () {
+        var id = $(this).attr('id');
+        $("." + id).show();
+    });
+
+    //close modal when click on close icon
+    $(".modal-content span.close").on("click", function () {
+        $(this).parent().parent().hide();
+    });
+    //close modal when click on cancel button
+    $(".modal-content button.cancel").on("click", function () {
+        $("[class$='-modal']").hide();
+    });
 
 
-$(document).ready(function(){
-    $('#tableSearchInputSSR').on('keyup', function() {
+
+    /* SEARCH TABLE SIDEBAR */
+
+    $('#tableSearchInputSSR').on('keyup', function () {
+        //get value of searchbar input
         var value = $(this).val().toLowerCase();
-
-        $('.table-fields .checkboxes label').filter(function() {
+        //filter checkbox-labels for search value
+        $('.table-fields .checkboxes label').filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
-
-        $('.table-fields .title-part').filter(function() {
+        // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
+        $('.table-fields .title-part').filter(function () {
             $(this).toggle($(this).siblings().text().toLowerCase().indexOf(value) > -1);
         });
 
     });
-});
 
 
-/* SELECT ALL CHECKBOXES FOR CURRENT GROUP */
+    /* SELECT ALL CHECKBOXES FOR CURRENT GROUP */
 
-$(document).ready(function(){
     $('.groups').on('click', function () {
         var id = $(this).attr('id');
         var allChecked = $(this).prop('checked');
@@ -48,171 +71,120 @@ $(document).ready(function(){
             checked: allChecked
         });
     });
-});
+
+    /* TODO: IF ALL CHECKBOXES ARE SELECTED, CHECK "SELECT ALL" CHECKBOX */
 
 
-
-$(document).ready(function(){
     /* ADD IMAGE-GALLERY-SIDEBAR FIELDS */
+
     $('.add-gallery-fields').on('click', function () {
+        //get group-id of Sidebar-Fields
         var id = $(this).attr('id');
-        $('.first-field .' + id ).clone().find('input:text').val('').end().appendTo('#' + id + '~ .field-container').append('<i class=\'fas fa-times delete col-1\'></i>');
+        //first-field with group-id as class will be cloned,
+        // cleaned and appended to container,
+        // also delete button will be added
+        $('.first-field .' + id).clone()
+            .find('input')
+            .val('')
+            .end()
+            .appendTo('#' + id + '~ .field-container')
+            .append('<i class=\'fas fa-times delete col-1\'></i>');
     });
     /* REMOVE IMAGE-GALLERY-SIDEBAR FIELDS*/
     $('.field-container').on('click', '.delete', function () {
+        // remove sidebar-field and the delete button
         $(this).siblings().remove();
         $(this).remove();
     });
-});
 
 
 
-/* TOGGLE BETWEEN SPECIFIC AND PERIOD TIMESPAN */
-$(document).ready(function(){
+    /* TOGGLE BETWEEN SPECIFIC AND PERIOD TIMESPAN */
 
-    if($('input:checkbox#period-timespan').prop('checked')){
+    // initial status
+    if ($('input:checkbox#period-timespan').prop('checked')) {
+        //if checkbox for period timespan is checked,
+        // show period timespan and hide specific timespan
         $('.period-timespan').show()
         $('.specific-timespan').hide();
-    }else {
+    } else {
+        //if checkbox for period timespan is not checked,
+        // show specific timespan and hide period-timespan-fields
         $('.period-timespan').hide();
         $('.specific-timespan').show();
     }
-    $('#period-timespan').on('change', function(){
+
+    //on change
+    $('#period-timespan').on('change', function () {
+        //if checkbox for period timespan is checked,
+        // show period timespan and hide specific timespan,
+        // otherways hide
         var checked = $('#period-timespan').prop('checked');
         $('.specific-timespan').toggle(!checked);
         $('.period-timespan').toggle(checked);
     });
-});
 
 
 
 
-$(document).ready(function(){
+
+
     /* ADD CUSTOM FILTER FIELDS */
+
+    // variable for counting custom filter-fields
+    var filterid = 1;
+
     $('.add-filter-fields').on('click', function () {
-        $('.custom-filter-group#first').clone().find('input:text').val('').end().appendTo('#new-filter').removeAttr('id');
+        // on add, count variable up
+        filterid++;
+
+        //clone first-filter-dropdown,
+        // then clean the input-fields,
+        // clean the selects,
+        // add filter-count to classlist,
+        // and appednt it to container for new filter
+        // then remove the "first-filer" id
+        $('.dropdown#first-filter').clone()
+            .find('.dropdown-content input:text')
+            .val('')
+            .end()
+            .find('.dropdown-content select')
+            .prop('selectedIndex', 0)
+            .end()
+            .find('.dropdown-content')
+            .addClass('filter-' + filterid)
+            .removeClass('filter')
+            .end()
+            .appendTo('.new-filter')
+            .find('button.dropbtn')
+            .attr('id', 'filter-' + filterid)
+            .end()
+            .removeAttr('id');
     });
+
 
     /* REMOVE CUSTOM FILTER FIELDS*/
-    $('#new-filter').on('click', '.delete', function () {
-        $(this).parent().parent('div').remove();
-        $(this).remove();
+
+    $('.new-filter').on('click', '.delete', function () {
+        //The highest parent div - the dropdown button has to be removed,
+        //trigger update-overlay after deleting a filter
+        $(this).parent().parent().parent().parent('div.dropdown').remove();
         $('.dropdown-content').trigger('change');
     });
-});
-
-/* OVERLAY && UPDATE BUTTON*/
-$(document).ready(function(){
 
 
-    if($('input:checkbox#period-timespan').prop('checked')){
-        $('p.period-time-tag span').html($('.period-timespan select').val());
-        $('.period-time-tag').show();
-        $('.specific-time-tag').hide();
-    } else if(($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0){
-        $('.period-time-tag').hide();
-
-        var startdate = $('.timespan input#start-date').val().split('-');
-        startdate = startdate[2] + '.' + startdate[1] + '.' + startdate[0].slice(-2);
-
-        var enddate = $('.timespan input#end-date').val().split('-');
-        enddate = enddate[2] + '.' + enddate[1] + '.' + enddate[0].slice(-2);
-
-        $('p.specific-time-tag .start').html(startdate);
-        $('p.specific-time-tag .end').html(' - ' + enddate);
-
-        $('.specific-time-tag').show();
-    }else{
-        $('.period-time-tag').hide();
-        $('.specific-time-tag').hide();
-    }
-
+    /* OVERLAY && UPDATE BUTTON*/
 
     $('.update-overlay').hide();
     $('form').change(function () {
+        //when form fields change, show update-overlay
         $('.update-overlay').show();
     });
-    $('.update-overlay button.update').on('click', function() {
+    $('.update-overlay button.update').on('click', function () {
+        //hide overlay if updated
         $('.update-overlay').hide();
-
-
-        $('.specific-time-tag').hide();
-        $('.period-time-tag').hide();
-
-
-        if ($('input:checkbox#period-timespan').prop('checked')) {
-            $('.specific-time-tag').hide();
-            $('p.period-time-tag span').html($('.period-timespan select').val());
-            $('.period-time-tag').show();
-        } else if (($('.timespan input#start-date').val().length || $('.timespan input#end-date').val().length) > 0) {
-            $('.period-time-tag').hide();
-
-            var startdate = $('.timespan input#start-date').val().split('-');
-            startdate = startdate[2] + '.' + startdate[1] + '.' + startdate[0].slice(-2);
-
-            var enddate = $('.timespan input#end-date').val().split('-');
-            enddate = enddate[2] + '.' + enddate[1] + '.' + enddate[0].slice(-2);
-
-            $('p.specific-time-tag .start').html(startdate);
-            $('p.specific-time-tag .end').html(' - ' + enddate);
-
-            $('.specific-time-tag').show();
-        }
-
-        // var filters = $('.custom-filter-group');
-        //
-        // var filtertexts = [];
-        //
-        // filters.each(function () {
-        //     var inputvalues = [];
-        //     var selector = $(this).find('select').val();
-        //     var inputs = $(this).find('input');
-        //     inputs.each(function () {
-        //         inputvalues.push($(this).val());
-        //     });
-        //
-        //     filtertexts.push(inputvalues[0] + " " + selector + " " + inputvalues[1]);
-        // });
-        //
-        // console.log(filtertexts);
-
-        // for (let i = 0; filters.length - 1 > i; i++) {
-        //     $('#first-filter-tag').clone().appendTo('.filter-tags').removeAttr('id');
-        // }
-
-        // var filtertags = $('.filter-tag');
-
-        // if (filtertexts[0].length <= 0) {
-        //     $('.filter-tag').hide();
-        // } else {
-        //     filtertags.each(function(){
-        //         for (let i = 0; filtertexts.length > i; i++) {
-        //             $(this).find('span').end().html(filtertexts[i]);
-        //         }
-        //     });
-        // }
-
     });
 
-
-});
-
-
-
-$(document).ready(function(){
-
-    $('.filter-tags i.delete').on('click', function(){
-        console.log($(this).attr('id'));
-        var id = $(this).attr('id');
-
-        if(id == 'period-timespan'){
-            $('input:checkbox#' + id).prop('checked', false).trigger('change');
-        }else if(id == 'specific-timespan'){
-            $('.' + id + ' input').val('').trigger('change');
-        }
-
-        $(this).parent().hide();
-    });
 
 });
 
