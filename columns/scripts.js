@@ -20,18 +20,6 @@ for (i = 0; i < acc.length; i++) {
 }
 
 
-/* Table columns with links inside a accordion clickable */
-
-$(document).ready(function() {
-
-    $('.panel tr').click(function() {
-        var href = $(this).find("a").attr("href");
-        if(href) {
-            window.location = href;
-        }
-    });
-
-});
 
 
 

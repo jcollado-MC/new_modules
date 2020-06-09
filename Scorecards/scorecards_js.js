@@ -3,7 +3,7 @@
 $(document).ready(function() {
 
     /* DROPDOWN */
-    $(document).on("click", 'button.dropbtn', function () {
+    $(document).on('click', 'button.dropbtn', function () {
         // get button id
         var id = $(this).attr('id');
         // show dropdown-content when it's class is button id
@@ -79,16 +79,16 @@ $(document).ready(function() {
     $('.tabcontent').hide();
 
 
-    if ($('button.tablinks').hasClass('.active')){
+    if ($('button.tablinks').hasClass('active')){
         var id = $(this).attr('id');
-        $('.tabcontent ' + id).show();
+        $('.tabcontent .' + id).show();
     }
 
 
     $('button.tablinks').on('click', function(){
         var id = $(this).attr('id');
 
-        $('.tabcontent ' + id).show();
+        $('.tabcontent .' + id).show();
     });
 
 

@@ -24,6 +24,5 @@ $ssr = new mySSR2(1, 'MATRIX');
             </div>
         </main>
         <script src="ssr_js.js"></script>
-        <script src="../columns/scripts.js"></script>
     </body>
 </html>

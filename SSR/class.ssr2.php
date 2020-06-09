@@ -689,7 +689,7 @@ input#tableSearchInputSSR{
     $code .= "<div class='dropdown'>";
     $code .= "<button id='timespan' class='dropbtn' type='button'>";
     $code .= "<h5>".$this->date." <i class='fas fa-caret-down'></i></h5> </button>";
-    $code .= "<div class='dropdown-content timespan' style='display: none'>";
+    $code .= "<div class='dropdown-content timespan'>";
     $code .= "<div class='col-12 row'>";
     $code .= "<input type='text' name='report[datefield]' value='".$this->datefield."'>";
     $code .= "<label><input type='checkbox' id='period-timespan'>".l(18166,2,"Periodo móvil")."</label>";

@@ -311,10 +311,6 @@ ul.breadcrumb li a:hover {
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #ddd}
 
-/*!* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) *!*/
-/*.show {display:block;}*/
-
-
 
 .filters{
     margin-bottom: 15px;
@@ -546,7 +542,7 @@ input:checked + .slider:before {
 
 /* The Modal (background) */
 [class$="-modal"] {
-
+    display: none;
     position: fixed; /* Stay in place */
     z-index: 99999; /* Sit on top */
     left: 0;
@@ -590,7 +586,6 @@ input:checked + .slider:before {
     max-height: 200px;
     overflow-y: auto;
 }
-
 
 /* For Desktop */
 @media only screen and (min-width: 768px) {

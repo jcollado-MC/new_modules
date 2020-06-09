@@ -238,7 +238,9 @@ class scorecard{
         $code = "<div class='report-content col-9'>
                 <div class='row col-9 filters'>";
         $code  .= "<div class='dropdown'>
-                    <button id='timespan' class='dropbtn' type='button'><h5>Time <i class='fas fa-caret-down'></i></h5> </button>
+                    <button id='timespan' class='dropbtn' type='button'>
+                        <h5>Time <i class='fas fa-caret-down'></i></h5> 
+                    </button>
                     <div class='dropdown-content timespan'>
                         <div class='col-12 row'>
                             <div class='col-12'>
@@ -291,6 +293,8 @@ class scorecard{
     }
 
     private function actions(){
+        $code = "";
+
         $code .= "<div class='col-3 actions'>";
         $code .= "<button class='redo' type='button'>
                 <i class='fas fa-redo-alt'></i>

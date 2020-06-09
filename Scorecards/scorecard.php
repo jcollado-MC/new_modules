@@ -24,6 +24,5 @@ $scorecard = new scorecard();
     </div>
 </main>
 <script src="scorecards_js.js"></script>
-<script src="../columns/scripts.js"></script>
 </body>
 </html>
