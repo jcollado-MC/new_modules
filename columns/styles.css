@@ -21,7 +21,7 @@
 
 /*the whole content is centered and max. 100 width*/
 main{
-    max-width: 1200px;
+    max-width: 1600px;
     margin: auto;
 }
 
@@ -114,6 +114,7 @@ select{
 
 input[type="checkbox"] {
     height: 15px;
+    margin-right: 5px;
 
 }
 
@@ -163,11 +164,11 @@ i.delete{
 }
 
 i.delete, i.delete:before {
-     float: right;
-     font-size: 0.8rem;
-     padding: 2px;
-     cursor: pointer;
- }
+    float: right;
+    font-size: 0.8rem;
+    padding: 2px;
+    cursor: pointer;
+}
 
 i.delete:hover {
     color: #444;
@@ -178,9 +179,8 @@ i.delete:hover {
 .dropdown-content{
     max-height: 500px;
     overflow-y: auto;
+    display: none;
 }
-
-
 
 
 /*ACCORDEON*/
@@ -497,6 +497,10 @@ input:checked + .slider:before {
 
 
 
+
+
+
+
 /*FILTER-Buttons*/
 
 .filter-container{
@@ -542,7 +546,7 @@ input:checked + .slider:before {
 
 /* The Modal (background) */
 [class$="-modal"] {
-    display: none;
+
     position: fixed; /* Stay in place */
     z-index: 99999; /* Sit on top */
     left: 0;

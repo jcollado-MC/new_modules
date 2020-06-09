@@ -105,7 +105,7 @@ $(document).ready(function() {
     if ($('input:checkbox#period-timespan').prop('checked')) {
         //if checkbox for period timespan is checked,
         // show period timespan and hide specific timespan
-        $('.period-timespan').show()
+        $('.period-timespan').show();
         $('.specific-timespan').hide();
     } else {
         //if checkbox for period timespan is not checked,

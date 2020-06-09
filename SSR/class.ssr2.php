@@ -274,23 +274,31 @@ $(document).ready(function() {
     padding: 0 15px;
     margin-bottom: 15px;
 }
+
+
 input#tableSearchInputSSR{
     background: none;
     border: none;
     border-bottom: 1px solid black;
     padding: 5px 10px;
 }
+
+
 /* CONTROLS */
+
 .add, .share, .download, .copy, .newsletter{
     font-size: 1.2rem;
     color: #3f48cc;
     border: none;
     background: none;
-    float: right;
+    float: none;
 }
+
 .add-report{
     margin: 15px 0;
 }
+
+
 .add-filter-fields{
     margin-top: 5px;
 }
@@ -298,40 +306,59 @@ input#tableSearchInputSSR{
     float: right;
     margin: 0;
 }
+
 .table-fields, .matrix-fields, .gallery-fields{
     margin-top: 20px;
 }
+
+
 #group-by-dropdown , #sort-by-dropdown {
     padding: 0;
 }
+
 #group-by-dropdown ul, #sort-by-dropdown ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
+
 #group-by-dropdown ul li, #sort-by-dropdown ul li{
     padding: 5px;
     text-align: left;
 }
+
 #group-by-dropdown ul li:hover, #sort-by-dropdown ul li:hover, #group-by-dropdown ul li:active, #sort-by-dropdown ul li:active{
     background-color: #cccccc;
 }
+
+
+
 .custom-filter-group{
     background-color: #eeeeee;
     padding: 5px 10px;
     margin-top: 5px;
 }
+
 .custom-filter-group select, input{
     margin: 5px 0;
 }
+
 .custom-filter-group#first i.delete{
     display: none;
 }
+
+.new-filter{
+    display: inline;
+}
+
 .content{
     position: relative;
     min-height: 400px;
 }
+
+
 .update-overlay{
+
     position: absolute; /* Stay in place */
     z-index: 333; /* Sit on top */
     left: 0;
@@ -343,6 +370,7 @@ input#tableSearchInputSSR{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     box-shadow: 0 20px 20px 0 rgba(0,0,0,0.4);
 }
+
 .update-overlay button.update{
     width: 120px;
     position: absolute;
@@ -352,21 +380,13 @@ input#tableSearchInputSSR{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
 }
+
 .filter-tags{
     display: inline-block;
 }
-.filter-tags p{
-    display: inline;
-    background-color: #eee;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    padding: 5px;
-    color:#777;
-    margin: 5px;
-}
-.filter-tags i.delete, .filter-tags i.delete:before{
-    float: none;
-}
+
+
+
 </style>";
     return $code;
   }
@@ -725,6 +745,7 @@ input#tableSearchInputSSR{
     $code .= "</div>";
 
     // FILTERS
+    /* TODO: Change Checkbox label with Filter Value */
     $code .= "<div class='dropdown' id='first-filter'>";
     $code .= "<button id='filter' class='dropbtn' type='button'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>";
     $code .= "<div class='dropdown-content filter'>";
@@ -779,23 +800,12 @@ input#tableSearchInputSSR{
     $code .= "</div>";
     $code .= "</div>
                     </div>
+                    <div class='new-filter'></div>
                      <button class='add add-filter-fields' type='button'>
                             <i class='fas fa-plus'></i>
                             </button>        
                         ";
-    /*
-$code .= "<div class='filter-tags'>";
-$code .= "<p class='specific-time-tag'>";
-$code .= "<span class='start'></span>";
-$code .= "<span class='end'></span>";
-$code .= "<i class='fas fa-times delete' id='specific-timespan'></i>";
-$code .= "</p>";
-$code .= "<p class='period-time-tag'>";
-$code .= "<span></span>";
-$code .= "<i class='fas fa-times delete' id='period-timespan'></i>";
-$code .= "</p>";
-$code .= "</div>";
-*/
+
     $code .= "</div>";
     return $code;
   }

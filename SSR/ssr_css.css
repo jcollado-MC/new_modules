@@ -3,6 +3,8 @@
     margin-bottom: 15px;
 }
 
+input
+
 
 input#tableSearchInputSSR{
     background: none;
@@ -79,10 +81,6 @@ input#tableSearchInputSSR{
     display: inline;
 }
 
-#first-filer i.delete{
-    display: none;
-}
-
 .content{
     position: relative;
     min-height: 400px;
@@ -90,6 +88,7 @@ input#tableSearchInputSSR{
 
 
 .update-overlay{
+
     position: absolute; /* Stay in place */
     z-index: 333; /* Sit on top */
     left: 0;
@@ -110,4 +109,8 @@ input#tableSearchInputSSR{
     transform: translate(-50%, -50%);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
+}
+
+.filter-tags{
+    display: inline-block;
 }

@@ -9,7 +9,6 @@ $ssr = new mySSR2(1, 'TABLE');
         <meta charset="UTF-8">
         <title>Reports Mockup</title>
         <script src="../Jquery/jquery-3.4.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="ssr_css.css">
         <link rel="stylesheet" type="text/css" href="../columns/styles.css">
         <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
     </head>
@@ -24,6 +23,5 @@ $ssr = new mySSR2(1, 'TABLE');
             </div>
         </main>
         <script src="ssr_js.js"></script>
-        <script src="../columns/scripts.js"></script>
     </body>
 </html>
