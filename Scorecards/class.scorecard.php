@@ -29,8 +29,8 @@ class scorecard{
 
             <!-- Tab links -->
             <div class='scorecard-sidebar tab col-12'>
-                <button class='tablinks active' type='button' id='stores'><h2>Stores</h2></button>
-                <button class='tablinks' type='button' id='salesman'><h2>Salesman</h2></button>
+                <button class='tablinks active' type='button' id='pos'><h2>POS</h2></button>
+                <button class='tablinks' type='button' id='salesrep'><h2>Sales Rep</h2></button>
                 <button class='tablinks' type='button' id='tags'><h2>Tags</h2></button>
                 <button class='tablinks' type='button' id='products'><h2>Products</h2></button>
             </div>
@@ -50,49 +50,64 @@ class scorecard{
     }
 
     private function sidebarStores(){
-        $code = "<div class='tabcontent col-12 stores'>
-                        <label>
-                            <input type='checkbox'>
+
+        $code = "<div class='tabcontent col-12 pos'>";
+
+
+
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>POS</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+
+        $code .= "<label>
+                            <input type='checkbox' class='pos-group'>
                             E.Leclerc
                         </label>
                         <label>
-                            <input type='checkbox' CHECKED>
+                            <input type='checkbox' class='pos-group'>
                             Auchan
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Super U
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Monoprix
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Cora
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Carrefour
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Intermarché
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Géant
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Monoprix
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Cora
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='pos-group'>
                             Carrefour
                         </label>
                 </div>";
@@ -101,49 +116,64 @@ class scorecard{
 
     private function sidebarSalesman(){
 
-        $code = "<div class='tabcontent  col-12 salesman'>           
-                        <label>
-                            <input type='checkbox'>
+        $code = "<div class='tabcontent  col-12 salesrep'>";
+
+
+
+
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Sales Rep</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='salesrep-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+
+        $code .= "<label>
+                            <input type='checkbox' class='salesrep-group'>
                             Alex
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Anya
                         </label>
                         <label >
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Stephan
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Natalia
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Cora
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Andre
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Jose
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Tim
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Louis
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Anna
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='salesrep-group'>
                             Charlotte
                         </label>
                 </div>";
@@ -152,21 +182,37 @@ class scorecard{
     }
 
     private function sidebarTags(){
-        $code = "<div class='tabcontent col-12 tags'>
+        $code = "<div class='tabcontent col-12 tags'>";
+
+
+
+
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Tags</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='tags-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+
+        $code .= "
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='tags-group'>
                             Tag 1
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='tags-group'>
                             Tag 2
                         </label>
                         <label >
-                            <input type='checkbox'>
+                            <input type='checkbox' class='tags-group'>
                             Tag 3
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='tags-group'>
                             Tag 4
                         </label>
                 </div>";
@@ -174,21 +220,37 @@ class scorecard{
     }
 
     private function sidebarProducts(){
-        $code = "<div class='tabcontent col-12 products'>
+        $code = "<div class='tabcontent col-12 products'>";
+
+
+
+
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Products</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='products-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+
+        $code .= "
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='products-group'>
                             Product 1
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='products-group'>
                             Product 2
                         </label>
                         <label >
-                            <input type='checkbox'>
+                            <input type='checkbox' class='products-group'>
                             Product 3
                         </label>
                         <label>
-                            <input type='checkbox'>
+                            <input type='checkbox' class='products-group'>
                             Product 4
                         </label>
                 </div>";
@@ -236,7 +298,7 @@ class scorecard{
     }
 
     private function filter(){
-        $code = "<div class='report-content col-9'>
+        $code = "<div class='content col-9'>
                 <div class='row col-9 filters'>";
         $code  .= "<div class='dropdown'>
                     <button id='timespan' class='dropbtn' type='button'>
@@ -307,7 +369,21 @@ class scorecard{
         return $code;
     }
 
-    private function breadcrumb(){}
+    private function breadcrumb(){
+
+        $code ="";
+
+        $code .= "<div class='row col-12'>
+                <ul class='scorecard-breadcrumb'>
+                    <li> Agnès BAUP </li>
+                    <li><i class='fas fa-angle-right'></i></li>
+                    <li><span> AUCHAN CUISINE </span></li>
+                </ul>
+
+            </div>";
+
+        return $code;
+    }
 
     private function content(){}
 }

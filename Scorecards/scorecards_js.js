@@ -83,6 +83,8 @@ $(document).ready(function() {
 
 
     $('button.tablinks').on('click', function(){
+        $('.active').removeClass('active');
+        $(this).addClass('active')
         var id = $(this).attr('id');
         $('.tabcontent').hide();
         $('.tabcontent.' + id).show();

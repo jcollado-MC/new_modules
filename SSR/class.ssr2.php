@@ -684,7 +684,7 @@ input#tableSearchInputSSR{
 
 
   private function filter(){
-    $code  = "<div class='report-content col-9'>";
+    $code  = "<div class='content col-9'>";
     $code .= "<div class='row col-9 filters'>";
     $code .= "<div class='dropdown'>";
     $code .= "<button id='timespan' class='dropbtn' type='button'>";
