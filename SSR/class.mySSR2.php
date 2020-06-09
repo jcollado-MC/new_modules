@@ -1,6 +1,9 @@
 <?php
 
 require_once("class.ssr2.php");
+
+include("helpers.php");
+
 class mySSR2 extends SSR2
 {
     static function header()
