@@ -90,5 +90,9 @@ $(document).ready(function() {
         $('.tabcontent.' + id).show();
     });
 
+    $('button.search').on('click', function(){
+        $('.search-bar').toggle();
+    });
+
 
 });

@@ -362,7 +362,8 @@ class scorecard{
         $code .= "<button class='redo' type='button'>
                 <i class='fas fa-redo-alt'></i>
               </button>";
-        $code .= "<button class='search' type='button'>
+        $code .= "<input type='text' class='search-bar'  id='search-bar' placeholder='Search'>
+                <button class='search' type='button'>
                 <i class='fas fa-search'></i>
               </button>";
         $code .= "</div>";

@@ -440,8 +440,9 @@ input#tableSearchInputSSR{
     $code .= "<div class='col-12 tabs'>";
     $code .= "<h2>Table Settings</h2>
         <div class='search col-12'>
+        <input class='col-11' type='text' id='tableSearchInputSSR' placeholder='Search'>
          <i class='fas fa-search search-icon col-1'></i>
-          <input class='col-11' type='text' id='tableSearchInputSSR' placeholder='Search'>
+          
     </div>";
     $cnt = 0;
     foreach($this->groups as $name => $fields){

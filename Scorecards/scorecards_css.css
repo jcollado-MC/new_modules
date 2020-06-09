@@ -37,3 +37,10 @@ ul.scorecard-breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+
+input.search-bar{
+    display: none;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #3f48cc;
+}
