@@ -386,5 +386,99 @@ class scorecard{
         return $code;
     }
 
-    private function content(){}
+    private function content(){
+        $code = "";
+        $code .= "<div class='scorecard-content'>";
+        $code .= "<table class=\"col-12\">
+                    <thead>
+                        <tr>
+                            <th class=''>Vertriebler</th>
+                            <th>Visites</th>
+                            <th>Objectif</th>
+                            <th>Percentage</th>
+                            <th>Visites YTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=0&ddt=CLIENTS'>Agnès BAUP</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=0' target=_blank>173</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=0' target=_blank>402</a></td>
+                            <td style='text-align: right'>43%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=0' target=_blank>173</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=1&ddt=CLIENTS'>Alexandra PAVIE</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=1' target=_blank>227</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=1' target=_blank>528</a></td>
+                            <td style='text-align: right'>43%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=1' target=_blank>227</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=2&ddt=CLIENTS'>Anne-Gaëlle HEDONT</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=2' target=_blank>217</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=2' target=_blank>462</a></td>
+                            <td style='text-align: right'>47%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=2' target=_blank>217</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=3&ddt=CLIENTS'>Catherine MOREAU</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=3' target=_blank>210</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=3' target=_blank>472</a></td>
+                            <td style='text-align: right'>44%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=3' target=_blank>210</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=4&ddt=CLIENTS'>Cécile KLOCK</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=4' target=_blank>221</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=4' target=_blank>461</a></td>
+                            <td style='text-align: right'>48%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=4' target=_blank>221</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=5&ddt=CLIENTS'>Christel FONTAINE</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=5' target=_blank>146</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=5' target=_blank>456</a></td>
+                            <td style='text-align: right'>32%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=5' target=_blank>146</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=6&ddt=CLIENTS'>Christophe DE SIMONE</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=6' target=_blank>278</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=6' target=_blank>468</a></td>
+                            <td style='text-align: right'>59%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=6' target=_blank>278</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=7&ddt=CLIENTS'>Laurent AVRAIN</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=7' target=_blank>169</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=7' target=_blank>440</a></td>
+                            <td style='text-align: right'>38%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=7' target=_blank>169</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=8&ddt=CLIENTS'>Philippe GUILLERM</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=8' target=_blank>234</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=8' target=_blank>462</a></td>
+                            <td style='text-align: right'>51%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=8' target=_blank>234</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=9&ddt=CLIENTS'>Samir OUSALHA</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=9' target=_blank>170</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=9' target=_blank>471</a></td>
+                            <td style='text-align: right'>36%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=9' target=_blank>170</a></td>
+                        </tr>
+                        <tr>
+                            <td class=''><a href='scorecards_view.php?id=6&session=782929&ddf=10&ddt=CLIENTS'>Thierry STEYAERT</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=0&colID=9&entry=10' target=_blank>261</a></td>
+                            <td style='text-align: right'><a href='scorecards_details.php?id=6&col=1&colID=11&entry=10' target=_blank>386</a></td>
+                            <td style='text-align: right'>68%</td><td style='text-align: right'><a href='scorecards_details.php?id=6&col=3&colID=39&entry=10' target=_blank>261</a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th align='left' colspan=1>Gesamt</th>
+                            <th style='text-align: right'>2.306</th>
+                            <th style='text-align: right'>5.008</th>
+                            <th style='text-align: right'>46%</th>
+                            <th style='text-align: right'>2.306</th>
+                        </tr>
+                    </tfoot>
+                </table>";
+        $code .= "</div>";
+
+        return $code;
+    }
 }
