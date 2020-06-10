@@ -1,46 +1,47 @@
 
 
-/*BREADCRUMB*/
+/*!*BREADCRUMB*!*/
 
 
-.scorecard-breadcrumb{
-    background-color: #f1f1f1;
-    margin:0;
-}
+/*.scorecard-breadcrumb{*/
+/*    background-color: #f1f1f1;*/
+/*    margin: 0 0 5px 0;*/
+/*}*/
 
-/* Style the list */
-ul.scorecard-breadcrumb {
-    padding: 10px;
-    list-style: none;
-}
+/*!* Style the list *!*/
+/*.scorecard-breadcrumb ul{*/
+/*    padding: 10px;*/
+/*    margin: 0;*/
+/*    list-style: none;*/
+/*}*/
 
-ul.scorecard-breadcrumb li {
-    display: inline;
-    font-size: 0.8rem;
-    padding: 5px;
-}
+/*.scorecard-breadcrumb ul li {*/
+/*    display: inline;*/
+/*    font-size: 0.8rem;*/
+/*    padding: 5px;*/
+/*}*/
 
-ul.scorecard-breadcrumb li span{
-    font-weight: bold;
-}
+/*.scorecard-breadcrumb ul li span{*/
+/*    font-weight: bold;*/
+/*}*/
 
-ul.scorecard-breadcrumb li+li:before {
-    padding: 8px;
-}
+/*.scorecard-breadcrumb ul li+li:before {*/
+/*    padding: 8px;*/
+/*}*/
 
-ul.scorecard-breadcrumb li a {
-    color: #3f48cc;
-    text-decoration: none;
-}
+/*.scorecard-breadcrumb ul li a {*/
+/*    color: #3f48cc;*/
+/*    text-decoration: none;*/
+/*}*/
 
-ul.scorecard-breadcrumb li a:hover {
-    color: #01447e;
-    text-decoration: underline;
-}
+/*.scorecard-breadcrumb ul li a:hover {*/
+/*    color: #01447e;*/
+/*    text-decoration: underline;*/
+/*}*/
 
-input.search-bar{
-    display: none;
-    background: none;
-    border: none;
-    border-bottom: 1px solid #3f48cc;
-}
+/*input.search-bar{*/
+/*    display: none;*/
+/*    background: none;*/
+/*    border: none;*/
+/*    border-bottom: 1px solid #3f48cc;*/
+/*}*/

@@ -9,7 +9,7 @@ $scorecard = new scorecard();
     <meta charset="UTF-8">
     <title>Scorecards Mockup</title>
     <script src="../Jquery/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="scorecards_css.css">
+
     <link rel="stylesheet" type="text/css" href="../columns/styles.css">
     <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
 </head>
@@ -23,6 +23,5 @@ $scorecard = new scorecard();
         ?>
     </div>
 </main>
-<script src="scorecards_js.js"></script>
 </body>
 </html>
