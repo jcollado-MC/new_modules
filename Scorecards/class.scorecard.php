@@ -4,6 +4,7 @@
 class scorecard{
 
     function _construct(){}
+
     private static $header;
     static function Header(){
         if(self::$header==TRUE) return;
@@ -221,7 +222,7 @@ input.search-bar{
 
 
         $code .= "<div class='title-part'>
-                        <h5 class='col-10'>POS</h5>
+                        <h5 class='col-10'> <i class='fas fa-caret-down'> </i> E.Leclerc</h5>
                                 <div class='col-2 row'>
                                     <label class='switch'>
                                         <input type='checkbox' id='pos-group' class='groups'>
@@ -231,51 +232,59 @@ input.search-bar{
                                 <hr class='col-12'>
                             </div>";
 
-        $code .= "<label>
-                            <input type='checkbox' class='pos-group'>
-                            E.Leclerc
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Auchan
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Super U
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Monoprix
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Cora
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Carrefour
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Intermarché
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Géant
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Monoprix
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Cora
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group'>
-                            Carrefour
-                        </label>
-                </div>";
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Auchan</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Super U</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Monoprix</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Carrefour</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+        $code .= "<div class='title-part'>
+                        <h5 class='col-10'>Carrefour</h5>
+                                <div class='col-2 row'>
+                                    <label class='switch'>
+                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <span class='slider round'></span>
+                                    </label>
+                                </div>
+                                <hr class='col-12'>
+                            </div>";
+
+
+        $code .= "</div>";
         return $code;
     }
 
@@ -442,7 +451,6 @@ input.search-bar{
         return $code;
     }
 
-
     private function delete(){
         //        TODO: only show button if saved
         $code = "<button id='delete' class='modal-button' type='button'>Delete</button>";
@@ -545,7 +553,7 @@ input.search-bar{
                     <li><i class='fas fa-angle-right'></i></li>
                     <li><span> AUCHAN CUISINE </span></li>
                 </ul>
-                <i class='fas fa-trash-alt delete col-1'></i>
+                <i class='fas fa-times delete col-1'></i>
             </div>";
 
         return $code;
