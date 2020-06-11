@@ -265,14 +265,14 @@ $(document).ready(function() {
 
    /* NO END DATE BEFORE START DATE IS SET */
 
-    $('[name = \"report[date_end]\"]').attr('disabled',true);
-    $('[name = \"report[date_start]\"]').change(function(){
-        if($(this).val() !== \"\"){
-            $('[name = \"report[date_end]\"]').attr('disabled', false);
-        } else if($(this).val() == \"\"){
-            $('[name = \"report[date_end]\"]').attr('disabled', true);
+    $('[name = 'report[date_end]']').attr('disabled',true);
+    $('[name = 'report[date_start]']').change(function(){
+        if($(this).val() !== ''){
+            $('[name = 'report[date_end]']').attr('disabled', false);
+        } else if($(this).val() == ''){
+            $('[name = 'report[date_end]']').attr('disabled', true);
         }
-    })
+    });
 
 });
 
@@ -449,12 +449,16 @@ input#tableSearchInputSSR{
     $code = "";
     $code .= "<div class='col-3'>";
     $code .= "<div class='col-12 tabs'>";
-    $code .= "<h2>Table Settings</h2>
-        <div class='search col-12'>
+    $code .= "<h2>Table Settings</h2>";
+
+
+    $code .= "<div class='search col-12'>
         <input class='col-11' type='text' id='tableSearchInputSSR' placeholder='Search'>
          <i class='fas fa-search search-icon col-1'></i>
           
     </div>";
+
+
     $cnt = 0;
     foreach($this->groups as $name => $fields){
       $cnt++;
@@ -480,6 +484,15 @@ input#tableSearchInputSSR{
       $code .= "</div> "; // FIELDS
       $code .= "</div>"; // GROUP
     }
+
+
+    $code .= "<div class='col-12 row table-fields'>
+                            <label  class='col-9'>
+                                <h5>Entry Limit</h5>
+                            </label>";
+    $code .= "<input class='col-3' type='number'>";
+    $code .= "<hr class='col-12'>";
+    $code .= "</div>";
     $code .="</div>";
 
     return $code;
@@ -562,18 +575,6 @@ input#tableSearchInputSSR{
     $code .= "<div class='col-3'>";
     $code .= "<div class='col-12 tabs'>";
     $code .= "<h2>Gallery Settings</h2>";
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-12'>
-                                <h5>Maximum Images per Row</h5>
-                            </label>";
-    $code .= "<hr class='col-12'>";
-    $code .= "<select class='col-2'>";
-    $code .= "<option>1</option>";
-    $code .= "<option>2</option>";
-    $code .= "<option selected='selected'>3</option>";
-    $code .= "</select>";
-    $code .= "</div>";
-
 
     $code .= "<div class='col-12 row gallery-fields'>
                             <label  class='col-11'>
@@ -688,6 +689,18 @@ input#tableSearchInputSSR{
     $code .= "<div class='field-container'>";
     $code .="</div>";
     $code .="</div>";
+
+    $code .= "<div class='col-12 row gallery-fields'>
+                            <label  class='col-10'>
+                                <h5>Maximum Images per Row</h5>
+                            </label>";
+    $code .= "<select class='col-2'>";
+    $code .= "<option>1</option>";
+    $code .= "<option>2</option>";
+    $code .= "<option selected='selected'>3</option>";
+    $code .= "</select>";
+    $code .= "<hr class='col-12'>";
+    $code .= "</div>";
 
     $code .="</div>";
 
