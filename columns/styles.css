@@ -197,10 +197,7 @@ i.delete:hover {
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
     background-color: #eee;
-    color: #444;
     cursor: pointer;
-    padding: 18px;
-    width: 100%;
     text-align: left;
     border: none;
     outline: none;
@@ -208,33 +205,35 @@ i.delete:hover {
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .accordion:hover {
+.active-accordion, .accordion:hover {
     background-color: #ccc;
 }
 
-.accordion:after {
+.accordion h5:before {
     content: '\002B';
     color: #777;
     font-weight: bold;
-    float: right;
-    margin-left: 5px;
+    float: left;
+    margin-right: 5px;
 }
 
-.accordion-active:after {
-    content: "\2212";
+.active-accordion h5:before {
+    content: '\2212';
 }
 
 /* Style the accordion panel. Note: hidden by default */
-.panel {
-    padding: 0 18px;
-    background-color: white;
+[class*="panel"] {
     display: none;
+    padding: 0 10px 15px 10px;
+    background-color: white;
     overflow: hidden;
 }
 
 
 
-
+.active-accordion{
+    display: block;
+}
 
 
 

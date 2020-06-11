@@ -108,8 +108,17 @@ $(document).ready(function() {
     $('button.search').on('click', function(){
         $('.search-bar').toggle();
     });
+    
+    
+    /* ACCORDION */
 
-
+     $('.accordion').on('click', function(){
+         $(this).toggleClass('active-accordion');
+         var id = $(this).attr('id');
+        $('.' + id).toggleClass('active-accordion');
+    });
+     
+     
 });
 
 </script>";
@@ -159,6 +168,8 @@ input.search-bar{
     border: none;
     border-bottom: 1px solid #3f48cc;
 }
+
+
 
 
 </style>";
@@ -217,71 +228,153 @@ input.search-bar{
 
     private function sidebarStores(){
 
+        $cnt = 0;
+
         $code = "<div class='tabcontent col-12 pos'>";
 
 
 
-        $code .= "<div class='title-part'>
-                        <h5 class='col-10'> <i class='fas fa-caret-down'> </i> E.Leclerc</h5>
+        $code .= "<div class='title-part accordion' id='panel-1'>
+                        <h5 class='col-10'>E.Leclerc</h5>
                                 <div class='col-2 row'>
                                     <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <input type='checkbox' id='pos-group-1' class='groups'>
                                         <span class='slider round'></span>
                                     </label>
                                 </div>
                                 <hr class='col-12'>
                             </div>";
+        $code .= "<div class='panel-1'>
 
-        $code .= "<div class='title-part'>
+                    <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Alex
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Anya
+                        </label>
+                        <label >
+                            <input type='checkbox' class='pos-group-1'>
+                            Stephan
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Natalia
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Cora
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Andre
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Jose
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-1'>
+                            Tim
+                        </label>
+    
+                </div>";
+
+        $code .= "<div class='title-part accordion' id='panel-2'>
                         <h5 class='col-10'>Auchan</h5>
                                 <div class='col-2 row'>
                                     <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <input type='checkbox' id='pos-group-2' class='groups'>
                                         <span class='slider round'></span>
                                     </label>
                                 </div>
                                 <hr class='col-12'>
                             </div>";
-        $code .= "<div class='title-part'>
-                        <h5 class='col-10'>Super U</h5>
-                                <div class='col-2 row'>
-                                    <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
-                                        <span class='slider round'></span>
-                                    </label>
-                                </div>
-                                <hr class='col-12'>
-                            </div>";
-        $code .= "<div class='title-part'>
-                        <h5 class='col-10'>Monoprix</h5>
-                                <div class='col-2 row'>
-                                    <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
-                                        <span class='slider round'></span>
-                                    </label>
-                                </div>
-                                <hr class='col-12'>
-                            </div>";
-        $code .= "<div class='title-part'>
+        $code .= "<div class='panel-2'>
+
+                    <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Alex
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Anya
+                        </label>
+                        <label >
+                            <input type='checkbox' class='pos-group-2'>
+                            Stephan
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Natalia
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Cora
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Andre
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Jose
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-2'>
+                            Tim
+                        </label>
+    
+                </div>";
+
+
+        $code .= "<div class='title-part accordion' id='panel-3'>
                         <h5 class='col-10'>Carrefour</h5>
                                 <div class='col-2 row'>
                                     <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
+                                        <input type='checkbox' id='pos-group-3' class='groups'>
                                         <span class='slider round'></span>
                                     </label>
                                 </div>
                                 <hr class='col-12'>
                             </div>";
-        $code .= "<div class='title-part'>
-                        <h5 class='col-10'>Carrefour</h5>
-                                <div class='col-2 row'>
-                                    <label class='switch'>
-                                        <input type='checkbox' id='pos-group' class='groups'>
-                                        <span class='slider round'></span>
-                                    </label>
-                                </div>
-                                <hr class='col-12'>
-                            </div>";
+        $code .= "<div class='panel-3'>
+
+                    <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Alex
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Anya
+                        </label>
+                        <label >
+                            <input type='checkbox' class='pos-group-3'>
+                            Stephan
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Natalia
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Cora
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Andre
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Jose
+                        </label>
+                        <label>
+                            <input type='checkbox' class='pos-group-3'>
+                            Tim
+                        </label>
+    
+                </div>";
 
 
         $code .= "</div>";
