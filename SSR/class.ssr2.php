@@ -543,20 +543,32 @@ input#tableSearchInputSSR{
 
     $code .= "<div class='col-12 row matrix-fields'>";
     $code .= "<label><h5>Calculation</h5></label>";
-    $code .= "<select class='col-12'>";
-    $code .= "<option>Entries</option>";
+
+    $code .= "<select class='col-9'>";
+    foreach($this->groups as $name => $fields){
+
+      $code .= "<optgroup label='$name'>";
+      foreach($fields as $field){
+
+        $code .= "<option>";
+        $code .= $field['name'];
+        $code .= "</option>";
+      }
+    }
+    $code .= "</select>";
+
+    $code .= "<select class='col-3'>";
     $code .= "<option>Sum</option>";
     $code .= "<option>Average</option>";
     $code .= "<option>Min</option>";
     $code .= "<option>Max</option>";
-    $code .= "<option>Last Visit</option>";
     $code .= "</select>";
     $code .= "</div> ";
 
 
     $code .= "<div class='col-12 row matrix-fields'>";
     $code .= "<label><h5>Total</h5></label>";
-    $code .= "<select class='col-12'>";
+    $code .= "<select class='col-3'>";
     $code .= "<option>Sum</option>";
     $code .= "<option>Average</option>";
     $code .= "<option>Count</option>";
@@ -707,13 +719,14 @@ input#tableSearchInputSSR{
     return $code;
   }
 
-
   private function filter(){
     $code  = "<div class='content col-9'>";
     $code .= "<div class='row col-9 filters'>";
     $code .= "<div class='dropdown'>";
     $code .= "<button id='timespan' class='dropbtn' type='button'>";
-    $code .= "<h5>".$this->date." <i class='fas fa-caret-down'></i></h5> </button>";
+    $code .= "<h5>";
+    $code .= ($this->date != "" ) ? $this->date : "Time Span";
+    $code .= " <i class='fas fa-caret-down'></i></h5> </button>";
     $code .= "<div class='dropdown-content timespan'>";
     $code .= "<div class='col-12 row'>";
     $code .= "<input type='text' name='report[datefield]' value='".$this->datefield."'>";
@@ -809,110 +822,6 @@ input#tableSearchInputSSR{
     return $code;
   }
 
-
-
-
-//SUBTASK 18166: "ELEMENT: FILTER" --------------------------------------------
-  private function filter2(){
-    $code = "
-            <div class='report-content col-9'>
-                <div class='row col-9 filters'>";
-
-    $code .= "
-                    <div class='dropdown'>
-                        <button id='timespan' class='dropbtn' type='button'><h5>Timespan <i class='fas fa-caret-down'></i></h5> </button>
-                        <div class='dropdown-content timespan'>
-                            <div class='col-12 row'>
-                                <label>
-                                    <input type='checkbox' id='period-timespan'>
-                                    Period Timespan
-                                </label>
-                                
-                                <div class='specific-timespan'>
-    
-                                  <div class='col-12'>
-                                      <label>From</label>
-                                      <input type='date' id='start-date'>
-                                  </div>
-                                  <div class='col-12'>
-                                      <label>To</label>
-                                      <input type='date' id='end-date'>
-                                  </div>
-                                </div>
-                                
-                                <div class='period-timespan'>
-                                    <select class='col-12'>
-                                        <option>yesterday</option>
-                                        <option>last week</option>
-                                        <option>last month</option>
-                                        <option>last year</option>
-                                        <option>last half year</option>
-                                    </select>
-                                 </div>
-                            </div>                            
-                        </div>
-                    </div>";
-    $code .= "
-                    <div class='dropdown' id='first-filter'>
-                        <button id='filter' class='dropbtn' type='button'><h5>Custom Filters <i class='fas fa-caret-down'></i></h5> </button>
-                        <div class='dropdown-content filter'>
-                            
-                           
-                            <div class='custom-filter-group col-12' >
-                                <div class='filter-header'>
-                                <label class='col-11'>Filter:</label>
-                                <i class='fas fa-times delete col-1'></i>
-                                </div>";
-
-    $code .="<div class='col-12'>";
-    $code .= "<input type='text' list='value-list' class='col-12' >
-                                         <datalist id='value-list'>";
-    foreach($this->groups as $name => $fields) {
-      $code .= "<optgroup label='$name'>";
-      foreach ($fields as $field) {
-        $code .= "<option>";
-        $code .= $field['name'];
-        $code .= "</option>";
-      }
-    }
-    $code .= "</datalist>";
-    $code .= "</div>
-                                <div class='col-12'>
-                                    <select class='col-12'>
-                                        <option> contains </option>
-                                        <option>does not contain</option>
-                                        <option> starts with </option>
-                                        <option>is equal to</option>
-                                        <option> is greater than </option>
-                                        <option> is less than </option>
-                                        <option> is empty </option>
-                                    </select>
-                                </div>
-                                <div class='col-12'>";
-    $code .= "<input type='text' list='value-list' class='col-12'>
-                                         <datalist id='value-list'>";
-    foreach($this->groups as $name => $fields) {
-      $code .= "<optgroup label='$name'>";
-      foreach ($fields as $field) {
-        $code .= "<option>";
-        $code .= $field['name'];
-        $code .= "</option>";
-      }
-    }
-    $code .= "</datalist>";
-    $code .= "</div>
-                                </div>
-
-           
-                        </div>
-                    </div>
-                    <button class='add add-filter-fields' type='button'>
-                            <i class='fas fa-plus'></i>
-                            </button>   ";
-    $code .= "</div>";
-
-    return $code;
-  }
 //SUBTASK 18167: "ELEMENT: ACTIONS" --------------------------------------------
   private function actions(){
     $code = "";
