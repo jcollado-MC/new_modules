@@ -263,7 +263,16 @@ $(document).ready(function() {
     });
     
 
+   /* NO END DATE BEFORE START DATE IS SET */
 
+    $('[name = \"report[date_end]\"]').attr('disabled',true);
+    $('[name = \"report[date_start]\"]').change(function(){
+        if($(this).val() !== \"\"){
+            $('[name = \"report[date_end]\"]').attr('disabled', false);
+        } else if($(this).val() == \"\"){
+            $('[name = \"report[date_end]\"]').attr('disabled', true);
+        }
+    })
 
 });
 
