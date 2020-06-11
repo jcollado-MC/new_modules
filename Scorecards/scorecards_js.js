@@ -56,7 +56,23 @@ $(document).ready(function() {
         });
     });
 
-    /* TODO: IF ALL CHECKBOXES ARE SELECTED, CHECK "SELECT ALL" CHECKBOX */
+    // select "select all checkbox" if all checkboxes are manually selected and vice versa
+    $('input:checkbox').on('click', function () {
+        var groupName = $(this).attr('class');
+        var group = $('.' + groupName);
+        var allChecked = true;
+        for(let member of group){
+            var checked = $(member).prop('checked');
+            if(!checked){
+                allChecked = checked;
+            }
+        }
+
+        $('#' + groupName).prop({
+            checked: allChecked
+        })
+
+    });
 
 
 
