@@ -261,6 +261,8 @@ $(document).ready(function() {
         //hide overlay if updated
         $('.update-overlay').hide();
     });
+    
+
 
 
 });
