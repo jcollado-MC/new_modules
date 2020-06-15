@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Visits</title>
+        <script src="Jquery/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="FontAwesome/css/all.min.css">
+    </head>
+    <body>
+        <main>
+
+            <h1>Abraham Asensio (TF MURCIA)</h1>
+            <hr>
+            <div class="col-12 row">
+                <i class="fas fa-angle-left previous-visit col-1"></i>
+                <h2 class="visit-date col-10">Tuesday, 05.05.2020 <a><i class="fas fa-calendar-alt"></i> </a></h2>
+                <i class="fas fa-angle-right next-visit col-1"></i>
+            </div>
+
+
+            <div class="visit-header row col-3 tab">
+
+                <div class="visit-infos col-12 button tablinks active" onclick="openTab(event, 'alcampo')">
+                    <p class="visit-time">09:00 - 09:30 </p>
+                    <h5 class="visit-store">ALCAMPO - THADER MURCIA <a> <i class="fas fa-external-link-alt"> </i> </a> </h5>
+                    <p class="visit-address">AV DON JUAN DE BORBON S/N C.C.THADER MURCIA</p>
+                    <p class="visit-type">Visita Standard Hecho</p>
+                </div>
+
+                <div class="visit-infos col-12 button tablinks" onclick="openTab(event, 'carrefour1')">
+                    <p class="visit-time">11:50 - 12:12 </p>
+                    <h5 class="visit-store">CARREFOUR - ZARAICHE <a> <i class="fas fa-external-link-alt"> </i> </a> </h5>
+                    <p class="visit-address">AV MIGUEL DE CERVANTES 106 C.C.CARREFOUR ZARAICHE | MURCIA</p>
+                    <p class="visit-type">Visita Standard Hecho</p>
+                </div>
+
+                <div class="visit-infos col-12 button tablinks" onclick="openTab(event, 'carrefour2')">
+                    <p class="visit-time">12:37 - 13:08 </p>
+                    <h5 class="visit-store">CARREFOUR - MURCIA ATALAYAS <a> <i class="fas fa-external-link-alt"> </i> </a> </h5>
+                    <p class="visit-address">CL MOLINA SEGURA S/N C.C.CARREFOUR LAS ATALAYAS | MURCIA</p>
+                    <p class="visit-type">Visita Standard Hecho</p>
+                </div>
+
+                <img src="Images/Map.PNG" class="map col-12">
+
+            </div>
+
+            <div class="image-gallery col-9 tabcontent" id="alcampo">
+
+                <div class="visit-comment col-12">
+                    <i class="fas fa-info"></i>
+                    <p class="col-11">Falta stock de galletas. Cards y delice. Y pack huevos.
+                    </p>
+                </div>
+
+                    <div class="col-12 gallery-group">
+                        <p class="principal">Kinder Shelf</p>
+                        <div class="card col-4">
+                            <div class="image " style="background-image: url(Images/img_15566_18_104_1.jpg)">
+                                <i class="fas fa-expand"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="card col-4">
+                            <div class="image" style="background-image: url(Images/img_15566_18_104_3.jpg)">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                        </div>
+
+                        <div class="card col-4">
+                            <div class="image" style="background-image: url(Images/img_15566_18_104_2.jpg)">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 gallery-group">
+
+
+                        <p class="principal">Cookie Shelf</p>
+
+                        <div class="card col-4">
+                            <div class="image " style="background-image: url(Images/img_15566_18_104_3.jpg)">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                            <div class="container">
+                                <h4>Nutella B-ready present?</h4>
+                                <p class="text">Yes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-gallery col-9 tabcontent" id="carrefour1">
+
+                <div class="col-12 gallery-group">
+                    <p class="principal">Kinder Shelf</p>
+                    <div class="card col-4">
+                        <div class="image " style="background-image: url(Images/img_16084_18_104_1.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="card col-4">
+                        <div class="image" style="background-image: url(Images/img_16084_18_104_3.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+
+                    <div class="card col-4">
+                        <div class="image" style="background-image: url(Images/img_16126_18_104_5.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="image-gallery col-9 tabcontent" id="carrefour2">
+
+                <div class="visit-comment col-12">
+                    <i class="fas fa-info"></i>
+                    <p class="col-11">Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.
+                    </p>
+                </div>
+
+                <div class="col-12 gallery-group">
+                    <p class="principal">Kinder Shelf</p>
+                    <div class="card col-4">
+                        <div class="image " style="background-image: url(Images/img_15502_18_104_3.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="card col-4">
+                        <div class="image" style="background-image: url(Images/img_15502_18_104_4.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+
+                    <div class="card col-4">
+                        <div class="image" style="background-image: url(Images/img_16126_34_160_1.jpg)">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            </div>
+        </main>
+        <script src="js/scripts.js"></script>    </body>
+</html>
