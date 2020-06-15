@@ -21,8 +21,8 @@ class orders{
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
                 //filter checkbox-labels for search value
-                $('.checkboxes label').filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                $('.checkboxes label.checkbox-label').filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
                 // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
                 $('.title-part').filter(function () {
@@ -123,23 +123,22 @@ display: none;
         $code .= "<div class='panel-1 checkboxes'>
 
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Alex
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Anya
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
                 </div>  
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Stefan
                     </label>
@@ -148,14 +147,14 @@ display: none;
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Tina
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
                 </div>  
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Max
                     </label>
@@ -164,7 +163,7 @@ display: none;
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-8'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Tom
                     </label>
@@ -180,24 +179,24 @@ display: none;
                             </div>";
         $code .= "<div class='panel-2 checkboxes'>
 
-                                    <div class='col-12 row'>
-                    <label class='col-12'>
+              
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Alex
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-12'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Anya
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
                 </div>  
                 <div class='col-12 row'>
-                    <label class='col-12'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Stefan
                     </label>
@@ -206,14 +205,14 @@ display: none;
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-12'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Tina
                     </label>
                     <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
                 </div>  
                 <div class='col-12 row'>
-                    <label class='col-12'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Max
                     </label>
@@ -222,7 +221,7 @@ display: none;
                 </div>    
                     
                 <div class='col-12 row'>
-                    <label class='col-12'>
+                    <label class='col-8 checkbox-label'>
                         <input type='checkbox'>
                         Tom
                     </label>
@@ -238,38 +237,54 @@ display: none;
                             </div>";
         $code .= "<div class='panel-3 checkboxes'>
 
-                    <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Alex
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Anya
-                        </label>
-                        <label >
-                            <input type='checkbox' class='pos-group-3'>
-                            Stephan
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Natalia
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Cora
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Andre
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Jose
-                        </label>
-                        <label>
-                            <input type='checkbox' class='pos-group-3'>
-                            Tim
-                        </label>
+                
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Alex
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                </div>    
+                    
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Anya
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                </div>  
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Stefan
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                 
+                </div>    
+                    
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Tina
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                </div>  
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Max
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                 
+                </div>    
+                    
+                <div class='col-12 row'>
+                    <label class='col-8 checkbox-label'>
+                        <input type='checkbox'>
+                        Tom
+                    </label>
+                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                </div>  
     
                 </div>";
 
@@ -285,19 +300,127 @@ display: none;
 
         $code .= "<div class='col-9 content'>";
         $code .= "
-        <div id='spreadsheet'></div>
-
-        <input type='button' value='Add new row' onclick='$('#spreadsheet').jexcel('insertRow')' />
-        
-        <script>
-        var options = {
-            minDimensions:[10,10],
-            tableOverflow:true,
-        }
-        
-        $('#spreadsheet').jexcel(options); 
-        </script>
-                ";
+        <table id='spreadsheet' class='scorecard'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Einheiten/Kiste</th>
+      <th>Code</th>
+      <th>Menge</th>
+      <th>PNR</th>
+      <th>Rabatt</th>
+      <th>PNF</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr>
+      <td> Hamburguesa de Quinoa y Brócoli</td>
+      <td>17634</td>
+      <td>6</td>
+      <td>12</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Hamburguesa de verduras y legumbres Lenteja roja y Chia</td>
+      <td>17356</td>
+      <td>6</td>
+      <td>18</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Hamburguesa vegetal de Champiñones</td>
+      <td>17051</td>
+      <td>6</td>
+      <td>6</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Tahín integral tostado 200g</td>
+      <td>17323</td>
+      <td>3</td>
+      <td>6</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> VEGG Sustituto vegetal del huevo</td>
+      <td>17336</td>
+      <td>4</td>
+      <td>8</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>SÉMOLA KESVIT Bolsa 500g</td>
+      <td>10022</td>
+      <td>10</td>
+      <td>20</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>SOPA JULIANA 150g</td>
+      <td>10311</td>
+      <td>14</td>
+      <td>28</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Hummus Tradicional</td>
+      <td>17612</td>
+      <td>6</td>
+      <td>18</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Frankfurt de Tofu</td>
+      <td>17239</td>
+      <td>6</td>
+      <td>18</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> Arroz Integral Redondo 1kg</td>
+      <td>17006</td>
+      <td>8</td>
+      <td>24</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+</tbody>
+</table>
+<script>var table=jexcel(document.getElementById('spreadsheet'),{columns:[{type:'text',width:'200px',readOnly:true},{type:'text',width:'100px',readOnly:true},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'}],license:'fd12c-f6d85-227f1-85ed4',});</script><hr><div class='scorecard'><button type='submit' name='button18191' value=1>Speichern</button>
+</div>";
 
         $code .= "</div>";
 
