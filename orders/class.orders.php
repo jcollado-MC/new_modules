@@ -22,6 +22,7 @@ class orders{
             /* SEARCH TABLE SIDEBAR */
         
             $('#orderSearchInput').on('keyup', function () {
+                
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
                 //filter checkbox-labels for search value
@@ -30,7 +31,7 @@ class orders{
                 });
                 // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
                 $('.title-part').filter(function () {
-                    $(this).toggle($(this).siblings().text().toLowerCase().indexOf(value) > -1);
+                    $(this).toggle( $(this).siblings().children('.checkbox-label').text().toLowerCase().indexOf(value) > -1 );
                 });
         
             });
@@ -48,9 +49,28 @@ class orders{
              $('.checkboxes input:checkbox').change(function(){
                  var checked = $(this).prop('checked');
                  
-                 $(this).parent().parent().find('.quantity').toggle(checked)
+                 $(this).parent().parent().find('.quantity').toggle(checked);
+
                 
              });
+             
+             
+             $('.checkboxes input:checkbox').change( function(){
+                 
+                 var idThis = $(this).attr('id');
+                 var name = $(this).parent().text();
+                 var qty = 1;
+              
+                 
+                 var checked = $(this).prop('checked');
+                 if(checked){
+                     table.insertRow(  { id: '1', data:[ idThis, name, '' , '' , qty]} );
+                 } else {
+                     table.deleteRow();
+                 }
+                 
+             });
+             
             
             
         });
@@ -134,7 +154,7 @@ display: none;
                 foreach ($products as $product) {
                     $code .= "   <div class='col-12 row'>
                         <label class='col-8 checkbox-label'>
-                            <input type='checkbox'>
+                            <input type='checkbox' id='". $product['id'] . "'>
                             " . $product['name'] . "
                         </label>
                         <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
@@ -159,6 +179,7 @@ display: none;
         <table id='spreadsheet' class='scorecard'>
   <thead>
     <tr>
+      <th>id</th>
       <th>Name</th>
       <th>Einheiten/Kiste</th>
       <th>Code</th>
@@ -173,7 +194,26 @@ display: none;
    
 </tbody>
 </table>
-<script>var table=jexcel(document.getElementById('spreadsheet'),{columns:[{type:'text',width:'200px',readOnly:true},{type:'text',width:'100px',readOnly:true},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'}],license:'fd12c-f6d85-227f1-85ed4',});</script><hr><div class='scorecard'><button type='submit' name='button18191' value=1>Speichern</button>
+    <script>
+    var table = jexcel(document.getElementById('spreadsheet'),
+    {
+    columns:[
+        {type:'text',width:'200px',readOnly:true},
+        {type:'text',width:'200px',readOnly:true},
+        {type:'text',width:'100px',readOnly:true},
+        {type:'text',width:'150px'},
+        {type:'text',width:'150px'},
+        {type:'text',width:'150px'},
+        {type:'text',width:'150px'},
+        {type:'text',width:'150px'}
+        ],
+        license:'fd12c-f6d85-227f1-85ed4',
+        });
+    
+    </script>
+    <hr>
+    <div class='scorecard'>
+    <button type='submit' name='button18191' value=1>Speichern</button>
 </div>";
 
         $code .= "</div>";
