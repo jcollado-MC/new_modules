@@ -12,6 +12,10 @@ class orders{
 
         $code = "";
 
+        $code .= "
+         <script src=\"../Jquery/jquery-3.4.1.min.js\"></script>
+        ";
+
         $code .= "<script>
         $(document).ready(function() {
           
@@ -104,6 +108,10 @@ display: none;
 
 
     private function sidebar() {
+
+
+        $cnt = 0;
+
         $code = "";
 
         $code .= "<div class='col-3'>";
@@ -115,179 +123,27 @@ display: none;
          <i class='fas fa-search search-icon col-1'></i>
           
     </div>";
-
-        $code .= "<div class='title-part accordion' id='panel-1'>
-                        <h5 class='col-12'>E.Leclerc</h5>
+        foreach($this->groups as $name => $products) {
+            $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>
+                        <h5 class='col-12'>" . $name . "</h5>
                                 <hr class='col-12'>
                             </div>";
-        $code .= "<div class='panel-1 checkboxes'>
-
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Alex
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Anya
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Stefan
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tina
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Max
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tom
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                    
-    
-                </div>";
-
-        $code .= "<div class='title-part accordion' id='panel-2'>
-                        <h5 class='col-12'>E.Leclerc</h5>
-                                <hr class='col-12'>
-                            </div>";
-        $code .= "<div class='panel-2 checkboxes'>
-
-              
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Alex
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Anya
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Stefan
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tina
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Max
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tom
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-    
-                </div>";
 
 
-        $code .= "<div class='title-part accordion' id='panel-3'>
-                        <h5 class='col-12'>E.Leclerc</h5>
-                                <hr class='col-12'>
-                            </div>";
-        $code .= "<div class='panel-3 checkboxes'>
+                $code .= "<div class='panel-".$cnt." checkboxes'>";
+                foreach ($products as $product) {
+                    $code .= "   <div class='col-12 row'>
+                        <label class='col-8 checkbox-label'>
+                            <input type='checkbox'>
+                            " . $product['name'] . "
+                        </label>
+                        <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
+                    </div>";
+                }
+                $code .= "</div>";
 
-                
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Alex
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Anya
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Stefan
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tina
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Max
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                 
-                </div>    
-                    
-                <div class='col-12 row'>
-                    <label class='col-8 checkbox-label'>
-                        <input type='checkbox'>
-                        Tom
-                    </label>
-                    <label class='col-4 quantity'>Quantity: <input  class='col-12' type='number' value='1' step='1'></label>
-                </div>  
-    
-                </div>";
-
+            $cnt++;
+        }
 
         $code .= "</div>";
         $code .= "</div>";
@@ -313,110 +169,8 @@ display: none;
     </tr>
   </thead>
 <tbody>
-    <tr>
-      <td> Hamburguesa de Quinoa y Brócoli</td>
-      <td>17634</td>
-      <td>6</td>
-      <td>12</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Hamburguesa de verduras y legumbres Lenteja roja y Chia</td>
-      <td>17356</td>
-      <td>6</td>
-      <td>18</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Hamburguesa vegetal de Champiñones</td>
-      <td>17051</td>
-      <td>6</td>
-      <td>6</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Tahín integral tostado 200g</td>
-      <td>17323</td>
-      <td>3</td>
-      <td>6</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> VEGG Sustituto vegetal del huevo</td>
-      <td>17336</td>
-      <td>4</td>
-      <td>8</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>SÉMOLA KESVIT Bolsa 500g</td>
-      <td>10022</td>
-      <td>10</td>
-      <td>20</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>SOPA JULIANA 150g</td>
-      <td>10311</td>
-      <td>14</td>
-      <td>28</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Hummus Tradicional</td>
-      <td>17612</td>
-      <td>6</td>
-      <td>18</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Frankfurt de Tofu</td>
-      <td>17239</td>
-      <td>6</td>
-      <td>18</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td> Arroz Integral Redondo 1kg</td>
-      <td>17006</td>
-      <td>8</td>
-      <td>24</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
+  
+   
 </tbody>
 </table>
 <script>var table=jexcel(document.getElementById('spreadsheet'),{columns:[{type:'text',width:'200px',readOnly:true},{type:'text',width:'100px',readOnly:true},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'},{type:'text',width:'150px'}],license:'fd12c-f6d85-227f1-85ed4',});</script><hr><div class='scorecard'><button type='submit' name='button18191' value=1>Speichern</button>

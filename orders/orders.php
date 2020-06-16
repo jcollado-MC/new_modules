@@ -1,6 +1,6 @@
 <?php
-include 'class.orders.php';
-$order = new orders();
+include 'class.myOrders.php';
+$order = new myOrders();
 
 ?>
 <!DOCTYPE html>
@@ -8,8 +8,6 @@ $order = new orders();
 <head>
     <meta charset="UTF-8">
     <title>Orders Mockup</title>
-    <script src="../Jquery/jquery-3.4.1.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="../columns/styles.css">
     <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
 </head>
