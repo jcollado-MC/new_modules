@@ -127,7 +127,18 @@ input#orderSearchInput{
 
 .quantity{
 display: none;
+margin: 5px 0;
 }
+
+.add{
+margin: 5px 0;;
+    font-size: 1.2rem;
+    color: #3f48cc;
+    border: none;
+    background: none;
+    float: none;
+}
+
 
 </style>";
 
@@ -186,14 +197,13 @@ display: none;
                     $code .= ">";
                     $code .= $product['name'];
                     $code .= "</label>";
-                    $code .= "<label class='col-4 quantity'";
+                    $code .= "<div class='col-4 quantity'";
                     if(isset($this -> products[$product['id']])){
                         if ($this -> products[$product['id']]['units'] > 0) {
                             $code .= "style='display: block' ";
                         }
                     }
                     $code .= ">";
-                    $code .= "Quantity:";
                     $code .= "<input  class='col-12' type='number' value='";
                     if(isset($this -> products[$product['id']])){
                         if ($this -> products[$product['id']]['units'] > 0) {
@@ -203,7 +213,8 @@ display: none;
                         $code .= 1;
                     }
                     $code .= "' step='1'>";
-                    $code .= "</label>
+
+                    $code .= "</div>
                     </div>";
                 }
                 $code .= "</div>";
@@ -211,7 +222,10 @@ display: none;
             $cnt++;
         }
 
-        $code .= "</div>";
+        $code .= "</div>
+        <div class='scorecard'>
+    <button class='update' type='submit' name='button18191' value=1>Speichern</button>
+</div>";
         $code .= "</div>";
 
         return $code;
@@ -221,7 +235,7 @@ display: none;
         $code = "";
 
         $code .= "<div class='col-9 content'>";
-        $code .= "
+        $code .= "      
         <table id='spreadsheet' class='scorecard'>
   <thead>
     <tr>
@@ -280,12 +294,16 @@ display: none;
 
 
 $code .= "<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
-<tr></tr>
 </tbody>
 </table>
+<div>
+<button class='add add-filter-fields' type='button' onclick='table.insertRow()'>
+                            <i class='fas fa-plus'></i>
+                            </button>
+                            <button class='add add-filter-fields' type='button' onclick='table.deleteRow()'>
+                            <i class='fas fa-minus'></i>
+                            </button>   
+    </div>
     <script>
     
    
@@ -311,10 +329,7 @@ $code .= "<tr></tr>
     
     
     </script>
-    <hr>
-    <div class='scorecard'>
-    <button type='submit' name='button18191' value=1>Speichern</button>
-</div>";
+    ";
 
         $code .= "</div>";
 
