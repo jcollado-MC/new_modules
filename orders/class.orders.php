@@ -119,6 +119,10 @@ input#orderSearchInput{
     padding: 5px 10px;
 }
 
+i.search-icon{
+padding: 5px 0 0 0 !important;
+}
+
 
 .tabs h5{
     margin-top: 20px;
