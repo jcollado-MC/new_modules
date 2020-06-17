@@ -269,9 +269,11 @@ margin: 5px 0;;
                         $code .= "</td>";
 
                         $code .= "<td>";
+
                         $code .= "</td>";
 
                         $code .= "<td>";
+                        $code .= $this->products[$product['id']]['sap-number'];
                         $code .= "</td>";
 
                         $code .= "<td>";
@@ -279,12 +281,15 @@ margin: 5px 0;;
                         $code .= "</td>";
 
                         $code .= "<td>";
+                        $code .= $this->products[$product['id']]['price'];
                         $code .= "</td>";
 
                         $code .= "<td>";
+                        $code .= $this->products[$product['id']]['discount1'];
                         $code .= "</td>";
 
                         $code .= "<td>";
+                        $code .= $this->products[$product['id']]['tarif'];
                         $code .= "</td>";
 
 
@@ -307,9 +312,9 @@ margin: 5px 0;;
                             <i class='fas fa-plus'></i>
                             </button>";
 
-//$code .="                            <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
-//                            <i class='fas fa-minus'></i>
-//                            </button>";
+//$code .=" <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
+//            <i class='fas fa-minus'></i>
+//          </button>";
         $code .="    </div>
     <script>
     
