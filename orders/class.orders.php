@@ -109,7 +109,6 @@ class orders{
             }
 
 
-
 </script>";
         $code .= "<style>
 
@@ -187,7 +186,7 @@ margin: 5px 0;;
                 $code .= "<div class='panel-".$cnt." checkboxes'>";
                 foreach ($products as $product) {
                     $code .= "<div class='col-12 row'>
-                        <label class='col-8 checkbox-label'>
+                        <label class='col-9 checkbox-label'>
                             <input type='checkbox' id='". $product['id'] ."'";
                     if(isset($this -> products[$product['id']])){
                         if ($this -> products[$product['id']]['units'] > 0) {
@@ -197,7 +196,7 @@ margin: 5px 0;;
                     $code .= ">";
                     $code .= $product['name'];
                     $code .= "</label>";
-                    $code .= "<div class='col-4 quantity'";
+                    $code .= "<div class='col-3 quantity'";
                     if(isset($this -> products[$product['id']])){
                         if ($this -> products[$product['id']]['units'] > 0) {
                             $code .= "style='display: block' ";
@@ -250,10 +249,15 @@ margin: 5px 0;;
     </tr>
   </thead>
 <tbody>";
+
+        $foundone = false;
         foreach($this->groups as $name => $products) {
             foreach ($products as $product) {
                 if (isset($this->products[$product['id']])) {
                     if ($this->products[$product['id']]['units'] > 0) {
+
+                        $foundone = true;
+
                         $code .= "<tr>";
 
                         $code .= "<td>";
@@ -290,20 +294,23 @@ margin: 5px 0;;
             }
         }
 
+        if(!$foundone){
+            $code .= "<tr>";
+            $code .= "</tr>";
+        }
 
-
-
-$code .= "<tr></tr>
+        $code .= "
 </tbody>
 </table>
 <div>
 <button class='add add-filter-fields' type='button' onclick='table.insertRow()'>
                             <i class='fas fa-plus'></i>
-                            </button>
-                            <button class='add add-filter-fields' type='button' onclick='table.deleteRow()'>
-                            <i class='fas fa-minus'></i>
-                            </button>   
-    </div>
+                            </button>";
+
+//$code .="                            <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
+//                            <i class='fas fa-minus'></i>
+//                            </button>";
+        $code .="    </div>
     <script>
     
    
