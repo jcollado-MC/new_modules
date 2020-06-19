@@ -2,7 +2,8 @@
 
 class orders{
 
-    function _construct(){}
+    function _construct(){
+    }
 
     private static $header;
     static function Header()
@@ -17,8 +18,14 @@ class orders{
         ";
 
         $code .= "<script>
-        $(document).ready(function() {
-          
+
+       
+        $(document).ready( function(){    
+            
+            updateRow();
+
+            
+            
             /* SEARCH TABLE SIDEBAR */
         
             $('#orderSearchInput').on('keyup', function () {
@@ -31,7 +38,11 @@ class orders{
                 });
                 // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
                 $('.title-part').filter(function () {
-                    $(this).toggle( $(this).siblings().children('.checkbox-label').text().toLowerCase().indexOf(value) > -1 );
+                    
+                    var id = $(this).attr('id');
+                    
+                    $(this).toggle( $(this).siblings('.' + id).find('.checkbox-label').text().toLowerCase().indexOf(value) > -1 );
+
                 });
         
             });
@@ -85,14 +96,26 @@ class orders{
                          }
                      }
              });           
-            
-             
+  
         });
         
         
-            var changed = function(instance, cell, x, y, value) {                
-                if (x == 4){
-                    console.log('value: ' + value);                    
+         var updateRow = function(){
+                    var tableLength = table.rows.length + 1;
+            
+                    for(let i = 0; i < tableLength; i++){                    
+                        table.setReadOnly( 'A' + i , true);
+                        table.setReadOnly( 'C' + i , true);
+                        table.setReadOnly( 'D' + i , true);
+                        
+                        var discount = table.getValueFromCoords( [6] [i]);
+                    }
+            };
+        
+        
+            var changed = function(instance, cell, x, y, value) { 
+                
+                if (x == 4){                   
                     var id =  table.getValueFromCoords([0], [y]);    
                     var quantityInput = $('#'+id).parent().siblings().children('.quantity input');                
                     quantityInput.val(value);                
@@ -103,12 +126,54 @@ class orders{
 //                        var quantity = $('#'+id).parent().siblings('.quantity'); 
 //                        quantity.hide();                       
 //                        table.deleteRow( y );
-//                    }
-               }
+//                   }
+                }    
+                
+                
+                if (x == 1){            
+                    var product = allProducts[value];
+                    
+                    var isProductInTable = false;
+                    var tableLength = table.rows.length + 1;
+            
+                    if(product != undefined){
+                        for(let i = 0; i < tableLength; i++){                            
+                            if(i != y ){
+                                var productCode = table.getValueFromCoords( [1], [i]);
+                                if(productCode == product.sap_number){
+                                    isProductInTable = true;
+                                    alert('The product has already been added to the order!');
+                                    table.setValueFromCoords( [1], [y], '', true );
+                                }
+                            }
+                        }
+                    
+                    
+                        if(!isProductInTable){
+                            table.setValueFromCoords([0],[y], product.id, true);
+                            table.setValueFromCoords([2],[y], product.name, true);
+                            table.setValueFromCoords([3],[y], '', true);
+                            table.setValueFromCoords([4],[y], 1, true);
+                            table.setValueFromCoords([5],[y], product.price, true);
+                            table.setValueFromCoords([6],[y], product.discount1, true);
+                            table.setValueFromCoords([7],[y], product.tarif, true);
                             
+                            
+                            var id =  table.getValueFromCoords([0], [y]);
+                            var value =  table.getValueFromCoords([4], [y]);  
+                            
+                            
+                            $('#' + id).prop('checked', true);
+                            var quantity = $('#'+id).parent().siblings('.quantity');
+                            var quantityInput = $('#'+id).parent().siblings().children('.quantity input'); 
+                            quantity.show();
+                            quantityInput.val(value);
+                        }  
+                    }
+                    
+                }
             }
-
-
+            
 </script>";
         $code .= "<style>
 
@@ -156,6 +221,17 @@ margin: 5px 0;;
     function show(){
         $code = "";
 
+        $code .= "<script>";
+        $jsonProducts = [];
+        foreach ($this->groups as $products){
+            foreach ($products as $product){
+                $jsonProducts[$product['sap_number']] = $product;
+            }
+        }
+        $code .= "var allProducts = ".json_encode($jsonProducts) .";";
+        $code .= "console.log(allProducts);";
+        $code .= "</script>";
+
 
         $code .= self::header();
         $code .= "<main>";
@@ -164,8 +240,6 @@ margin: 5px 0;;
         $code .= $this->content();
         $code .= "</form>";
         $code .= "</main>";
-
-
         return $code;
     }
 
@@ -226,9 +300,9 @@ margin: 5px 0;;
         }
 
         $code .= "</div>
-        <div class='scorecard'>
-    <button class='update' type='submit' name='button18191' value=1>Speichern</button>
-</div>";
+        <div >
+            <button class='update' type='submit' name='button18191' value=1>Speichern</button>
+        </div>";
         $code .= "</div>";
 
         return $code;
@@ -243,16 +317,17 @@ margin: 5px 0;;
   <thead>
     <tr>
       <th>id</th>
+      <th>Product Code</th>
       <th>Name</th>
       <th>Einheiten/Kiste</th>
-      <th>Code</th>
       <th>Menge</th>
       <th>PNR</th>
       <th>Rabatt</th>
       <th>PNF</th>
     </tr>
   </thead>
-<tbody>";
+<tbody>
+";
 
         $foundone = false;
         foreach($this->groups as $name => $products) {
@@ -269,6 +344,10 @@ margin: 5px 0;;
                         $code .= "</td>";
 
                         $code .= "<td>";
+                        $code .= $this->products[$product['id']]['sap_number'];
+                        $code .= "</td>";
+
+                        $code .= "<td>";
                         $code .= $this->products[$product['id']]['sap-name'];
                         $code .= "</td>";
 
@@ -276,9 +355,7 @@ margin: 5px 0;;
 
                         $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['sap-number'];
-                        $code .= "</td>";
+
 
                         $code .= "<td>";
                         $code .= $this->products[$product['id']]['units'];
@@ -306,6 +383,14 @@ margin: 5px 0;;
         if(!$foundone){
             $code .= "<tr>";
             $code .= "</tr>";
+            $code .= "<tr>";
+            $code .= "</tr>";
+            $code .= "<tr>";
+            $code .= "</tr>";
+            $code .= "<tr>";
+            $code .= "</tr>";
+            $code .= "<tr>";
+            $code .= "</tr>";
         }
 
         $code .= "
@@ -322,28 +407,34 @@ margin: 5px 0;;
         $code .="    </div>
     <script>
     
+    
    
     
     var table = jexcel(document.getElementById('spreadsheet'),
     {
-    columns:[
-        {type:'text', title: 'ID',width:'200px',readOnly:true},
-        {type:'text',width:'200px',readOnly:true},
-        {type:'text',width:'100px',readOnly:true},
-        {type:'text',width:'150px'},
-        {type:'text',width:'150px'},
-        {type:'text',width:'150px'},
-        {type:'text',width:'150px'},
-        {type:'text',width:'150px'}
-        ],
-        onchange: changed,
-        license:'fd12c-f6d85-227f1-85ed4',
-        });
-    
-    
 
+    columns:[
+        {type:'hidden',readOnly:true},
+        {type:'text',readOnly:true},
+        {type:'text',readOnly:true},
+        {type:'text',readOnly:true},
+        {type:'text'},
+        {type:'text', readOnly:true},
+        {type:'text',readOnly:true},
+        {type:'text', readOnly:true}
+        ],
+        onchange: changed,    
+        oninsertrow: updateRow,
+        license:'fd12c-f6d85-227f1-85ed4',
+        });   
     
     
+    
+    
+    
+    
+            
+
     </script>
     ";
 
