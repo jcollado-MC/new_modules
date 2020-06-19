@@ -107,13 +107,22 @@ class orders{
                         table.setReadOnly( 'A' + i , true);
                         table.setReadOnly( 'C' + i , true);
                         table.setReadOnly( 'D' + i , true);
-                        
-                        var discount = table.getValueFromCoords( [6] [i]);
+                                                
                     }
             };
         
         
             var changed = function(instance, cell, x, y, value) { 
+                
+                if (x == 6){
+                    
+                    var discount = value;
+                    
+                    if(discount > 100 || discount < 0 ){
+                        alert('Discount value is not valid!');
+                        table.setValueFromCoords( [6], [y], '', true );
+                    }
+                }
                 
                 if (x == 4){                   
                     var id =  table.getValueFromCoords([0], [y]);    
