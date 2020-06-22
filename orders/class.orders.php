@@ -30,8 +30,6 @@ class orders{
         
             $('#orderSearchInput').on('keyup', function () {
                 
-                
-                $('.accordion').addClass('active-accordion');
                 $('[class*=\'panel-\']').toggleClass('active-accordion');
                 
                 
