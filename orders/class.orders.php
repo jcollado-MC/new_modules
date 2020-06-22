@@ -30,6 +30,11 @@ class orders{
         
             $('#orderSearchInput').on('keyup', function () {
                 
+                
+                $('.accordion').addClass('active-accordion');
+                $('[class*=\'panel-\']').toggleClass('active-accordion');
+                
+                
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
                 //filter checkbox-labels for search value
