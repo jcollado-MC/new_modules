@@ -30,11 +30,14 @@ class orders{
         
             $('#orderSearchInput').on('keyup', function () {
                 
-                $('[class*=\'panel-\']').toggleClass('active-accordion');
-                
-                
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
+                
+                 if(value.length > 0){
+                
+                $('[class*=\'panel-\']').addClass('active-accordion');
+                               
+              
                 //filter checkbox-labels for search value
                 $('.checkboxes label.checkbox-label').filter(function () {
                     $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
@@ -47,6 +50,10 @@ class orders{
                     $(this).toggle( $(this).siblings('.' + id).find('.checkbox-label').text().toLowerCase().indexOf(value) > -1 );
 
                 });
+                
+                } else {
+                     $('[class*=\'panel-\']').removeClass('active-accordion');
+                }
         
             });
             

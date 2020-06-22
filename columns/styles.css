@@ -644,10 +644,21 @@ input:checked + .slider:before {
 
 
 
+input#searchInput{
+    background: none;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 10px;
+}
 
 
+i.search-icon{
+    padding: 5px 0 0 0 !important;
+}
 
-
+.tabs h5 {
+    margin-top: 20px;
+}
 
 /* For Desktop */
 @media only screen and (min-width: 768px) {
