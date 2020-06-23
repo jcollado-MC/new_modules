@@ -110,6 +110,30 @@ class Previsit
              });
              
              
+             /* MODALS */
+
+            $('[class$=\"-modal\"]').hide();
+        
+        
+            $('.modal-button').on('click', function(){
+               var id = $(this).attr('id');
+                $('.'+id).show();
+            });
+        
+        
+            $('.modal-content span.close').on('click', function() {
+        
+                $(this).parent().parent().hide();
+        
+            });
+        
+            $('.modal-content button.cancel').on('click', function() {
+        
+                $('[class$=\"-modal\"]').hide();
+        
+            });
+        
+             
              });
              </script>";
         $code .= "<style>
@@ -184,7 +208,7 @@ class Previsit
             font-weight: bold;
             }
             
-            .pos i.delete{
+            .pos i.delete, .pos i.edit, .pos i.comment{
             display: none;
             }
             
@@ -240,6 +264,7 @@ class Previsit
         $code .= "<main>";
         $code .="<form method='post'>";
         $code .= $this->sidebar();
+        $code .= $this->editModal();
         $code .= $this->dateHeader();
         $code .= $this->content();
         $code .= "</form>";
@@ -269,6 +294,7 @@ class Previsit
             foreach ($POS as $pos) {
                 $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $pos['number'] ."'>
                     <i class='fas fa-times delete'></i>
+                    <i class='fas fa-comment comment modal-button' id='pos-modal'></i>                                       
                     <p class='pos-number'>". $pos['number'] ."</p>
                     <p class='pos-name'>". $pos['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>
                     <p class='pos-address'>". $pos['address'] ."</p>
@@ -290,13 +316,38 @@ class Previsit
         return $code;
     }
 
+
+    function editModal(){
+        $code = "";
+        
+        $code .= "<div class='pos-modal'>
+                      <div class='modal-content'>";
+    $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+    $code .= "<div>";
+    $code .= "<h5>Additional Infos:</h5>";
+    $code .= "<hr class='col-12'>";
+    $code .= "<label>Time:</label>";
+    $code .= "<input type='time' min='06:00' max='24:00'>";
+    $code .= "<label>Comment:</label>";
+    $code .= "<textarea class='col-12' rows='5'></textarea>";
+    $code .= "</div>";
+    $code .= "<div class='modal-buttons'>";
+    $code .= "<button id='save'>Save</button>";
+    $code .= "<button id='delete' class='cancel' type='button'>Cancel</button>";
+    $code .= "</div>";
+    $code .= "</div>";
+    $code .= "</div>";
+        
+        return $code;
+    }
+
     function dateHeader()
     {
         $code = "";
         $code .= "<div class='col-9 content'>";
         $code .= "<div class='col-12 row dateheader'>
                 <i class='fas fa-angle-left previous-visit col-1'></i>
-                <h2 class='visit-date col-10'>Max Mustermann, KW 19 <a> <i class='fas fa-calendar-alt'></i> </a></h2>
+                <h2 class='visit-date col-10'>Max Mustermann, KW 19</h2>
                 <i class='fas fa-angle-right next-visit col-1'></i>
             </div>";
         return $code;
@@ -305,11 +356,11 @@ class Previsit
     private function content()
     {
         $code =  "";
-        $code .= "<div class='timetable-box'><p class='list-header'>Monday</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
-        $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Wednesday</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Thursday</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Friday</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Monday, 4.5.</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
+        $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday, 5.5.</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Wednesday, 6.5.</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Thursday, 7.5.</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Friday, 8.5.</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
         $code .= "</div>";
 
         return $code;

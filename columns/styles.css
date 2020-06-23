@@ -168,12 +168,12 @@ input[type="date"]{
     width: 100%
 }
 
-i.delete{
+i.delete, i.comment{
     color: #bbb;
     float: right;
 }
 
-i.delete, i.delete:before {
+i.delete, i.delete:before, i.comment, i.comment:before {
     float: right;
     font-size: 0.8rem;
     padding: 2px;
@@ -184,6 +184,11 @@ i.delete:hover {
     color: #444;
 
 }
+
+i.comment:hover{
+    color: #3f48cc;;
+}
+
 
 
 .dropdown-content{

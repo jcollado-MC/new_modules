@@ -22,6 +22,12 @@ class myPrevisits extends Previsit
 
 
         // LOAD FIELDS
+        $POS[] = ['number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Mittelstr. 20, 58095 Hagen',  'typ' => 'Elektrofachm (groß)', 'time' => ' ','comment' => ' ', 'date' => ' ', 'index' => ' '];
+        $POS[] = ['number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Limbecker Platz 1a, 45127 Essen',  'typ' => 'Elektrofachm (groß)'];
+        $POS[] = ['number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Bahnhofstr. 48, 45879 Gelsenkirchen',  'typ' => 'Elektrofachm (groß)'];
+
+
+        // LOAD FIELDS
         $POS[] = ['number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Mittelstr. 20, 58095 Hagen',  'typ' => 'Elektrofachm (groß)'];
         $POS[] = ['number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Limbecker Platz 1a, 45127 Essen',  'typ' => 'Elektrofachm (groß)'];
         $POS[] = ['number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Bahnhofstr. 48, 45879 Gelsenkirchen',  'typ' => 'Elektrofachm (groß)'];
