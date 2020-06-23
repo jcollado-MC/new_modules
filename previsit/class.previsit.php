@@ -36,7 +36,7 @@ class Previsit
                              
                 
                 //filter checkbox-labels for search value
-                $('li').filter(function () {
+                $('.pos li').filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
                 // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
@@ -65,9 +65,49 @@ class Previsit
              
              $( function() {
                 $( '[id *= \'sortable-\']' ).sortable({
-                  connectWith: '.connectedSortable'
+                  connectWith: '.timetable',
+                  revert: true,
+                  update: function(event, ui) {
+                      
+                  var input = ui.item.parent().siblings(input);
+                  var id = ui.item.parent().attr('id');
+                  var text = ui.item.children('p').text();
+                  var sender = ui.sender;
+                  
+                  console.log(sender);
+                  
+                  if(sender != null){
+                      var senderInput = ui.sender.siblings('input');
+                      
+                      $(senderInput).val(function() {
+                        return $(this).val().replace(text, '')
+                      });
+                  }
+                      
+                    var elements = [];                    
+                    var dayListElements = $('#' + id + ' li');      
+                    
+                    for(let element of dayListElements){
+                        let text = $(element).find('p').text();                       
+                        elements.push(text);
+                    }
+                    
+                    $(input).val(elements);
+                    
+                    
+                }
                 }).disableSelection();
               } );
+             
+             $('i.delete').click( function(){
+                 var liElementName = $(this).parent().attr('name');
+                 var liElementId = $(this).parent().attr('id');
+                 
+                 console.log(liElementName);
+                 
+                 $('#' + liElementId).appendTo('.' + liElementName);
+
+             });
              
              
              });
@@ -144,6 +184,49 @@ class Previsit
             font-weight: bold;
             }
             
+            .pos i.delete{
+            display: none;
+            }
+            
+            
+            /* SUB-HEADER */
+            
+            .dateheader{
+            background-color: #eee;
+            padding: 5px 10px;
+            margin-bottom: 15px;
+            }
+            
+            h2.visit-date{
+                text-align: center;
+                margin: 0;
+                padding: 2.5px 0;
+            }
+            
+            i.previous-visit, i.next-visit{
+                font-size: 1.8rem;
+                cursor: pointer;
+            }
+            
+            i.previous-visit:hover, i.next-visit:hover{
+                color: #777777;
+            }
+            
+            i.previous-visit{
+                float: left;
+            }
+            
+            i.next-visit, i.next-visit:before{
+                float: right;
+            }
+            
+            .dateheader i:hover{
+                cursor: pointer;
+            }
+
+            
+
+
             </style>";
 
 
@@ -157,6 +240,7 @@ class Previsit
         $code .= "<main>";
         $code .="<form method='post'>";
         $code .= $this->sidebar();
+        $code .= $this->dateHeader();
         $code .= $this->content();
         $code .= "</form>";
         $code .= "</main>";
@@ -183,7 +267,8 @@ class Previsit
 
             $code .= "<ul class='panel-".$cnt." pos connectedSortable' id='sortable-".$cnt."'>";
             foreach ($POS as $pos) {
-                $code .= "<li class='pos-infos col-12'>
+                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $pos['number'] ."'>
+                    <i class='fas fa-times delete'></i>
                     <p class='pos-number'>". $pos['number'] ."</p>
                     <p class='pos-name'>". $pos['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>
                     <p class='pos-address'>". $pos['address'] ."</p>
@@ -205,18 +290,26 @@ class Previsit
         return $code;
     }
 
+    function dateHeader()
+    {
+        $code = "";
+        $code .= "<div class='col-9 content'>";
+        $code .= "<div class='col-12 row dateheader'>
+                <i class='fas fa-angle-left previous-visit col-1'></i>
+                <h2 class='visit-date col-10'>Max Mustermann, KW 19 <a> <i class='fas fa-calendar-alt'></i> </a></h2>
+                <i class='fas fa-angle-right next-visit col-1'></i>
+            </div>";
+        return $code;
+    }
+
     private function content()
     {
         $code =  "";
-        $code .= "<div class='col-9 content'>";
-        $code .= "<div class='timetable-box'>
-                    <p class='list-header'>Monday</p>
-                    <ul class='timetable monday connectedSortable' id='sortable-monday'></ul>
-                </div>";
-        $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday</p><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Wednesday</p><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Thursday</p><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Friday</p><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Monday</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
+        $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Wednesday</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Thursday</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>Friday</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
         $code .= "</div>";
 
         return $code;
