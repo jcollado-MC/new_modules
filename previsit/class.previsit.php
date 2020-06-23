@@ -292,15 +292,16 @@ class Previsit
 
             $code .= "<ul class='panel-".$cnt." pos connectedSortable' id='sortable-".$cnt."'>";
             foreach ($POS as $pos) {
-                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $pos['number'] ."'>
-                    <i class='fas fa-times delete'></i>
-                    <i class='fas fa-comment comment modal-button' id='pos-modal'></i>                                       
-                    <p class='pos-number'>". $pos['number'] ."</p>
-                    <p class='pos-name'>". $pos['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>
-                    <p class='pos-address'>". $pos['address'] ."</p>
-                    <p class='pos-client'>". $pos['client'] .", </p>
-                    <p class='pos-type'>". $pos['typ'] ."</p>
-                </li>";
+                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $pos['number'] ."'>";
+                $code .= "<i class='fas fa-times delete'></i>";
+                $code .= "<i class='fas fa-comment comment modal-button' id='pos-modal'></i>";
+//                $code .= "<i class='fas fa-comment-exclamation exsisting-comment modal-button' id='pos-modal'></i>";
+                $code .= "<p class='pos-number'>". $pos['number'] ."</p>";
+                $code .= "<p class='pos-name'>". $pos['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>";
+                $code .= "<p class='pos-address'>". $pos['address'] ."</p>";
+                $code .= "<p class='pos-client'>". $pos['client'] .", </p>";
+                $code .= "<p class='pos-type'>". $pos['typ'] ."</p>";
+                $code .= "</li>";
             }
             $code .= "</ul>";
 

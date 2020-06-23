@@ -173,7 +173,12 @@ i.delete, i.comment{
     float: right;
 }
 
-i.delete, i.delete:before, i.comment, i.comment:before {
+i.exsisting-comment{
+    float: right;
+    color: #3f48cc;
+}
+
+i.delete, i.delete:before, i.comment, i.comment:before, i.exsisting-comment, i.exsisting-comment:before {
     float: right;
     font-size: 0.8rem;
     padding: 2px;
@@ -187,6 +192,10 @@ i.delete:hover {
 
 i.comment:hover{
     color: #3f48cc;;
+}
+
+i.exsisting-comment:hover{
+    color: #444;
 }
 
 
