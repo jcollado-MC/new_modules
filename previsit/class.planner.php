@@ -20,11 +20,6 @@ class PLANNER{
         self::$header = TRUE;
 
         $code  = "";
-        $code .= "<script src='../Jquery/jquery-3.4.1.min.js'></script>";
-        $code .= "<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' 
-                integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU='
-                crossorigin='anonymous'></script>";
-        $code .= "<link rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>";
         $code .= "<script>
 
         $(document).ready( function() {
@@ -143,7 +138,7 @@ class PLANNER{
                 
                 console.log(comment);
                 
-                var text = $(comment).find('p').text();
+                var text = $(comment).text();
                 
                 console.log('text: ' + text);
             
@@ -151,8 +146,8 @@ class PLANNER{
                     var text1 = text.slice(0, 30);
                     var text2 = text.slice(30, text.length);               
     
-                    $(comment + ' p').text(text1);
-                    $(comment + ' p').append('<span>' + text2 + '</span>')
+                    $(comment).text(text1);
+                    $(comment).append('<span>' + text2 + '</span>')
                 }
             }
             
@@ -304,7 +299,7 @@ class PLANNER{
 
 
     //SUBTASK 18224: "STUFF" --------------------------------------------
-    function editModal(){
+    private function editModal(){
         $code = "";
         $code .= "<div class='pos-modal'>
                       <div class='modal-content'>";
@@ -312,14 +307,14 @@ class PLANNER{
         $code .= "<div>";
         $code .= "<h5>Additional Infos:</h5>";
         $code .= "<hr class='col-12'>";
-        $code .= "<label>Time:</label>";
+        $code .= "<label>".l(18224,1,"Time")."</label>";
         $code .= "<input type='time' min='06:00' max='24:00'>";
-        $code .= "<label>Comment:</label>";
+        $code .= "<label>".l(18224,2,"Comment")."</label>";
         $code .= "<textarea class='col-12' rows='5'></textarea>";
         $code .= "</div>";
         $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save'>Save</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>Cancel</button>";
+        $code .= "<button id='save'>".l(18224,3,"Save Comment")."</button>";
+        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
         $code .= "</div>";
         $code .= "</div>";
         $code .= "</div>";
@@ -327,7 +322,7 @@ class PLANNER{
         return $code;
     }
 
-    function dateHeader(){
+    private function dateHeader(){
         $code = "";
         $code .= "<div class='col-9 content'>";
         $code .= "<div class='col-12 row dateheader'>
@@ -405,30 +400,30 @@ class PLANNER{
         <input class='col-11' type='text' id='searchInput' placeholder='Search'>
         <i class='fas fa-search search-icon col-1'></i>          
         </div>";
-        foreach($this->groups as $name => $POS) {
+        foreach($this->groups as $name => $shops) {
             $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>
                         <h5 class='col-12'>" . $name . "</h5>
                                 <hr class='col-12'>
                             </div>";
 
             $code .= "<ul class='panel-".$cnt." pos connectedSortable' id='sortable-".$cnt."'>";
-            foreach ($POS as $pos) {
-                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $pos['number'] ."'>";
+            foreach ($shops as $shop) {
+                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $shop['number'] ."'>";
                 $code .= "<i class='fas fa-times delete'></i>";
                 $code .= "<i class='fas fa-comment comment modal-button' id='pos-modal'></i>";
                 //                $code .= "<i class='fas fa-comment-exclamation exsisting-comment modal-button' id='pos-modal'></i>";
-                $code .= "<p class='pos-number'>". $pos['number'] ."</p>";
-                $code .= "<p class='pos-name'>". $pos['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>";
-                $code .= "<p class='pos-address'>". $pos['address'] ."</p>";
-                $code .= "<p class='pos-client'>". $pos['client'] .", </p>";
-                $code .= "<p class='pos-type'>". $pos['typ'] ."</p>";
+                $code .= "<p class='pos-number'>". $shop['number'] ."</p>";
+                $code .= "<p class='pos-name'>". $shop['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>";
+                $code .= "<p class='pos-address'>". $shop['address'] ."</p>";
+                $code .= "<p class='pos-client'>". $shop['client'] .", </p>";
+                $code .= "<p class='pos-type'>". $shop['typ'] ."</p>";
 
                 $code .= "<div class='comment col-12'>";
                 $code .= "<i class='fas fa-info col-2'></i>";
                 $code .= "<p class='col-10 comment-".$cnt."''>";
                 $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
                 $code .= "</p>";
-                $code .= "<a class='readMore' id='comment-".$cnt."'>Read More</a>";
+                $code .= "<a class='readMore' id='comment-".$cnt."'>".l(18221,1,"read more")."</a>";
                 $code .= "</div>";
 
                 $code .= "</li>";
@@ -438,7 +433,7 @@ class PLANNER{
         }
 
         $code .= "</div>";
-        $code .= "<div ><button class='update' type='submit' name='button18191' value=1>Save</button></div>";
+        $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
         $code .= "</div>";
 
         return $code;
