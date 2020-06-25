@@ -294,6 +294,10 @@ class PLANNER{
             
             /*COMMENTS*/
             
+            .pos .comment{
+            display: none;
+            }
+            
             
             .comment{
                 margin: 5px 0;
