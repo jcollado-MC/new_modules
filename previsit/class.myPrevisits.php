@@ -1,10 +1,10 @@
 <?php
 
-require_once("class.previsit.php");
+require_once("class.planner.php");
 
 include("../helpers.php");
 
-class myPrevisits extends Previsit
+class myPrevisits extends Planner
 {
     static function header()
     {
@@ -15,16 +15,9 @@ class myPrevisits extends Previsit
     function __construct()
     {
         global $CFR_USER, $myPageBody;
-        self::Header();
         ini_set("memory_limit", "1024M");
         ini_set("max_execution_time", "1200");
 
-
-
-        // LOAD FIELDS
-        $POS[] = ['number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Mittelstr. 20, 58095 Hagen',  'typ' => 'Elektrofachm (groß)', 'time' => ' ','comment' => ' ', 'date' => ' ', 'index' => ' '];
-        $POS[] = ['number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Limbecker Platz 1a, 45127 Essen',  'typ' => 'Elektrofachm (groß)'];
-        $POS[] = ['number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'address' => 'Bahnhofstr. 48, 45879 Gelsenkirchen',  'typ' => 'Elektrofachm (groß)'];
 
 
         // LOAD FIELDS
