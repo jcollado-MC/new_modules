@@ -168,17 +168,13 @@ input[type="date"]{
     width: 100%
 }
 
-i.delete, i.comment{
+i.delete, i.add-comment{
     color: #bbb;
     float: right;
 }
 
-i.existing-comment{
-    float: right;
-    color: #3f48cc;
-}
 
-i.delete, i.delete:before, i.comment, i.comment:before, i.existing-comment, i.existing-comment:before {
+i.delete, i.delete:before, i.add-comment, i.add-comment:before {
     float: right;
     font-size: 0.8rem;
     padding: 2px;
@@ -190,14 +186,9 @@ i.delete:hover {
 
 }
 
-i.comment:hover{
-    color: #3f48cc;;
+i.add-comment:hover{
+    color: #3f48cc;
 }
-
-i.exsiting-comment:hover{
-    color: #444;
-}
-
 
 
 .dropdown-content{

@@ -23,30 +23,30 @@ class PLANNER{
         $code .= "<script>
 
         $(document).ready( function() {
+            
+            $('form').children().css({userSelect: 'none'});
+            
 
         /* SEARCH SIDEBAR */
         
             $('#searchInput').on('keyup', function () {
                 //get value of searchbar input
-                var value = $(this).val().toLowerCase();
+                var value = $(this).val().toLowerCase()
                 
-                if(value.length > 0){
-                
-                $('ul[class*=\'panel-\'').addClass('active-accordion');
-                             
-                
-                //filter checkbox-labels for search value
-                $('.pos li').filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-                // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
-                $('.title-part').filter(function () {
+                        
                     
-                    var id = $(this).attr('id');
-                    
-                    $(this).toggle( $(this).siblings('.' + id).text().toLowerCase().indexOf(value) > -1 );
-
+                    //filter checkbox-labels for search value
+                    $('.pos li').filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                    // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
+                    $('.title-part').filter(function () {                    
+                        var id = $(this).attr('id');                    
+                        $(this).toggle( $(this).siblings('.' + id).text().toLowerCase().indexOf(value) > -1 );
                 });
+                
+                if (value.length > 0){                
+                     $('ul[class*=\'panel-\'').addClass('active-accordion');
                 } else {
                     $('ul[class*=\'panel-\'').removeClass('active-accordion');
                 }
@@ -132,38 +132,49 @@ class PLANNER{
             
             /*COMMENTS*/
             
+
+            
             var comments = $('.comment p');            
             
-            for (let comment of comments){
-                
-                console.log(comment);
-                
-                var text = $(comment).text();
-                
-                console.log('text: ' + text);
-            
-                if (text.length > 30){              
-                    var text1 = text.slice(0, 30);
-                    var text2 = text.slice(30, text.length);               
+            for (let comment of comments){                
+                var text = $(comment).text();            
+                var commentLength = 30;                
+                if (text.length > commentLength){              
+                    var text1 = text.slice(0, commentLength);
+                    var text2 = text.slice(commentLength, text.length);               
     
                     $(comment).text(text1);
-                    $(comment).append('<span>' + text2 + '</span>')
+                    $(comment).append(' ... <span>' + text2 + '</span>')
                 }
             }
             
-//            if ($('.comment p').text().length > 30){
-//                var text = $('.comment p').text();
-//                                
-//                var text1 = text.slice(0, 30);
-//                var text2 = text.slice(30, text.length);               
-//
-//                $('.comment p').text(text1);
-//                $('.comment p').append('<span>' + text2 + '</span>')
-//            }
+            
 
-            $('.readMore').click(function() {
-                var id = $(this).attr('id');                
-                $('#' + id + ' span').toggle();
+            $('a.readMore').click(function() {
+                var id = $(this).attr('id');
+                $('.comment p.' + id + ' span').toggle();
+                
+            });
+            
+            
+            /* COLOR FILTERS*/
+            
+            $('#color-filter button').click(function() {
+                $('.active').removeClass('active');              
+                $(this).addClass('active');
+                
+                var id = $(this).attr('id');  
+              
+                if (id == 'all'){
+                    $('ul.pos li').show();
+                } else {
+                    $('ul.pos li').show();
+                    $('li:not(.' + id +')').hide();
+                    
+                    $('.title-part').filter(function () {
+                         $(this).toggle( $(this).hasChildNodes('.' + id));
+                    }); 
+                }
             });
         
              
@@ -241,7 +252,7 @@ class PLANNER{
             font-weight: bold;
             }
             
-            .pos i.delete, .pos i.comment, .pos i.existing-comment{
+            .pos i.delete, .pos i.add-comment {
             display: none;
             }
             
@@ -283,13 +294,76 @@ class PLANNER{
             
             /*COMMENTS*/
             
+            
             .comment{
-                border: 1px solid #ddd;
+                margin: 5px 0;
+                border: 1px solid #d9d9d9;
                 padding: 5px;
+                font-size: 0.8rem;
+            }
+            
+            .comment i{
+            color: #3f48cc;
+            }
+            
+            .comment p{
+            margin: 0px;
+            }
+            
+            .comment p span{
+            display: none;
             }
 
-            
+            /* COLOR FILTERS */
 
+            #color-filter{
+                margin: 15px 0;
+            }
+            
+            #color-filter button{
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 3px 7px;
+            }
+            
+           
+            #color-filter button#freq-1{
+                background-color: darkred;
+                color: #fff;
+                border-color: #fff;
+            }
+            
+            #color-filter button#freq-2{
+                background-color: orange;
+                color: #fff;
+                border-color: #fff;
+            }
+            
+            #color-filter button#freq-3{
+                background-color: limegreen;
+                color: #fff;
+                border-color: #fff;
+            }
+            
+            #color-filter button#freq-4{
+                background-color: dodgerblue;
+                color: #fff;
+                border-color: #fff;
+            } 
+            
+            #color-filter button:hover{
+                border-color: #fff !important;
+                background-color: #444!important;
+                color: #fff!important;
+            }
+            
+            #color-filter button.active{
+                background-color: #444 !important;;
+                color: #fff !important;;
+                border-color: #fff !important;;
+            }
 
             </style>";
 
@@ -301,8 +375,8 @@ class PLANNER{
     //SUBTASK 18224: "STUFF" --------------------------------------------
     private function editModal(){
         $code = "";
-        $code .= "<div class='pos-modal'>
-                      <div class='modal-content'>";
+        $code .= "<div class='pos-modal'>";
+        $code .= "<div class='modal-content'>";
         $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
         $code .= "<div>";
         $code .= "<h5>Additional Infos:</h5>";
@@ -325,11 +399,11 @@ class PLANNER{
     private function dateHeader(){
         $code = "";
         $code .= "<div class='col-9 content'>";
-        $code .= "<div class='col-12 row dateheader'>
-                <i class='fas fa-angle-left previous-visit col-1'></i>
-                <h2 class='visit-date col-10'>Max Mustermann, KW 19</h2>
-                <i class='fas fa-angle-right next-visit col-1'></i>
-            </div>";
+        $code .= "<div class='col-12 row dateheader'>";
+        $code .= "<i class='fas fa-angle-left previous-visit col-1'></i>";
+        $code .= "<h2 class='visit-date col-10'>Max Mustermann, KW 19</h2>";
+        $code .= "<i class='fas fa-angle-right next-visit col-1'></i>";
+        $code .= "</div>";
         return $code;
     }
 
@@ -392,41 +466,52 @@ class PLANNER{
     //SUBTASK 18221: "SIDEBOARD" --------------------------------------------
     private function sidebar(){
         $cnt = 0;
+        $commentCnt = 0;
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
         $code .= "<h2>Points of Sale</h2>";
-        $code .= "<div class='search col-12'>
-        <input class='col-11' type='text' id='searchInput' placeholder='Search'>
-        <i class='fas fa-search search-icon col-1'></i>          
-        </div>";
+        $code .= "<div class='col-12' id='color-filter'>";
+        $code .= "<button class='active' id='all' type='button'>".l(18221,1,"show all")."</button>";
+        $code .= "<button id='freq-1' type='button'>".l(18221,1,"visit a lot more")."</button>";
+        $code .= "<button id='freq-2' type='button'>".l(18221,1,"visit more")."</button>";
+        $code .= "<button id='freq-3' type='button'>".l(18221,1,"perfect")."</button>";
+        $code .= "<button id='freq-4' type='button'>".l(18221,1,"visited too much")."</button>";
+        $code .= "</div>";
+        $code .= "<div class='search col-12'>";
+        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
+        $code .= "<i class='fas fa-search search-icon col-1'></i>";
+        $code .= "</div>";
         foreach($this->groups as $name => $shops) {
-            $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>
-                        <h5 class='col-12'>" . $name . "</h5>
-                                <hr class='col-12'>
-                            </div>";
+            $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>";
+            $code .= "<h5 class='col-12'>" . $name . "</h5>";
+            $code .= "<hr class='col-12'>";
+            $code .= "</div>";
 
             $code .= "<ul class='panel-".$cnt." pos connectedSortable' id='sortable-".$cnt."'>";
             foreach ($shops as $shop) {
-                $code .= "<li class='pos-infos col-12'  name='panel-".$cnt ."' id='". $shop['number'] ."'>";
+                $code .= "<li class='pos-infos col-12 freq-". $shop['freq'] ."'  name='panel-".$cnt ."' id='". $shop['shop_id'] ."'>";
                 $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment comment modal-button' id='pos-modal'></i>";
-                //                $code .= "<i class='fas fa-comment-exclamation exsisting-comment modal-button' id='pos-modal'></i>";
+                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
                 $code .= "<p class='pos-number'>". $shop['number'] ."</p>";
-                $code .= "<p class='pos-name'>". $shop['name'] ."<a> <i class='fas fa-external-link-alt'> </i> </a> </p>";
+                $code .= "<p class='pos-name'>". $shop['name'] ."<a href='/intern/modules/AGI/PV/shops_show.php?id=". $shop['shop_id'] ."'> <i class='fas fa-external-link-alt'> </i> </a> </p>";
                 $code .= "<p class='pos-address'>". $shop['address'] ."</p>";
                 $code .= "<p class='pos-client'>". $shop['client'] .", </p>";
                 $code .= "<p class='pos-type'>". $shop['typ'] ."</p>";
 
                 $code .= "<div class='comment col-12'>";
                 $code .= "<i class='fas fa-info col-2'></i>";
-                $code .= "<p class='col-10 comment-".$cnt."''>";
+                $code .= "<div class='col-10'>";
+                $code .= "<p>15:30</p>";
+                $code .= "<p class='comment-".$commentCnt."''>";
                 $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
                 $code .= "</p>";
-                $code .= "<a class='readMore' id='comment-".$cnt."'>".l(18221,1,"read more")."</a>";
+                $code .= "<a class='readMore' id='comment-".$commentCnt."'>".l(18221,1,"read more")."</a>";
+                $code .= "</div>";
                 $code .= "</div>";
 
                 $code .= "</li>";
+                $commentCnt++;
             }
             $code .= "</ul>";
             $cnt++;
