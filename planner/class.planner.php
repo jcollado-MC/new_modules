@@ -167,9 +167,7 @@ class PLANNER{
                     $('ul.pos li.' + id).show();
                 } else {
                     $('ul.pos li.' + id).hide();
-                }     
-               
-                
+                }
             });
         
              
@@ -196,7 +194,7 @@ class PLANNER{
             }
             
             .pos-number, .pos-address{
-                font-size: 1rem;
+                font-size: 0.8rem;
                 margin: 0 0 5px 0;
             }
             
@@ -206,14 +204,14 @@ class PLANNER{
                 margin: 0 0 5px 0;
             }
             
-            p.pos-name{
-            font-size: 1rem;
+            p.pos-name, p.event-name{
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
             }
             
             
-            .pos-infos {
+            .pos-infos, .event-infos {
                 border: none;
                 background-color: #eeeeee;
                 padding: 10px 15px;
@@ -222,13 +220,26 @@ class PLANNER{
                 cursor: pointer;
             }
             
-            .pos-infos:hover{
+            .pos-infos:hover,.event-infos:hover{
                 background-color: #ddd;
             }
             
             
+            .event-infos{
+                background-color: #fff;
+            }
+            
+            
+            .event-infos img{
+                height: auto;              
+            }
+            
+            img + p.event-name{
+                padding-left: 10px;
+            }
+            
             .timetable{
-            height: 90vh;
+            min-height: 90vh;
             border: 1px solid #ddd;
             width: 100%;
             float: left;
@@ -242,7 +253,7 @@ class PLANNER{
             .timetable-box p.list-header{
             padding: 0;
             display: block;
-            margin: 10px 0;
+            margin: 0 0 10px 0;
             text-align: center;
             font-weight: bold;
             }
@@ -493,6 +504,8 @@ class PLANNER{
     private function sidebar(){
         $cnt = 0;
         $commentCnt = 0;
+        $eventCnt = 0;
+        
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
@@ -523,16 +536,16 @@ class PLANNER{
                 $code .= "<p class='pos-address'>". $shop['street'] . ", " . $shop['city'] ."</p>";
                 $code .= "<p class='pos-client'>". $shop['client'] ." </p>";
                 $code .= "<p class='pos-type'>". $shop['typ'] ."</p>";
-                $code .= "<div class='comment col-12'>";
-                $code .= "<i class='fas fa-info col-2'></i>";
-                $code .= "<div class='col-10'>";
-                $code .= "<p>15:30</p>";
-                $code .= "<p class='comment-".$commentCnt."''>";
-                $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-                $code .= "</p>";
-                $code .= "<a class='readMore' id='comment-".$commentCnt."'>".l(18221,1,"read more")."</a>";
-                $code .= "</div>";
-                $code .= "</div>";
+//                $code .= "<div class='comment col-12'>";
+//                $code .= "<i class='fas fa-info col-2'></i>";
+//                $code .= "<div class='col-10'>";
+//                $code .= "<p>15:30</p>";
+//                $code .= "<p class='comment-".$commentCnt."''>";
+//                $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
+//                $code .= "</p>";
+//                $code .= "<a class='readMore' id='comment-".$commentCnt."'>".l(18221,1,"read more")."</a>";
+//                $code .= "</div>";
+//                $code .= "</div>";
 
                 $code .= "</li>";
                 $commentCnt++;
@@ -541,6 +554,38 @@ class PLANNER{
             $cnt++;
         }
 
+            $code .= "<div class='title-part accordion' id='panel-event'>";
+            $code .= "<h5 class='col-12'>Events</h5>";
+            $code .= "<hr class='col-12'>";
+            $code .= "</div>";
+
+            $code .= "<ul class='panel-event pos connectedSortable' id='sortable-event'>";
+
+            foreach ($this->events as $event) {
+                $code .= "<li class='event-infos col-12'  name='panel-event' id='event-". $event['id'] ."'>";
+                $code .= "<i class='fas fa-times delete'></i>";
+                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+                $code .= "<div class='col-12'>";
+                if (isset($event['icon'])){
+                    $code .= "<img class='col-2' src='". $event['icon'] ."'>";
+                }
+                $code .= "<p class='event-name col-10'>". $event['name'] . "</p>";
+                $code .= "</div>";
+//                $code .= "<div class='comment col-12'>";
+//                $code .= "<i class='fas fa-info col-2'></i>";
+//                $code .= "<div class='col-10'>";
+//                $code .= "<p>15:30</p>";
+//                $code .= "<p class='comment-event-".$eventCnt."''>";
+//                $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
+//                $code .= "</p>";
+//                $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
+//                $code .= "</div>";
+//                $code .= "</div>";
+
+                $code .= "</li>";
+                $eventCnt++;
+            }
+            $code .= "</ul>";
         $code .= "</div>";
         $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
         $code .= "</div>";

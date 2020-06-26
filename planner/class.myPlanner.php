@@ -19,16 +19,6 @@ class myPlanner extends Planner
         ini_set("max_execution_time", "1200");
 
 
-        $this->events[] = ['id'=>1, 'name'=>'Meeting', 'multiple' =>'true', 'icon'=>""];
-        $this->events[] = ['id'=>2, 'name'=>'Hotel', 'multiple' =>'false', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/prv14_20160706122249.png"];
-        $this->events[] = ['id'=>3, 'name'=>'Convention', 'multiple' =>'false', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/prv10_20160706123959.jpg"];
-        $this->events[] = ['id'=>4, 'name'=>'Call', 'multiple' =>'true', 'icon'=>""];
-        $this->events[] = ['id'=>5, 'name'=>'Holiday', 'multiple' =>'', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/12_20160706121710.png"];
-
-
-
-
-        // LOAD FIELDS
         $shops[] = ['shop_id' => '1', 'number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Mittelstr. 20', 'city' =>'Hagen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1'];
         $shops[] = ['shop_id' => '2', 'number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Limbecker Platz 1a', 'city' =>'Essen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1'];
         $shops[] = ['shop_id' => '3', 'number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Bahnhofstr. 48', 'city' =>'Gelsenkirchen',  'typ' => 'Elektrofachm (groß)', 'freq' => '2'];
@@ -52,6 +42,11 @@ class myPlanner extends Planner
         }
 
 
+        $this->events[] = ['id'=>1, 'name'=>'Meeting', 'multiple' =>'true'];
+        $this->events[] = ['id'=>2, 'name'=>'Hotel', 'multiple' =>'false', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/prv14_20160706122249.png"];
+        $this->events[] = ['id'=>3, 'name'=>'Convention', 'multiple' =>'false', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/prv10_20160706123959.jpg"];
+        $this->events[] = ['id'=>4, 'name'=>'Call', 'multiple' =>'true'];
+        $this->events[] = ['id'=>5, 'name'=>'Holiday', 'multiple' =>'', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/12_20160706121710.png"];
 
 
     }
