@@ -31,10 +31,8 @@ class PLANNER{
         
             $('#searchInput').on('keyup', function () {
                 //get value of searchbar input
-                var value = $(this).val().toLowerCase()
+                var value = $(this).val().toLowerCase();
                 
-                        
-                    
                     //filter checkbox-labels for search value
                     $('.pos li').filter(function () {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
@@ -47,8 +45,9 @@ class PLANNER{
                 
                 if (value.length > 0){                
                      $('ul[class*=\'panel-\'').addClass('active-accordion');
+                     $('.accordion').addClass('active-accordion');
                 } else {
-                    $('ul[class*=\'panel-\'').removeClass('active-accordion');
+                    $('.active-accordion').removeClass('active-accordion');
                 }
         
             });
