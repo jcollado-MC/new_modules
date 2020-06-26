@@ -661,6 +661,10 @@ i.search-icon{
     padding: 5px 0 0 0 !important;
 }
 
+i.search-icon::before{
+    float: right;
+}
+
 .tabs h5 {
     margin-top: 20px;
 }

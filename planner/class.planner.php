@@ -108,9 +108,6 @@ class PLANNER{
              
              /* MODALS */
 
-            $('[class$=\"-modal\"]').hide();
-        
-        
             $('.modal-button').on('click', function(){
                var id = $(this).attr('id');
                 $('.'+id).show();
@@ -159,22 +156,20 @@ class PLANNER{
             
             /* COLOR FILTERS*/
             
-            $('#color-filter button').click(function() {
-                $('.active').removeClass('active');              
-                $(this).addClass('active');
+            $('#color-filter button').click(function() {        
+                $(this).toggleClass('active');
                 
+                var isActive = $(this).hasClass('active');
                 var id = $(this).attr('id');  
               
-                if (id == 'all'){
-                    $('ul.pos li').show();
+                
+                if(isActive){
+                    $('ul.pos li.' + id).show();
                 } else {
-                    $('ul.pos li').show();
-                    $('li:not(.' + id +')').hide();
-                    
-                    $('.title-part').filter(function () {
-                         $(this).toggle( $(this).hasChildNodes('.' + id));
-                    }); 
-                }
+                    $('ul.pos li.' + id).hide();
+                }     
+               
+                
             });
         
              
@@ -321,54 +316,81 @@ class PLANNER{
             /* COLOR FILTERS */
 
             #color-filter{
-                margin: 15px 0;
+                margin: 0;
+                
             }
             
             #color-filter button{
             margin-right: 5px;
             margin-bottom: 5px;
-            border: 1px solid;
-            border-radius: 5px;
-            padding: 3px 7px;
+            height: 20px;
+            width: 20px;
+            border: 2px solid;
+            border-radius: 15px;
+            float: right;
             }
             
            
-            #color-filter button#freq-1{
+            #color-filter button#freq-1, #color-filter button#freq-1:hover{
+                border-color: darkred;
+                background: none;
+                box-shadow: none;
+            }
+            
+            #color-filter button#freq-1.active{
                 background-color: darkred;
-                color: #fff;
-                border-color: #fff;
+                box-shadow: inset 0 0 5px #fff;
             }
             
-            #color-filter button#freq-2{
-                background-color: orange;
-                color: #fff;
-                border-color: #fff;
+            #color-filter button#freq-2, #color-filter button#freq-2:hover{
+                border-color: orange;  
+                background: none;             
             }
             
-            #color-filter button#freq-3{
-                background-color: limegreen;
-                color: #fff;
-                border-color: #fff;
+            #color-filter button#freq-2.active{
+                background-color: orange;   
+                box-shadow: inset 0 0 5px #fff;            
             }
             
-            #color-filter button#freq-4{
-                background-color: dodgerblue;
-                color: #fff;
-                border-color: #fff;
+            #color-filter button#freq-3, #color-filter button#freq-3:hover{
+                border-color: limegreen;  
+                background: none;              
+            }
+            
+            #color-filter button#freq-3.active{
+                background-color: limegreen;   
+                box-shadow: inset 0 0 5px #fff;             
+            }
+            
+            #color-filter button#freq-4, #color-filter button#freq-4:hover{
+                border-color: dodgerblue;
+                background: none;
             } 
             
-            #color-filter button:hover{
-                border-color: #fff !important;
-                background-color: #444!important;
-                color: #fff!important;
+            #color-filter button#freq-4.active{
+                background-color: dodgerblue;
+                box-shadow: inset 0 0 5px #fff;
             }
             
-            #color-filter button.active{
-                background-color: #444 !important;;
-                color: #fff !important;;
-                border-color: #fff !important;;
+            
+            li.freq-1 p.pos-name{
+                color: darkred;
             }
-
+            
+            li.freq-2 p.pos-name{
+                color: orange;
+            }
+            
+            li.freq-3 p.pos-name{
+                color: limegreen;
+            }
+            
+            li.freq-4 p.pos-name{
+                color: dodgerblue;
+            }
+            
+            
+            
             </style>";
 
 
@@ -402,7 +424,6 @@ class PLANNER{
 
     private function dateHeader(){
         $code = "";
-        $code .= "<div class='col-9 content'>";
         $code .= "<div class='col-12 row dateheader'>";
         $code .= "<i class='fas fa-angle-left previous-visit col-1'></i>";
         $code .= "<h2 class='visit-date col-10'>Max Mustermann, KW 19</h2>";
@@ -413,6 +434,7 @@ class PLANNER{
 
     private function content(){
         $code =  "";
+        $code .= "<div class='col-9 content'>";
         $code .= "<div class='timetable-box'><p class='list-header'>Monday, 4.5.</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
         $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday, 5.5.</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
         $code .= "<div class='timetable-box'><p class='list-header'>Wednesday, 6.5.</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
@@ -423,49 +445,49 @@ class PLANNER{
         return $code;
     }
 
-//    //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
-//    var $user = '';
-//    var $date_start = '';
-//    var $date_end = '';
-//    var $shops = [];
-//    function __construct($user, $date_start='', $date_end=''){
-//        global $myPageBody;
-//        if(!is_numeric($user)){
-//            $user = db_value("SELECT id FROM authuser WHERE uname='$user'");
-//        }
-//        // CHECK USER
-//        $user = db_direct("SELECT id FROM authuser WHERE id=$user");
-//        if($user['id']==''){
-//            throw new Exception(
-//                label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
-//            );
-//        }
-//        $this->user = $user;
-//        $this->date_start = $date_start;
-//        $this->date_end = $date_end;
-//        // LOAD SHOPS
-//        $myShops = \rtm::shops($user['id']);
-//        if(count($myShops)==0){
-//            throw new Exception(
-//                label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
-//            );
-//        }
-//        $sql= "SELECT crm_shops_bs.id,
-//                              crm_shops_bs.name,
-//                crm_shops_bs.shop_street AS street,
-//                crm_shops_bs.shop_city AS city,
-//                crm_shops_lk.name AS cat,
-//                crm_clients_bs.name AS client
-//           FROM crm_shops_bs
-//      LEFT JOIN crm_shops_lk ON crm_shops_bs.cat_id = crm_shops_lk.id
-//      LEFT JOIN crm_clients_bs ON crm_shops_bs.client_id=crm_clients_bs.id
-//              WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
-//        // $myPageBody .= "$sql<br>";
-//        $result = db_query($sql);
-//        while($row = db_fetch_row($result)){
-//            $this->groups[$row['client']][] = $row;
-//        }
-//    }
+    //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
+    var $user = '';
+    var $date_start = '';
+    var $date_end = '';
+    var $shops = [];
+    function __construct($user, $date_start='', $date_end=''){
+        global $myPageBody;
+        if(!is_numeric($user)){
+            $user = db_value("SELECT id FROM authuser WHERE uname='$user'");
+        }
+        // CHECK USER
+        $user = db_direct("SELECT id FROM authuser WHERE id=$user");
+        if($user['id']==''){
+            throw new Exception(
+                label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
+            );
+        }
+        $this->user = $user;
+        $this->date_start = $date_start;
+        $this->date_end = $date_end;
+        // LOAD SHOPS
+        $myShops = \rtm::shops($user['id']);
+        if(count($myShops)==0){
+            throw new Exception(
+                label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
+            );
+        }
+        $sql= "SELECT crm_shops_bs.id,
+                              crm_shops_bs.name,
+                crm_shops_bs.shop_street AS street,
+                crm_shops_bs.shop_city AS city,
+                crm_shops_lk.name AS cat,
+                crm_clients_bs.name AS client
+           FROM crm_shops_bs
+      LEFT JOIN crm_shops_lk ON crm_shops_bs.cat_id = crm_shops_lk.id
+      LEFT JOIN crm_clients_bs ON crm_shops_bs.client_id=crm_clients_bs.id
+              WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
+        // $myPageBody .= "$sql<br>";
+        $result = db_query($sql);
+        while($row = db_fetch_row($result)){
+            $this->groups[$row['client']][] = $row;
+        }
+    }
 
     //SUBTASK 18221: "SIDEBOARD" --------------------------------------------
     private function sidebar(){
@@ -474,13 +496,12 @@ class PLANNER{
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2>Points of Sale</h2>";
-        $code .= "<div class='col-12' id='color-filter'>";
-        $code .= "<button class='active' id='all' type='button'>".l(18221,1,"show all")."</button>";
-        $code .= "<button id='freq-1' type='button'>".l(18221,1,"visit a lot more")."</button>";
-        $code .= "<button id='freq-2' type='button'>".l(18221,1,"visit more")."</button>";
-        $code .= "<button id='freq-3' type='button'>".l(18221,1,"perfect")."</button>";
-        $code .= "<button id='freq-4' type='button'>".l(18221,1,"visited too much")."</button>";
+        $code .= "<h2  class='col-7'>Points of Sale</h2>";
+        $code .= "<div class='col-5' id='color-filter'>";
+        $code .= "<button class='active' id='freq-4' type='button'></button>";
+        $code .= "<button class='active' id='freq-3' type='button'></button>";
+        $code .= "<button class='active' id='freq-2' type='button'></button>";
+        $code .= "<button class='active' id='freq-1' type='button'></button>";
         $code .= "</div>";
         $code .= "<div class='search col-12'>";
         $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
@@ -498,11 +519,10 @@ class PLANNER{
                 $code .= "<i class='fas fa-times delete'></i>";
                 $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
                 $code .= "<p class='pos-number'>". $shop['number'] ."</p>";
-                $code .= "<p class='pos-name'>". $shop['name'] ."<a href='/intern/modules/AGI/PV/shops_show.php?id=". $shop['shop_id'] ."'> <i class='fas fa-external-link-alt'> </i> </a> </p>";
-                $code .= "<p class='pos-address'>". $shop['address'] ."</p>";
-                $code .= "<p class='pos-client'>". $shop['client'] .", </p>";
+                $code .= "<p class='pos-name'>". $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=". $shop['shop_id'] ."'><i class='fas fa-external-link-alt'> </i> </a> </p>";
+                $code .= "<p class='pos-address'>". $shop['street'] . ", " . $shop['city'] ."</p>";
+                $code .= "<p class='pos-client'>". $shop['client'] ." </p>";
                 $code .= "<p class='pos-type'>". $shop['typ'] ."</p>";
-
                 $code .= "<div class='comment col-12'>";
                 $code .= "<i class='fas fa-info col-2'></i>";
                 $code .= "<div class='col-10'>";
@@ -535,9 +555,9 @@ class PLANNER{
         $code .= self::header();
         $code .= "<main>";
         $code .="<form method='post'>";
+        $code .= $this->dateHeader();
         $code .= $this->sidebar();
         $code .= $this->editModal();
-        $code .= $this->dateHeader();
         $code .= $this->content();
         $code .= "</form>";
         $code .= "</main>";

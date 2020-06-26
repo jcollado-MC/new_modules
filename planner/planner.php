@@ -1,13 +1,13 @@
 <?php
-include 'class.myPrevisits.php';
-$previsits = new myPrevisits();
+include 'class.myPlanner.php';
+$planner = new myPlanner();
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Previsits Mockup</title>
+    <title>Planner Mockup</title>
     <link rel="stylesheet" type="text/css" href="../columns/styles.css">
     <link rel="stylesheet" type="text/css" href="../FontAwesome/css/all.css">
     <script src='../Jquery/jquery-3.4.1.min.js'></script>
@@ -22,7 +22,7 @@ $previsits = new myPrevisits();
 <main>
     <div class="content col-12">
         <?php
-        echo $previsits->show();
+        echo $planner->show();
         ?>
     </div>
 </main>
