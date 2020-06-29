@@ -430,7 +430,7 @@ class PLANNER{
         $code .= "<textarea class='col-12' rows='5'></textarea>";
         $code .= "</div>";
         $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save'>".l(18224,3,"Save Comment")."</button>";
+        $code .= "<button id='save' type='button'>".l(18224,3,"Save Comment")."</button>";
         $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
         $code .= "</div>";
         $code .= "</div>";
@@ -439,15 +439,6 @@ class PLANNER{
         return $code;
     }
 
-    private function dateHeader(){
-        $code = "";
-        $code .= "<div class='col-12 row dateheader'>";
-        $code .= "<i class='fas fa-angle-left previous-visit col-1'></i>";
-        $code .= "<h2 class='visit-date col-10'>KW 19</h2>";
-        $code .= "<i class='fas fa-angle-right next-visit col-1'></i>";
-        $code .= "</div>";
-        return $code;
-    }
 
     private function content(){
         $code =  "";
@@ -641,7 +632,6 @@ class PLANNER{
         $code .= self::header();
         $code .= "<main>";
         $code .="<form method='post'>";
-        $code .= $this->dateHeader();
         $code .= $this->sidebar();
         $code .= $this->editModal();
         $code .= $this->content();
