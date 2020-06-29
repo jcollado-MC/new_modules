@@ -28,7 +28,7 @@ class orders{
             
             /* SEARCH TABLE SIDEBAR */
         
-            $('#orderSearchInput').on('keyup', function () {
+            $('#searchInput').on('keyup', function () {
                 
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
@@ -116,8 +116,7 @@ class orders{
 //                    for(let i = 0; i < tableLength; i++){                    
 //                        table.setReadOnly( 'A' + i , true);
 //                        table.setReadOnly( 'C' + i , true);
-//                        table.setReadOnly( 'D' + i , true);
-//                                                
+//                        table.setReadOnly( 'D' + i , true);                                                
 //                    }
             };
         
@@ -196,29 +195,13 @@ class orders{
 </script>";
         $code .= "<style>
 
-input#orderSearchInput{
-    background: none;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 10px;
-}
-
-i.search-icon{
-padding: 5px 0 0 0 !important;
-}
-
-
-.tabs h5{
-    margin-top: 20px;
-}
-
 .quantity{
 display: none;
 margin: 5px 0;
 }
 
-.add{
-margin: 5px 0;;
+.add-row{
+    margin: 5px 0;;
     font-size: 1.2rem;
     color: #3f48cc;
     border: none;
@@ -270,7 +253,7 @@ margin: 5px 0;;
         $code .= "<div class='col-12 tabs'>";
         $code .= "<h2>Order Settings</h2>";
         $code .= "<div class='search col-12'>
-        <input class='col-11' type='text' id='orderSearchInput' placeholder='Search'>
+        <input class='col-11' type='text' id='searchInput' placeholder='Search'>
          <i class='fas fa-search search-icon col-1'></i>          
         </div>";
         foreach($this->groups as $name => $products) {
@@ -413,7 +396,7 @@ margin: 5px 0;;
         $code .= "</tbody>";
         $code .= "</table>";
         $code .= "<div>";
-        $code .= "<button class='add add-filter-fields' type='button' onclick='table.insertRow()'>";
+        $code .= "<button class='add-row' type='button' onclick='table.insertRow()'>";
         $code .= "<i class='fas fa-plus'></i>";
         $code .= "</button>";
 
