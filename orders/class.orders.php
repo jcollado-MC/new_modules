@@ -111,14 +111,14 @@ class orders{
         
         
          var updateRow = function(){
-                    var tableLength = table.rows.length + 1;
-            
-                    for(let i = 0; i < tableLength; i++){                    
-                        table.setReadOnly( 'A' + i , true);
-                        table.setReadOnly( 'C' + i , true);
-                        table.setReadOnly( 'D' + i , true);
-                                                
-                    }
+//                    var tableLength = table.rows.length + 1;
+//            
+//                    for(let i = 0; i < tableLength; i++){                    
+//                        table.setReadOnly( 'A' + i , true);
+//                        table.setReadOnly( 'C' + i , true);
+//                        table.setReadOnly( 'D' + i , true);
+//                                                
+//                    }
             };
         
         
@@ -229,10 +229,10 @@ margin: 5px 0;;
 
 </style>";
 
-        $code .= "<script src='https://jexcel.net/v5/jexcel.js'></script>";
-        $code .= "<script src='https://jexcel.net/v5/jsuites.js'></script>";
-        $code .= "<link rel='stylesheet' href='https://jexcel.net/v5/jexcel.css' type='text/css' />";
-        $code .= "<link rel='stylesheet' href='https://jexcel.net/v5/jsuites.css' type='text/css' />";
+        $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
+        $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
+        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
+        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
 
         return $code;
     }
@@ -272,7 +272,7 @@ margin: 5px 0;;
         $code .= "<div class='search col-12'>
         <input class='col-11' type='text' id='orderSearchInput' placeholder='Search'>
          <i class='fas fa-search search-icon col-1'></i>          
-    </div>";
+        </div>";
         foreach($this->groups as $name => $products) {
             $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>
                         <h5 class='col-12'>" . $name . "</h5>
@@ -331,22 +331,20 @@ margin: 5px 0;;
         $code = "";
 
         $code .= "<div class='col-9 content'>";
-        $code .= "      
-        <table id='spreadsheet' class='scorecard'>
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>Product Code</th>
-      <th>Name</th>
-      <th>Einheiten/Kiste</th>
-      <th>Menge</th>
-      <th>PNR</th>
-      <th>Rabatt</th>
-      <th>PNF</th>
-    </tr>
-  </thead>
-<tbody>
-";
+        $code .= "<table id='spreadsheet' class='scorecard'>";
+        $code .= "<thead>";
+        $code .= "<tr>";
+        $code .= "<th data-celltype='hidden'>id</th>";
+        $code .= "<th>Product Code</th>";
+        $code .= "<th>Name</th>";
+        $code .= "<th>Einheiten/Kiste</th>";
+        $code .= "<th>Menge</th>";
+        $code .= "<th>PNR</th>";
+        $code .= "<th>Rabatt</th>";
+        $code .= "<th>PNF</th>";
+        $code .= "</tr>";
+        $code .= "</thead>";
+        $code .= "<tbody>";
 
         $foundone = false;
         foreach($this->groups as $name => $products) {
@@ -412,13 +410,12 @@ margin: 5px 0;;
             $code .= "</tr>";
         }
 
-        $code .= "
-</tbody>
-</table>
-<div>
-<button class='add add-filter-fields' type='button' onclick='table.insertRow()'>
-                            <i class='fas fa-plus'></i>
-                            </button>";
+        $code .= "</tbody>";
+        $code .= "</table>";
+        $code .= "<div>";
+        $code .= "<button class='add add-filter-fields' type='button' onclick='table.insertRow()'>";
+        $code .= "<i class='fas fa-plus'></i>";
+        $code .= "</button>";
 
 //$code .=" <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
 //            <i class='fas fa-minus'></i>
@@ -432,27 +429,14 @@ margin: 5px 0;;
     var table = jexcel(document.getElementById('spreadsheet'),
     {
 
-    columns:[
-        {type:'hidden',readOnly:true},
-        {type:'text',readOnly:true},
-        {type:'text',readOnly:true},
-        {type:'text',readOnly:true},
-        {type:'text'},
-        {type:'text', readOnly:true},
-        {type:'text',readOnly:true},
-        {type:'text', readOnly:true}
-        ],
+        columns:[],
         onchange: changed,    
         oninsertrow: updateRow,
         license:'fd12c-f6d85-227f1-85ed4',
-        });   
+        }
+        
+        );   
     
-    
-    
-    
-    
-    
-            
 
     </script>
     ";
