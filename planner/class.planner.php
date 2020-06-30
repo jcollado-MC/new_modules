@@ -64,11 +64,16 @@ class PLANNER{
              
              $( function() {
                  
-                $( '[id *= \'sortable-\']' ).sortable({
+                 var recieverId;
+                 
+                $( '[id *= \'sortable-\']' ).sortable({                
                   connectWith: '.timetable',
                   revert: true,
-                  update: function(event, ui) {
-                      
+                  receive: function(event, ui) {                        
+                        recieverId = $(this).attr('id');  
+                        console.log(recieverId);
+                    },                  
+                  update: function(event, ui) {                      
                   var input = ui.item.parent().siblings(input);
                   var id = ui.item.parent().attr('id');
                   var text = ui.item.children('p').text();
@@ -90,16 +95,53 @@ class PLANNER{
                         elements.push(text);
                     }
                     $(input).val(elements);   
-                  }
-                });
+                  },
+                  
+                }).disableSelection();
                 
-                $('[name*=\'draggable\']').draggable({
-                  connectToSortable: '.timetable',
-                  helper: 'clone',
-                  revert: 'invalid'
-                });
-                $( 'ul, li' ).disableSelection();
-
+                
+                $( '#sortable-multiple-events' ).sortable({
+                
+                  connectWith: '.timetable',
+                  revert: true,
+                  
+                  stop: function (event, ui) {
+                    console.log(recieverId);
+                    ui.item.clone().appendTo('#' + recieverId);
+                    $('.' + ui.item.attr('name')).sortable('cancel');
+                  },
+                  update: function(event, ui) {                      
+                  var input = ui.item.parent().siblings(input);
+                  var id = ui.item.parent().attr('id');
+                  var text = ui.item.children('p').text();
+                  var sender = ui.sender;
+                  
+                  if(sender != null){
+                      var senderInput = ui.sender.siblings('input');
+                      
+                      $(senderInput).val(function() {
+                        return $(this).val().replace(text, '')
+                      });
+                  }
+                      
+                    var elements = [];                    
+                    var dayListElements = $('#' + id + ' li');      
+                    
+                    for(let element of dayListElements){
+                        let text = $(element).find('p').text();                       
+                        elements.push(text);
+                    }
+                    $(input).val(elements);   
+                  },
+                  
+                }).disableSelection();
+                
+                
+                
+                
+                
+                
+                
              });
              
              $('i.delete').click( function(){
@@ -107,7 +149,6 @@ class PLANNER{
                  var liElementId = $(this).parent().attr('id');                 
                  
                  $('#' + liElementId).appendTo('.' + liElementName);
-
              });
              
              
@@ -239,7 +280,6 @@ class PLANNER{
             
             .event-infos{
                 background-color: #fff;
-                min-height: 40px;
             }
             
             
@@ -543,7 +583,7 @@ class PLANNER{
             $code .= "<ul class='panel-event pos connectedSortable' id='sortable-event'>";
 
             foreach ($this->events as $event) {
-
+                if ($event['multiple'] != 'true') {
                     $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $event['id'] . "'>";
                     $code .= "<i class='fas fa-times delete'></i>";
                     $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
@@ -565,33 +605,33 @@ class PLANNER{
 //                    $code .= "</div>";
 
                     $code .= "</li>";
-
+                }
                 $eventCnt++;
             }
             $code .= "</ul>";
 
-//        $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
-//        $code .= "<h5 class='col-12'>Multiple Events</h5>";
-//        $code .= "<hr class='col-12'>";
-//        $code .= "</div>";
-//        $code .= "<ul class='panel-multiple-event pos'>";
-//
-//        foreach ($this->events as $event) {
-//            if ($event['multiple'] == 'true') {
-//                $code .= "<li class='event-infos' id='event-" . $event['id'] ."' name='draggable-".$eventCnt."'>";
-//                $code .= "<i class='fas fa-times delete'></i>";
-//                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-//                $code .= "<div class='col-12'>";
-//                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-//                if (isset($event['icon'])) {
-//                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-//                }
-//                $code .= "</div>";
-//                $code .= "</li>";
-//            }
-//            $eventCnt++;
-//        }
-//        $code .= "</ul>";
+            $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
+            $code .= "<h5 class='col-12'>Multiple Events</h5>";
+            $code .= "<hr class='col-12'>";
+            $code .= "</div>";
+            $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
+
+            foreach ($this->events as $event) {
+                if ($event['multiple'] == 'true') {
+                    $code .= "<li class='col-12 event-infos' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
+                    $code .= "<i class='fas fa-times delete'></i>";
+                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+                    $code .= "<div class='col-12'>";
+                    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
+                    if (isset($event['icon'])) {
+                        $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
+                    }
+                    $code .= "</div>";
+                    $code .= "</li>";
+                }
+                $eventCnt++;
+            }
+            $code .= "</ul>";
 
 
 
