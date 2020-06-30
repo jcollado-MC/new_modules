@@ -520,7 +520,7 @@ class PLANNER{
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2  class='col-12'>Timetable Settings</h2>";
+        $code .= "<h2  class='col-12'>Planning Settings</h2>";
 
         $code .= "<h4  class='col-7'>Points of Sales</h4>";
         $code .= "<div class='col-5' id='color-filter'>";
