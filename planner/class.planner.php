@@ -181,6 +181,13 @@ class PLANNER{
         $code .= "<style>
 
 
+            .content{
+            min-height: 10px;;
+            }
+            
+            h4{
+                margin: 20px 0 10px 0;
+            }
 
             ul {
             list-style-type: none;
@@ -232,6 +239,7 @@ class PLANNER{
             
             .event-infos{
                 background-color: #fff;
+                min-height: 40px;
             }
             
             
@@ -264,40 +272,11 @@ class PLANNER{
             display: none;
             }
             
-            
-            /* SUB-HEADER */
-            
-            .dateheader{
-            background-color: #eee;
-            padding: 5px 10px;
-            margin-bottom: 15px;
-            }
-            
-            h2.visit-date{
-                text-align: center;
-                margin: 0;
-                padding: 2.5px 0;
-            }
-            
-            i.previous-visit, i.next-visit{
-                font-size: 1.8rem;
-                cursor: pointer;
-            }
-            
-            i.previous-visit:hover, i.next-visit:hover{
-                color: #777777;
-            }
-            
-            i.previous-visit{
-                float: left;
-            }
-            
-            i.next-visit, i.next-visit:before{
-                float: right;
-            }
-            
-            .dateheader i:hover{
-                cursor: pointer;
+            i.offline{
+            float: right;
+            font-size: 0.8rem;
+            padding: 2px;
+            color: #bbb;
             }
             
             /*COMMENTS*/
@@ -329,7 +308,7 @@ class PLANNER{
             /* COLOR FILTERS */
 
             #color-filter{
-                margin: 0;
+                margin: 20px 0 0 0;
                 
             }
             
@@ -402,12 +381,7 @@ class PLANNER{
                 color: dodgerblue;
             }
             
-           
-            li[name*='draggable-']{
-                float: left;
-                width: 100%;                
-            }
-            
+
             </style>";
 
 
@@ -506,7 +480,9 @@ class PLANNER{
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2  class='col-7'>Points of Sale</h2>";
+        $code .= "<h2  class='col-12'>Timetable Settings</h2>";
+
+        $code .= "<h4  class='col-7'>Points of Sales</h4>";
         $code .= "<div class='col-5' id='color-filter'>";
         $code .= "<button class='active' id='freq-4' type='button'></button>";
         $code .= "<button class='active' id='freq-3' type='button'></button>";
@@ -528,6 +504,9 @@ class PLANNER{
                 $code .= "<li class='pos-infos col-12 freq-". $shop['freq'] ."'  name='panel-".$cnt ."' id='". $shop['shop_id'] ."'>";
                 $code .= "<i class='fas fa-times delete'></i>";
                 $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+                if( $shop['offline'] == 'true' ) {
+                    $code .= "<i class='fas fa-wifi-slash offline'></i>";
+                }
                 $code .= "<p class='pos-number'>". $shop['number'] ."</p>";
                 $code .= "<p class='pos-name'>". $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=". $shop['shop_id'] ."'><i class='fas fa-external-link-alt'> </i> </a> </p>";
                 $code .= "<p class='pos-address'>". $shop['street'] . ", " . $shop['city'] ."</p>";
@@ -551,6 +530,8 @@ class PLANNER{
             $cnt++;
         }
 
+        $code .= "<h4  class='col-12'>Events</h4>";
+
             $code .= "<div class='title-part accordion' id='panel-event'>";
             $code .= "<h5 class='col-12'>Events</h5>";
             $code .= "<hr class='col-12'>";
@@ -562,7 +543,6 @@ class PLANNER{
             $code .= "<ul class='panel-event pos connectedSortable' id='sortable-event'>";
 
             foreach ($this->events as $event) {
-                if($event['multiple'] != 'true') {
 
                     $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $event['id'] . "'>";
                     $code .= "<i class='fas fa-times delete'></i>";
@@ -573,48 +553,45 @@ class PLANNER{
                         $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
                     }
                     $code .= "</div>";
-                    //                $code .= "<div class='comment col-12'>";
-                    //                $code .= "<i class='fas fa-info col-2'></i>";
-                    //                $code .= "<div class='col-10'>";
-                    //                $code .= "<p>15:30</p>";
-                    //                $code .= "<p class='comment-event-".$eventCnt."''>";
-                    //                $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-                    //                $code .= "</p>";
-                    //                $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
-                    //                $code .= "</div>";
-                    //                $code .= "</div>";
+//                    $code .= "<div class='comment col-12'>";
+//                    $code .= "<i class='fas fa-info col-2'></i>";
+//                    $code .= "<div class='col-10'>";
+//                    $code .= "<p>15:30</p>";
+//                    $code .= "<p class='comment-event-".$eventCnt."''>";
+//                    $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
+//                    $code .= "</p>";
+//                    $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
+//                    $code .= "</div>";
+//                    $code .= "</div>";
 
                     $code .= "</li>";
-                }
+
                 $eventCnt++;
             }
             $code .= "</ul>";
 
-
-
-
-        $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
-        $code .= "<h5 class='col-12'>Multiple Events</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "</div>";
-        $code .= "<ul class='panel-multiple-event pos'>";
-
-        foreach ($this->events as $event) {
-            if ($event['multiple'] == 'true') {
-                $code .= "<li class='event-infos' id='event-" . $event['id'] ."' name='draggable-".$eventCnt."'>";
-                $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                $code .= "<div class='col-12'>";
-                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                if (isset($event['icon'])) {
-                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                }
-                $code .= "</div>";
-                $code .= "</li>";
-            }
-            $eventCnt++;
-        }
-        $code .= "</ul>";
+//        $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
+//        $code .= "<h5 class='col-12'>Multiple Events</h5>";
+//        $code .= "<hr class='col-12'>";
+//        $code .= "</div>";
+//        $code .= "<ul class='panel-multiple-event pos'>";
+//
+//        foreach ($this->events as $event) {
+//            if ($event['multiple'] == 'true') {
+//                $code .= "<li class='event-infos' id='event-" . $event['id'] ."' name='draggable-".$eventCnt."'>";
+//                $code .= "<i class='fas fa-times delete'></i>";
+//                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+//                $code .= "<div class='col-12'>";
+//                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
+//                if (isset($event['icon'])) {
+//                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
+//                }
+//                $code .= "</div>";
+//                $code .= "</li>";
+//            }
+//            $eventCnt++;
+//        }
+//        $code .= "</ul>";
 
 
 
@@ -624,6 +601,8 @@ class PLANNER{
 
         return $code;
     }
+
+
 
 
     //SUBTASK 18222: "SHOW" --------------------------------------------
