@@ -41,14 +41,21 @@ class PLANNER{
                     $('.title-part').filter(function () {                    
                         var id = $(this).attr('id');                    
                         $(this).toggle( $(this).siblings('.' + id).text().toLowerCase().indexOf(value) > -1 );
-                });
-                
-                if (value.length > 0){                
-                     $('ul[class*=\'panel-\'').addClass('active-accordion');
+                    });
+                    
+                     $('ul.pos').filter(function () {
+                        var children = $(this).children('li').text();
+                        $(this).toggle(children.toLowerCase().indexOf(value) > -1);
+                    });
+                   
+                 if (value.length > 0){                                       
+                     $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
                      $('.accordion').addClass('active-accordion');
                 } else {
-                    $('.active-accordion').removeClass('active-accordion');
+                    $('ul.pos').css('display', '');
+                    $('.active-accordion').removeClass('active-accordion');                    
                 }
+                
         
             });
             
@@ -76,7 +83,7 @@ class PLANNER{
                   update: function(event, ui) {                      
                   var input = ui.item.parent().siblings(input);
                   var id = ui.item.parent().attr('id');
-                  var text = ui.item.children('p').text();
+                  var text = ui.item.text();
                   var sender = ui.sender;
                   
                   if(sender != null){
@@ -106,14 +113,13 @@ class PLANNER{
                   revert: true,
                   
                   stop: function (event, ui) {
-                    console.log(recieverId);
                     ui.item.clone().appendTo('#' + recieverId);
                     $('.' + ui.item.attr('name')).sortable('cancel');
                   },
                   update: function(event, ui) {                      
                   var input = ui.item.parent().siblings(input);
                   var id = ui.item.parent().attr('id');
-                  var text = ui.item.children('p').text();
+                  var text = ui.item.text();
                   var sender = ui.sender;
                   
                   if(sender != null){
@@ -137,19 +143,36 @@ class PLANNER{
                 }).disableSelection();
                 
                 
-                
-                
-                
-                
-                
              });
              
-             $('i.delete').click( function(){
-                 var liElementName = $(this).parent().attr('name');
-                 var liElementId = $(this).parent().attr('id');                 
+              $('.timetable').on( 'click' , '.multiple-event-infos i.delete' , function(){                 
+                 var text = $(this).parent().text();
+                 var input =  $(this).parent().parent().siblings('input');
                  
-                 $('#' + liElementId).appendTo('.' + liElementName);
+                 $(input).val(function() {
+                        return $(this).val().replace(text, '')
+                      });
+                  
+                  $(this).parent().remove();
              });
+             
+             $('.pos-infos i.delete, .event-infos i.delete').click( function(){
+                 
+                 var text = $(this).parent().text();
+                 var input =  $(this).parent().parent().siblings('input');
+                 
+                 $(input).val(function() {
+                        return $(this).val().replace(text, '')
+                      });
+                 
+                 var liElementName = $(this).parent().attr('name');
+                 var liElementId = $(this).parent().attr('id');
+                 $('#' + liElementId).appendTo('.' + liElementName);
+                 
+                 
+             });
+             
+
              
              
              /* MODALS */
@@ -271,7 +294,7 @@ class PLANNER{
             }
             
             h4{
-                margin: 20px 0 10px 0;
+                margin: 20px 0 0 0;
             }
 
             ul {
@@ -308,7 +331,7 @@ class PLANNER{
             }
             
             
-            .pos-infos, .event-infos {
+            .pos-infos, .event-infos, .multiple-event-infos {
                 border: none;
                 background-color: #eeeeee;
                 padding: 10px 15px;
@@ -317,17 +340,17 @@ class PLANNER{
                 cursor: pointer;
             }
             
-            .pos-infos:hover,.event-infos:hover{
+            .pos-infos:hover,.event-infos:hover,  .multiple-event-infos:hover{
                 background-color: #ddd;
             }
             
             
-            .event-infos{
+            .event-infos,  .multiple-event-infos{
                 background-color: #fff;
             }
             
             
-            .event-infos img{
+            .event-infos img,  .multiple-event-infos img{
                 height: auto;              
             }
             
@@ -587,38 +610,38 @@ class PLANNER{
     }
 
 
-    private function filter2(){
-
-        $code  = "<div class='content row col-9'>";
-        $code  .= "<div class='col-9 autoplans'>";
-        $code  .= "<div class='dropdown'>";
-        $code  .= "<button id='autoload' class='dropbtn' type='button'>";
-        $code  .= "<h5>".l(18224,5,"Autoload")." <i class='fas fa-caret-down'></i></h5>";
-        $code  .= "</button>";
-        $code  .= "<div class='dropdown-content autoload'>";
-        $code  .= "<div class='col-12 row'>";
-        $code  .= "<label>".l(18224,6,"Autoloading Type")."</label>";
-        $code  .= "<select class='col-12'>";
-        $code  .= "<option value='autoplan'>".l(18224,7,"Autoplan week")."</option>";
-        $code  .= "<option value='import'>".l(18224,8,"Import canvas")."</option>";
-        $code  .= "<option value='copy'>".l(18224,9,"Copy other week")."</option>";
-        $code  .= "</select>";
-        $code  .= "<div class='planning-content col-12 autoplan'>";
-        $code  .= "Autoplan coming soon!";
-        $code  .= "</div>";
-        $code  .= "<div class='planning-content col-12 import'>";
-        $code  .= "Import coming soon!";
-        $code  .= "</div>";
-        $code  .= "<div class='planning-content col-12 copy'>";
-        $code  .= "Copy coming soon!";
-        $code  .= "</div>";
-        $code  .= "<button class='update col-12'> <i class='fas fa-sync-alt'> </i>".l(18224,10,"Load")."</button>";
-        $code  .= "</div>";
-        $code  .= "</div>";
-        $code  .= "</div>";
-        $code .= "</div>";
-        return $code;
-    }
+//    private function filter2(){
+//
+//        $code  = "<div class='content row col-9'>";
+//        $code  .= "<div class='col-9 autoplans'>";
+//        $code  .= "<div class='dropdown'>";
+//        $code  .= "<button id='autoload' class='dropbtn' type='button'>";
+//        $code  .= "<h5>".l(18224,5,"Autoload")." <i class='fas fa-caret-down'></i></h5>";
+//        $code  .= "</button>";
+//        $code  .= "<div class='dropdown-content autoload'>";
+//        $code  .= "<div class='col-12 row'>";
+//        $code  .= "<label>".l(18224,6,"Autoloading Type")."</label>";
+//        $code  .= "<select class='col-12'>";
+//        $code  .= "<option value='autoplan'>".l(18224,7,"Autoplan week")."</option>";
+//        $code  .= "<option value='import'>".l(18224,8,"Import canvas")."</option>";
+//        $code  .= "<option value='copy'>".l(18224,9,"Copy other week")."</option>";
+//        $code  .= "</select>";
+//        $code  .= "<div class='planning-content col-12 autoplan'>";
+//        $code  .= "Autoplan coming soon!";
+//        $code  .= "</div>";
+//        $code  .= "<div class='planning-content col-12 import'>";
+//        $code  .= "Import coming soon!";
+//        $code  .= "</div>";
+//        $code  .= "<div class='planning-content col-12 copy'>";
+//        $code  .= "Copy coming soon!";
+//        $code  .= "</div>";
+//        $code  .= "<button class='update col-12'> <i class='fas fa-sync-alt'> </i>".l(18224,10,"Load")."</button>";
+//        $code  .= "</div>";
+//        $code  .= "</div>";
+//        $code  .= "</div>";
+//        $code .= "</div>";
+//        return $code;
+//    }
 
 
     private function actions(){
@@ -712,6 +735,11 @@ class PLANNER{
         $code .= "<div class='col-12 tabs'>";
         $code .= "<h2  class='col-12'>Planning Settings</h2>";
 
+        $code .= "<div class='search col-12'>";
+        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
+        $code .= "<i class='fas fa-search search-icon col-1'></i>";
+        $code .= "</div>";
+
         $code .= "<h4  class='col-7'>Points of Sales</h4>";
         $code .= "<div class='col-5' id='color-filter'>";
         $code .= "<button class='active' id='freq-4' type='button'></button>";
@@ -724,10 +752,7 @@ class PLANNER{
         $code .= "<button type='button' id='group2'>City</button>";
         $code .= "<button type='button' id='group3'>Group</button>";
         $code .= "</div>";
-        $code .= "<div class='search col-12'>";
-        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
-        $code .= "<i class='fas fa-search search-icon col-1'></i>";
-        $code .= "</div>";
+
 
 
 
@@ -816,7 +841,7 @@ class PLANNER{
 
             foreach ($this->events as $event) {
                 if ($event['multiple'] == 'true') {
-                    $code .= "<li class='col-12 event-infos' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
+                    $code .= "<li class='multiple-event-infos col-12' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
                     $code .= "<i class='fas fa-times delete'></i>";
                     $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
                     $code .= "<div class='col-12'>";

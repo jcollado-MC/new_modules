@@ -231,7 +231,6 @@ margin: 5px 0;
             }
         }
         $code .= "var allProducts = ".json_encode($jsonProducts) .";";
-        $code .= "console.log(allProducts);";
         $code .= "</script>";
 
 
