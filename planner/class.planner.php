@@ -215,6 +215,50 @@ class PLANNER{
                     $('ul.pos li.' + id).hide();
                 }
             });
+            
+            
+            /* DROPDOWN */
+            $(document).on(\"click\", 'button.dropbtn', function () {
+                // get button id
+                var id = $(this).attr('id');
+                // show dropdown-content when it's class is button id
+                $(\".dropdown-content.\" + id).toggle();
+                // hide all other dropdowns then
+                $(\".dropdown-content\").not(\".\" + id).hide();
+            });
+        
+            $(document).mouseup(function (e) {
+                // set container value
+                var container = $(\".dropdown-content\");
+        
+                // If the target of the click isn't the container, hide it
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.hide();
+                }
+            });
+
+            
+            
+            /* GROUPING */
+            
+            $('.grouping button').click( function() {
+                  $('.grouping .active').removeClass('active');
+                  
+                  $(this).addClass('active');
+            });
+            
+            
+            /* AUTOPLAN */
+            
+            var val = $('.autoload select').val();
+            $('.' + val).show()
+            
+            $('.autoload select').change(function() {
+              $('.planning-content').hide();
+              var val = $(this).val();
+              $('.' + val).show()
+            });
+            
         
              
              });
@@ -421,7 +465,31 @@ class PLANNER{
                 color: dodgerblue;
             }
             
+            /* GROUPS */
+            
+            .grouping{
+                margin: 15px 0;
+            }
+            
+            .grouping button{
+                padding: 5px 10px;
+                margin: 0 5px 0 0;
+                border: none;
+            }
+            
+            .grouping button.active, .grouping button:hover{
+                background-color: #bbb;
+                color: white;                
+            }
 
+
+            /*AUTOPLAN*/
+            
+            .planning-content{
+            display: none;
+            }
+            
+            
             </style>";
 
 
@@ -430,6 +498,10 @@ class PLANNER{
 
 
     //SUBTASK 18224: "STUFF" --------------------------------------------
+
+
+
+
     private function editModal(){
         $code = "";
         $code .= "<div class='pos-modal'>";
@@ -454,18 +526,136 @@ class PLANNER{
     }
 
 
-    private function content(){
-        $code =  "";
-        $code .= "<div class='col-9 content'>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Monday, 4.5.</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
-        $code .= "<div  class='timetable-box'><p class='list-header'>Tuesday, 5.5.</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Wednesday, 6.5.</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Thursday, 7.5.</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>Friday, 8.5.</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
+    private function filter(){
+
+        $code  = "<div class='content row col-9'>";
+        $code  .= "<div class='col-9 autoplans'>";
+        $code  .= "<button class='dropbtn modal-button' id='autoplan-modal' type='button'>";
+        $code  .= "<h5>".l(18224,5,"Autoplan week")."</h5>";
+        $code  .= "</button>";
+
+        $code .= "<div class='autoplan-modal'>";
+        $code .= "<div class='modal-content'>";
+        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+        $code  .= "<div class='col-12'>";
+        $code  .= "Autoplan coming soon!";
+        $code  .= "</div>";
+        $code .= "<div class='modal-buttons'>";
+        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "</div>";
+
+        $code  .= "<button class='dropbtn modal-button' id='import-modal' type='button'>";
+        $code  .= "<h5>".l(18224,7,"Import canvas")."</h5>";
+        $code  .= "</button>";
+
+        $code .= "<div class='import-modal'>";
+        $code .= "<div class='modal-content'>";
+        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+        $code  .= "<div class='col-12'>";
+        $code  .= "Import coming soon!";
+        $code  .= "</div>";
+        $code .= "<div class='modal-buttons'>";
+        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "</div>";
+
+        $code  .= "<button class='dropbtn modal-button' id='copy-modal' type='button'>";
+        $code  .= "<h5>".l(18224,8,"Copy other week")."</h5>";
+        $code  .= "</button>";
+
+        $code .= "<div class='copy-modal'>";
+        $code .= "<div class='modal-content'>";
+        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+        $code  .= "<div class='col-12'>";
+        $code  .= "Copy Week coming soon!";
+        $code  .= "</div>";
+        $code .= "<div class='modal-buttons'>";
+        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+        $code .= "</div>";
+        $code .= "</div>";
+        $code .= "</div>";
+
+
+        $code .= "</div>";
+        return $code;
+    }
+
+
+    private function filter2(){
+
+        $code  = "<div class='content row col-9'>";
+        $code  .= "<div class='col-9 autoplans'>";
+        $code  .= "<div class='dropdown'>";
+        $code  .= "<button id='autoload' class='dropbtn' type='button'>";
+        $code  .= "<h5>".l(18224,5,"Autoload")." <i class='fas fa-caret-down'></i></h5>";
+        $code  .= "</button>";
+        $code  .= "<div class='dropdown-content autoload'>";
+        $code  .= "<div class='col-12 row'>";
+        $code  .= "<label>".l(18224,6,"Autoloading Type")."</label>";
+        $code  .= "<select class='col-12'>";
+        $code  .= "<option value='autoplan'>".l(18224,7,"Autoplan week")."</option>";
+        $code  .= "<option value='import'>".l(18224,8,"Import canvas")."</option>";
+        $code  .= "<option value='copy'>".l(18224,9,"Copy other week")."</option>";
+        $code  .= "</select>";
+        $code  .= "<div class='planning-content col-12 autoplan'>";
+        $code  .= "Autoplan coming soon!";
+        $code  .= "</div>";
+        $code  .= "<div class='planning-content col-12 import'>";
+        $code  .= "Import coming soon!";
+        $code  .= "</div>";
+        $code  .= "<div class='planning-content col-12 copy'>";
+        $code  .= "Copy coming soon!";
+        $code  .= "</div>";
+        $code  .= "<button class='update col-12'> <i class='fas fa-sync-alt'> </i>".l(18224,10,"Load")."</button>";
+        $code  .= "</div>";
+        $code  .= "</div>";
+        $code  .= "</div>";
+        $code .= "</div>";
+        return $code;
+    }
+
+
+    private function actions(){
+        $code = "";
+        $code .= "<div class='col-3 actions'>";
+        $code .= "<button class='download' type='button'>";
+        $code .= "<i class='fas fa-file-download'></i>";
+        $code .= "</button>";
+        $code .= "<button class='copy' type='button'>";
+        $code .= "<i class='fas fa-copy'></i>";
+        $code .= "</button>";
+        $code .= "</div>";
         $code .= "</div>";
 
         return $code;
     }
+
+
+
+
+    private function content(){
+        $code =  "";
+        $code .= "<div class='col-9 content'>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,11,"Monday").", 4.5.</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
+        $code .= "<div  class='timetable-box'><p class='list-header'>".l(18224,12,"Tuesday").", 5.5.</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,13,"Wednesday").", 6.5.</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,14,"Thursday").", 7.5.</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,15,"Friday").", 8.5.</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
+        $code .= "</div>";
+
+        return $code;
+    }
+
+
+
+
+
 
     //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
     var $user = '';
@@ -529,10 +719,18 @@ class PLANNER{
         $code .= "<button class='active' id='freq-2' type='button'></button>";
         $code .= "<button class='active' id='freq-1' type='button'></button>";
         $code .= "</div>";
+        $code .= "<div class='grouping col-12'>";
+        $code .= "<button class='active' type='button' id='group1'>Chain</button>";
+        $code .= "<button type='button' id='group2'>City</button>";
+        $code .= "<button type='button' id='group3'>Group</button>";
+        $code .= "</div>";
         $code .= "<div class='search col-12'>";
         $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
         $code .= "<i class='fas fa-search search-icon col-1'></i>";
         $code .= "</div>";
+
+
+
         foreach($this->groups as $name => $shops) {
             $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>";
             $code .= "<h5 class='col-12'>" . $name . "</h5>";
@@ -652,6 +850,8 @@ class PLANNER{
         $code .= "<main>";
         $code .="<form method='post'>";
         $code .= $this->sidebar();
+        $code .= $this->filter();
+        $code .= $this->actions();
         $code .= $this->editModal();
         $code .= $this->content();
         $code .= "</form>";
