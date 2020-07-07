@@ -778,6 +778,7 @@ class PLANNER{
                  for(let shopIndex in groups[group]){
                      
                     var shop = groups[group][shopIndex];
+                    /*DON'T LOAD ITEMS THAT ARE ALREADY IN THE TIMETABLE*/
                     if($('.timetable').find('li#' + shop['shop_id'] ).length < 1 ){                 
                      
                         html += ' <li class=\'pos-infos col-12 freq-' + shop['freq'] + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
@@ -805,7 +806,8 @@ class PLANNER{
     //
                     html += '</li>';                
                     commentCnt++;
-                    } else{
+                    } else{                        
+                        /*CHANGE GROUP NAME IN LISTED ITEMS*/
                         $('.timetable').find('li#' + shop['shop_id']).attr('name' ,'panel-' + cnt);
                     }
                     
@@ -818,12 +820,29 @@ class PLANNER{
              
              $(html).appendTo('.points-of-sales');
                     
-            $( '[id *= \'sortable-\']' ).sortable({                
+            /*ADD SORDTABLE*/
+             
+             $( '[id *= \'sortable-\']' ).sortable({                
               connectWith: '.timetable',
               revert: true,
             }).disableSelection();
          
              
+             /* ONLY SHOW SELECTED COLORS */
+            
+
+            $('#color-filter button').each( function() {
+             
+                var isActive = $(this).hasClass('active');
+                var id = $(this).attr('id');  
+              
+                
+                if(isActive){
+                    $('ul.pos li.' + id).show();
+                } else {
+                    $('ul.pos li.' + id).hide();
+                }
+            });
              
              
          }";
