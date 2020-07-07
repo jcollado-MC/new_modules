@@ -778,9 +778,7 @@ class PLANNER{
                  for(let shopIndex in groups[group]){
                      
                     var shop = groups[group][shopIndex];
-                    if($('.timetable').find('li#' + shop['shop_id'] ).length < 1 ){                     
-                     
-                     
+                    if($('.timetable').find('li#' + shop['shop_id'] ).length < 1 ){                 
                      
                         html += ' <li class=\'pos-infos col-12 freq-' + shop['freq'] + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
                         html += '<i class=\'fas fa-times delete\'></i>';
@@ -807,7 +805,10 @@ class PLANNER{
     //
                     html += '</li>';                
                     commentCnt++;
+                    } else{
+                        $('.timetable').find('li#' + shop['shop_id']).attr('name' ,'panel-' + cnt);
                     }
+                    
                 }
                  
                  html += '</ul>';
