@@ -34,11 +34,15 @@ class myPlanner extends Planner
             $shop['number'] = $row['number'];
             $shop['offline'] = $row['offline'];
             $shop['name'] = $row['name'];
+
             $shop['city'] = $row['city'];
             $shop['street'] = $row['street'];
             $shop['typ'] = $row['typ'];
             $shop['freq'] = $row['freq'];
             $shop['client'] = $row['client'];
+            $shop['group1'] = $row['group1'];
+            $shop['group2'] = $row['group2'];
+            $shop['group3'] = $row['group3'];
             $this->groups[$group][] = $shop;
         }
 
