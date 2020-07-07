@@ -96,9 +96,9 @@ class PLANNER{
                   if(sender != null){
                       var senderInput = ui.sender.siblings('input');
                       
-                      $(senderInput).val(function() {
-                        return $(this).val().replace(text, '')
-                      });
+                      $(senderInput).val(
+                        $(sender).find('li').text()
+                      );
                   }
                       
                     var elements = [];                    
@@ -160,28 +160,27 @@ class PLANNER{
                  
                  $(input).val(function() {
                         return $(this).val().replace(text, '');
-                      });
+                  });
                   
                   $(this).parent().remove();
              });
              
              $('.timetable').on('click', '.pos-infos i.delete, .event-infos i.delete', function(){   
              
-                 var text = $(this).parent().text();
+                 var textDelete = $(this).parent().text();
                  var input =  $(this).parent().parent().siblings('input');
-                 
-                 console.log('');
-                 
-                 $(input).val( function() {
-                    return $(this).val().replace(text, '');
-                 });
-                 
+                 var timetableId = $(this).parent().parent().attr('id');                                   
                  var liElementName = $(this).parent().attr('name');
                  var liElementId = $(this).parent().attr('id');
                  
                  var li = $('body').find('.' + liElementName)
                     
-                 $('#' + liElementId).appendTo(li);                 
+                 $('#' + liElementId).appendTo(li);     
+                 
+                 
+                 $(input).val(
+                    $('#' + timetableId).find('li').text()
+                  );            
                  
              });
              
@@ -830,7 +829,6 @@ class PLANNER{
              
              /* ONLY SHOW SELECTED COLORS */
             
-
             $('#color-filter button').each( function() {
              
                 var isActive = $(this).hasClass('active');
