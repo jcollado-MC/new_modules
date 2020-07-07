@@ -82,8 +82,7 @@ class PLANNER{
                   connectWith: '.timetable',
                   revert: true,
                   receive: function(event, ui) {                        
-                        recieverId = $(this).attr('id');  
-                        console.log(recieverId);
+                        recieverId = $(this).attr('id');
                     },                  
                   update: function(event, ui) {                      
                   var input = ui.item.parent().siblings(input);
@@ -650,11 +649,11 @@ class PLANNER{
     private function content(){
         $code =  "";
         $code .= "<div class='col-9 content'>";
-        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,11,"Monday").", 4.5.</p><input type='text' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
-        $code .= "<div  class='timetable-box'><p class='list-header'>".l(18224,12,"Tuesday").", 5.5.</p><input type='text' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,13,"Wednesday").", 6.5.</p><input type='text' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,14,"Thursday").", 7.5.</p><input type='text' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
-        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,15,"Friday").", 8.5.</p><input type='text' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,11,"Monday").", 4.5.</p><input type='hidden' name='monday' value=''><ul class='timetable monday connectedSortable' id='sortable-monday'></ul></div>";
+        $code .= "<div  class='timetable-box'><p class='list-header'>".l(18224,12,"Tuesday").", 5.5.</p><input type='hidden' name='tuesday' value=''><ul class='timetable tuesday connectedSortable' id='sortable-tuesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,13,"Wednesday").", 6.5.</p><input type='hidden' name='wednesday' value=''><ul class='timetable wednesday connectedSortable' id='sortable-wednesday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,14,"Thursday").", 7.5.</p><input type='hidden' name='thursday' value=''><ul class='timetable thursday connectedSortable' id='sortable-thursday'></ul></div>";
+        $code .= "<div class='timetable-box'><p class='list-header'>".l(18224,15,"Friday").", 8.5.</p><input type='hidden' name='friday' value=''><ul class='timetable friday connectedSortable' id='sortable-friday'></ul></div>";
         $code .= "</div>";
 
         return $code;
