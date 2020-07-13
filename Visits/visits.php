@@ -1,6 +1,6 @@
 <?php
-include 'class.visits.php';
-$visits = new visits();
+include 'class.myVisits.php';
+$visits = new myVisits();
 
 ?>
 <!DOCTYPE html>

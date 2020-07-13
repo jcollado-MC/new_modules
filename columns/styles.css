@@ -45,8 +45,8 @@ h5{
 }
 
 h2{
-    margin-top: 0;
-    font-size: 1.2rem;
+    margin: 0 0 0 0;
+    font-size: 1.1rem;
 }
 
 
@@ -76,10 +76,6 @@ label {
 
 /* SEARCH */
 
-i.search-icon{
-    padding: 10px 5px 0 0;
-}
-
 
 
 table{
@@ -108,7 +104,7 @@ td a{
 
 label{
     display: block;
-    margin: 10px 0 5px 0;
+    margin: 0 0 5px 0;
     font-size: 0.8rem;
     color: #444444;
 }
@@ -229,7 +225,8 @@ i.add-comment:hover{
 /* Style the accordion panel. Note: hidden by default */
 [class*="panel"] {
     display: none;
-    padding: 0 10px 15px 10px;
+    padding: 10px ;
+    margin-bottom: 15px;
     background-color: white;
     overflow: hidden;
 }
@@ -288,7 +285,6 @@ ul.breadcrumb li a:hover {
     cursor: pointer;
     padding: 5px 10px;
     margin-right: 10px;
-    margin-bottom: 10px;
 }
 
 /* Dropdown button on hover & focus */
@@ -326,29 +322,23 @@ ul.breadcrumb li a:hover {
 .dropdown-content a:hover {background-color: #ddd}
 
 
-.filters{
-    margin-bottom: 15px;
-}
-
-
-
 /* TABS */
 
 /* Style the tab */
 .tabs {
     overflow: hidden;
     border: none;
-    background-color: #eeeeee;
+    background-color: #eee;
     padding: 15px;
 }
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
-    background-color: #f1f1f1;
+    background-color: #fff;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 15px 15px 5px 15px;
+    padding: 5px 8px;
     transition: 0.3s;
 }
 
@@ -359,8 +349,8 @@ ul.breadcrumb li a:hover {
 
 /* Create an active/current tablink class */
 .tab button.active {
-    background-color: #fff;
-    border: 1px solid #f1f1f1;
+    background-color: #eee;
+    border: 1px solid #ddd;
     border-bottom: none;
 }
 
@@ -368,8 +358,10 @@ ul.breadcrumb li a:hover {
 .tabcontent {
     display: none;
     padding: 15px ;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #ddd;
     border-top: none;
+    background-color: #eee;
+    margin-bottom: 15px;
 }
 
 #filter{
@@ -448,6 +440,7 @@ ul.breadcrumb li a:hover {
     width: 30px;
     height: 15px;
     margin-right: 10px;
+    float: right;
 }
 
 .switch input {
@@ -620,14 +613,13 @@ input:checked + .slider:before {
 
 .content{
     position: relative;
-    min-height: 400px;
 }
 
 
 .update-overlay{
     position: absolute; /* Stay in place */
     z-index: 333; /* Sit on top */
-    left: 0;
+    left: 15px;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
@@ -641,14 +633,15 @@ input:checked + .slider:before {
     width: 120px;
     position: absolute;
     top: 200px;
-    top: 200px;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     filter: none;
 }
 
-
+.search{
+    margin: 5px 0 15px 0;
+}
 
 input#searchInput{
     background: none;
@@ -666,9 +659,9 @@ i.search-icon::before{
     float: right;
 }
 
-.tabs h5 {
-    margin-top: 15px;
-}
+/*.tabs h5 {*/
+/*    margin-top: 15px;*/
+/*}*/
 
 /* For Desktop */
 @media only screen and (min-width: 768px) {

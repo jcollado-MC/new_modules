@@ -103,7 +103,7 @@ $(document).ready(function() {
 
     /* MODALS */
     // hide on initial
-    $('[class$='-modal']').hide();
+    $('[class$=\"-modal\"]').hide();
 
     //show modal with class of button id
     $('.modal-button').on('click', function () {
@@ -124,7 +124,7 @@ $(document).ready(function() {
 
     /* SEARCH TABLE SIDEBAR */
 
-    $('#tableSearchInputSSR').on('keyup', function () {
+    $('#searchInput').on('keyup', function () {
         //get value of searchbar input
         var value = $(this).val().toLowerCase();
         //filter checkbox-labels for search value
@@ -281,18 +281,7 @@ $(document).ready(function() {
 
 </script>";
     $code .= "<style>
-.report-content{
-    padding: 0 15px;
-    margin-bottom: 15px;
-}
 
-
-input#tableSearchInputSSR{
-    background: none;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 10px;
-}
 
 
 /* CONTROLS */
@@ -310,17 +299,13 @@ input#tableSearchInputSSR{
 }
 
 
-.add-filter-fields{
-    margin-top: 5px;
-}
-
 .actions button{
     float: right;
     margin: 0;
 }
 
 .table-fields, .matrix-fields, .gallery-fields{
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -330,7 +315,7 @@ input#tableSearchInputSSR{
     margin-top: 5px;
 }
 
-.custom-filter-group select, input{
+.custom-filter-group select, .custom-filter-group input{
     margin: 5px 0;
 }
 
@@ -342,14 +327,9 @@ input#tableSearchInputSSR{
     display: inline;
 }
 
-.content{
-    position: relative;
-    min-height: 400px;
-}
-
 
 .update-overlay{
-
+    min-height: 400px;
     position: absolute; /* Stay in place */
     z-index: 333; /* Sit on top */
     left: 0;
@@ -452,27 +432,26 @@ input#tableSearchInputSSR{
     $code .= "<h2>Table Settings</h2>";
 
 
-    $code .= "<div class='search col-12'>
-        <input class='col-11' type='text' id='tableSearchInputSSR' placeholder='Search'>
-         <i class='fas fa-search search-icon col-1'></i>
-          
-    </div>";
+    $code .= "<div class='search col-12'>";
+    $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
+    $code .= "<i class='fas fa-search search-icon col-1'></i>";
+    $code .= "</div>";
 
 
     $cnt = 0;
     foreach($this->groups as $name => $fields){
       $cnt++;
       $code .= "<div class='col-12 table-fields'>";
-      $code .= "<div class='title-part'>
-                        <h5 class='col-10'>".$name."</h5>
-                        <div class='col-2 row'>
-                            <label class='switch'>
-                                <input type='checkbox' id='group".$cnt."' class='groups'>
-                                <span class='slider round'></span>
-                            </label>
-                        </div>
-                        <hr class='col-12'>
-                    </div>";
+      $code .= "<div class='title-part'>";
+      $code .= "<h5 class='col-10'>".$name."</h5>";
+      $code .= "<div class='col-2 row'>";
+      $code .= "<label class='switch'>";
+      $code .= "<input type='checkbox' id='group".$cnt."' class='groups'>";
+      $code .= "<span class='slider round'></span>";
+      $code .= "</label>";
+      $code .= "</div>";
+      $code .= "<hr class='col-12'>";
+      $code .= "</div>";
       // TODO RENAME FIELDS
       $code .= "<div class='col-12 checkboxes'>";
       foreach($fields as $field){
@@ -486,12 +465,13 @@ input#tableSearchInputSSR{
     }
 
 
-    $code .= "<div class='col-12 row table-fields'>
-                            <label  class='col-9'>
-                                <h5>Entry Limit</h5>
-                            </label>";
-    $code .= "<input class='col-3' type='number'>";
+    $code .= "<div class='col-12 row table-fields'>";
+    $code .= "<label  class='col-12'>";
+    $code .= "<h5>Entry Limit</h5>";
+    $code .= "</label>";
     $code .= "<hr class='col-12'>";
+    $code .= "<input class='col-3' type='number'>";
+
     $code .= "</div>";
     $code .="</div>";
 
@@ -506,9 +486,11 @@ input#tableSearchInputSSR{
     $code .= "<div class='col-12 tabs'>";
     $code .= "<h2>Matrix Settings</h2>";
     $code .= "<div class='col-12 row matrix-fields'>";
-    $code .= "<label>
-                        <h5>X-Axis <i class='fas fa-arrow-right'></i></h5>
-                  </label>";
+    $code .= "<label>";
+    $code .= "<h5>X-Axis";
+    $code .= "<i class='fas fa-arrow-right'></i>";
+    $code .= "</h5>";
+    $code .= "</label>";
     $code .= "<select class='col-12'>";
 
     foreach($this->groups as $name => $fields){
@@ -587,20 +569,19 @@ input#tableSearchInputSSR{
     $code .= "<div class='col-3'>";
     $code .= "<div class='col-12 tabs'>";
     $code .= "<h2>Gallery Settings</h2>";
-
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-11'>
-                                <h5>Group Title</h5>
-                            </label>
-                            <button class='add-gallery-fields add col-1' type='button' id='group-title-fields'>
-                                <i class='fas fa-plus'></i>
-                            </button>
-                            <hr class='col-12'>";
+    $code .= "<div class='col-12 row gallery-fields'>";
+    $code .= "<label  class='col-11'>";
+    $code .= "<h5>Group Title</h5>";
+    $code .= "</label>";
+    $code .= "<button class='add-gallery-fields add col-1' type='button' id='group-title-fields'>";
+    $code .= "<i class='fas fa-plus'></i>";
+    $code .= "</button>";
+    $code .= "<hr class='col-12'>";
     // TODO RENAME FIELDS
     $code .= "<div class='first-field'>";
     $code .= "<div class='group-title-fields'>";
-    $code .= "<input type='text' list='value-list' class='col-11'>
-                                    <datalist id='value-list'>";
+    $code .= "<input type='text' list='value-list' class='col-11'>";
+    $code .= "<datalist id='value-list'>";
     foreach($this->groups as $name => $fields) {
       $code .= "<optgroup label='$name'>";
       foreach ($fields as $field) {
@@ -617,14 +598,14 @@ input#tableSearchInputSSR{
     $code .="</div>";
 
 
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-11'>
-                                <h5>Image Title</h5>
-                            </label>
-                            <button class='add-gallery-fields add col-1' type='button' id='image-title-fields'>
-                                <i class='fas fa-plus'></i>
-                            </button>
-                            <hr class='col-12'>";
+    $code .= "<div class='col-12 row gallery-fields'>";
+    $code .= "<label  class='col-11'>";
+    $code .= "<h5>Image Title</h5>";
+    $code .= "</label>";
+    $code .= "<button class='add-gallery-fields add col-1' type='button' id='image-title-fields'>";
+    $code .= "<i class='fas fa-plus'></i>";
+    $code .= "</button>";
+    $code .= "<hr class='col-12'>";
     // TODO RENAME FIELDS
     $code .= "<div class='first-field'>";
     $code .= "<div class='image-title-fields'>";
@@ -646,14 +627,14 @@ input#tableSearchInputSSR{
     $code .="</div>";
 
 
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-11'>
-                                <h5>Image Text</h5>
-                            </label>
-                            <button class='add-gallery-fields add col-1' type='button' id='image-text-fields'>
-                                <i class='fas fa-plus'></i>
-                            </button>
-                            <hr class='col-12'>";
+    $code .= "<div class='col-12 row gallery-fields'>";
+    $code .= "<label  class='col-11'>";
+    $code .= "<h5>Image Text</h5>";
+    $code .= "</label>";
+    $code .= "<button class='add-gallery-fields add col-1' type='button' id='image-text-fields'>";
+    $code .= "<i class='fas fa-plus'></i>";
+    $code .= "</button>";
+    $code .= "<hr class='col-12'>";
     // TODO RENAME FIELDS
     $code .= "<div class='first-field'>";
     $code .= "<div class='image-text-fields'>";
@@ -675,18 +656,18 @@ input#tableSearchInputSSR{
     $code .="</div>";
 
 
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-11'>
-                                <h5>Image Subtitle</h5>
-                            </label>
-                            <button class='add-gallery-fields add col-1' type='button' id='image-subtitle-fields'>
-                                <i class='fas fa-plus'></i>
-                            </button>
-                            <hr class='col-12'>";
+    $code .= "<div class='col-12 row gallery-fields'>";
+    $code .= "<label  class='col-11'>";
+    $code .= "<h5>Image Subtitle</h5>";
+    $code .= "</label>";
+    $code .= "<button class='add-gallery-fields add col-1' type='button' id='image-subtitle-fields'>";
+    $code .= "<i class='fas fa-plus'></i>";
+    $code .= "</button>";
+    $code .= "<hr class='col-12'>";
     $code .= "<div class='first-field'>";
     $code .= "<div class='image-subtitle-fields'>";
-    $code .= "<input type='text' list='value-list' class='col-11'>
-                                    <datalist id='value-list'>";
+    $code .= "<input type='text' list='value-list' class='col-11'>";
+    $code .= "<datalist id='value-list'>";
     foreach($this->groups as $name => $fields) {
       $code .= "<optgroup label='$name'>";
       foreach ($fields as $field) {
@@ -702,16 +683,16 @@ input#tableSearchInputSSR{
     $code .="</div>";
     $code .="</div>";
 
-    $code .= "<div class='col-12 row gallery-fields'>
-                            <label  class='col-10'>
-                                <h5>Maximum Images per Row</h5>
-                            </label>";
+    $code .= "<div class='col-12 row gallery-fields'>";
+    $code .= "<label  class='col-10'>";
+    $code .= "<h5>Maximum Images per Row</h5>";
+    $code .= "</label>";
+    $code .= "<hr class='col-12'>";
     $code .= "<select class='col-2'>";
     $code .= "<option>1</option>";
     $code .= "<option>2</option>";
     $code .= "<option selected='selected'>3</option>";
     $code .= "</select>";
-    $code .= "<hr class='col-12'>";
     $code .= "</div>";
 
     $code .="</div>";
@@ -725,18 +706,23 @@ input#tableSearchInputSSR{
     $code .= "<div class='dropdown'>";
     $code .= "<button id='timespan' class='dropbtn' type='button'>";
     $code .= "<h5>";
-    $code .= ($this->date != "" ) ? $this->date : "Time Span";
+    if ($this->report[0]['datefield']!= "" ){
+        $code .= $this->report[0]['datefield'];
+    } else {
+      $code .= "Time Span";
+    }
     $code .= " <i class='fas fa-caret-down'></i></h5> </button>";
     $code .= "<div class='dropdown-content timespan'>";
     $code .= "<div class='col-12 row'>";
-    $code .= "<input type='text' name='report[datefield]' value='".$this->datefield."'>";
     $code .= "<label><input type='checkbox' id='period-timespan'>".l(18166,2,"Periodo móvil")."</label>";
     $code .= "<div class='specific-timespan'>";
-    $code .= "<div class='col-12'>".l(18166,3,"Desde")." ";
-    $code .= "<input type='date' name='report[date_start]' value='".$this->date_start."'>";
+    $code .= "<div class='col-12'>".l(18166,3,"From")." ";
+    $code .= "<input type='date' name='report[date_start]' value='"
+
+        .$this->report[0]['date_start']."'>";
     $code .= "</div>";
-    $code .= "<div class='col-12'>".l(18166,4,"Hasta")." ";
-    $code .= "<input type='date' name='report[date_end]' value='".$this->date_end."'>";
+    $code .= "<div class='col-12'>".l(18166,4,"To")." ";
+    $code .= "<input type='date' name='report[date_end]' value='".$this->report[0]['date_end']."'>";
     $code .= "</div>";
     $code .= "</div>";
     // PERIOD
@@ -763,11 +749,11 @@ input#tableSearchInputSSR{
     $code .= "<div class='dropdown-content filter'>";
 
 
-    $code .= "<div class='custom-filter-group col-12' >
-                                <div class='filter-header'>
-                                <label class='col-11'>Filter:</label>
-                                <i class='fas fa-times delete col-1'></i>
-                                </div>";
+    $code .= "<div class='custom-filter-group col-12' >";
+    $code .= "<div class='filter-header'>";
+    $code .= "<label class='col-11'>Filter:</label>";
+    $code .= "<i class='fas fa-times delete col-1'></i>";
+    $code .= "</div>";
 
     $code .="<div class='col-12'>";
     $code .= "<select name='filter1[]' class='col-12' >";
@@ -777,7 +763,7 @@ input#tableSearchInputSSR{
       foreach ($fields as $field) {
         $code .= "<option value='".$field['id']."'";
         // 	TODO: SAVE FILTER IN STRUCT
-        if($this->filters==$field['id']) $code .= "SELECTED";
+//        if($this->filters==$field['id']) $code .= "SELECTED";
         $code .= ">".$field['name']."</option>";
       }
     }
@@ -810,14 +796,12 @@ input#tableSearchInputSSR{
     */
     $code .= "</div>";
     $code .= "</div>";
-    $code .= "</div>
-                    </div>
-                    <div class='new-filter'></div>
-                     <button class='add add-filter-fields' type='button'>
-                            <i class='fas fa-plus'></i>
-                            </button>        
-                        ";
-
+    $code .= "</div>";
+    $code .= "</div>";
+    $code .= "<div class='new-filter'></div>";
+    $code .= "<button class='add add-filter-fields' type='button'>";
+    $code .= "<i class='fas fa-plus'></i>";
+    $code .= "</button>";
     $code .= "</div>";
     return $code;
   }
@@ -827,15 +811,14 @@ input#tableSearchInputSSR{
     $code = "";
     $code .= "<div class='col-3 actions'>";
 //    TODO: only show newsletter and share if saved
-    $code .= "<button class='newsletter' type='button'>
-                <i class='fas fa-envelope-open-text'></i>
-              </button>";
-    $code .= "<button class='modal-button share' type='button' id='share-modal'>
-                  <i class='fas fa-share-alt'></i>
-              </button>
-                    
-                    <div class='share-modal'>
-                      <div class='modal-content'>";
+    $code .= "<button class='newsletter' type='button'>";
+    $code .= "<i class='fas fa-envelope-open-text'></i>";
+    $code .= "</button>";
+    $code .= "<button class='modal-button share' type='button' id='share-modal'>";
+    $code .= "<i class='fas fa-share-alt'></i>";
+    $code .= "</button>";
+    $code .= "<div class='share-modal'>";
+    $code .= "<div class='modal-content'>";
     $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
     $code .= "<div>";
     $code .= "<h5>Share this Report</h5>";
@@ -938,16 +921,17 @@ input#tableSearchInputSSR{
     $code .= "</div>";
     $code .= "</div>";
 
-    $code .= "<button class='download' type='button'>
-                <i class='fas fa-file-download'></i>
-             </button>";
+    $code .= "<button class='download' type='button'>";
+    $code .= "<i class='fas fa-file-download'></i>";
+    $code .= "</button>";
 
 
-    $code .= "<button class='copy' type='button'>
-              <i class='fas fa-copy'></i>
-            </button>
-             
-          </div>";
+    $code .= "<button class='copy' type='button'>";
+    $code .= "<i class='fas fa-copy'></i>";
+    $code .= "</button>";
+    $code .= "</div>";
+
+    $code .= "</div>";
 
     return $code;
   }
@@ -995,7 +979,7 @@ input#tableSearchInputSSR{
   function content(){
     // return $this->report->build();
     $code  = "<div class='wrapper'>";
-    $code .= "<div class='matrix col-12 content'>";
+    $code .= "<div class='col-9 content'>";
     $code .= "<div class='col-12 update-overlay'>";
     $code .= "<button class='update' type='button'> <i class='fas fa-sync-alt'> </i> Update</button>";
     $code .= "</div>";
@@ -1007,6 +991,8 @@ input#tableSearchInputSSR{
     }
     $code .= "</div>";
     $code .= "</div>";
+    $code .= "</div>";
+
     return $code;
   }
 //SUBTASK 18156: "CONTENT: TABLE" --------------------------------------------
@@ -1022,7 +1008,8 @@ input#tableSearchInputSSR{
 
 //SUBTASK 18158: "CONTENT: GALLERY" --------------------------------------------
   private function contentGallery(){
-    $code  = "<div class='col-12 gallery-group'>";
+    $code = "<div class='image-gallery'>";
+    $code .= "<div class='col-12 gallery-group'>";
     $code .= "<h3>First Store</h3>";
     $code .= "<div class='card col-4'>
                             <div class='image ' style='background-image: url(Images/img_10742_11_377_4.jpg)'>
@@ -1095,6 +1082,7 @@ input#tableSearchInputSSR{
                     </div>
                 </div>
             </div>";
+    $code .= "</div>";
     $code .= "</div>";
     return $code;
   }

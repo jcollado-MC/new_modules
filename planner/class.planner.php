@@ -316,13 +316,8 @@ class PLANNER{
 
         $code .= "<style>
 
-
-            .content{
-            min-height: 10px;;
-            }
-            
             h4{
-                margin: 20px 0 0 0;
+                margin: 15px 0 10px 0;
             }
 
             ul {
@@ -341,21 +336,19 @@ class PLANNER{
             margin: 0 0 5px 0;
             }
             
-            .pos-number, .pos-address{
+            .pos-number, .pos-address, .pos-client, .pos-type{
                 font-size: 0.8rem;
                 margin: 0 0 5px 0;
             }
             
             .pos-client, .pos-type{
-                font-size: 0.7rem;
                 display: inline;
-                margin: 0 0 5px 0;
             }
             
             p.pos-name, p.event-name{
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin: 0 0 10px 0;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin: 0 0 10px 0;
             }
             
             
@@ -443,7 +436,7 @@ class PLANNER{
             /* COLOR FILTERS */
 
             #color-filter{
-                margin: 20px 0 0 0;
+                margin: 15px 0 0 0;
                 
             }
             
@@ -519,7 +512,7 @@ class PLANNER{
             /* GROUPS */
             
             .grouping{
-                margin: 15px 0;
+                margin: 0 0 10px 0;
             }
             
             .grouping button{

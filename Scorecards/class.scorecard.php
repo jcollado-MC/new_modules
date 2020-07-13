@@ -37,6 +37,13 @@ $(document).ready(function() {
         }
     });
 
+    
+    
+    /*SEARCH TOGGLE*/
+
+    $('button.search').on('click', function(){
+        $('.search-bar').toggle();
+    });
 
 
     /* MODALS */
@@ -108,13 +115,13 @@ $(document).ready(function() {
 
     /* TABS */
 
-    if ($('button.tablinks').hasClass('active')){
+    if ($('.tablinks').hasClass('active')){
         var id = $('button.tablinks').attr('id');
         $('.tabcontent.' + id).show();
     }
 
 
-    $('button.tablinks').on('click', function(){
+    $('.tablinks').on('click', function(){
         $('.active').removeClass('active');
         $(this).addClass('active');
         var id = $(this).attr('id');
@@ -122,9 +129,7 @@ $(document).ready(function() {
         $('.tabcontent.' + id).show();
     });
 
-    $('button.search').on('click', function(){
-        $('.search-bar').toggle();
-    });
+
     
     
     /* ACCORDION */
@@ -145,7 +150,7 @@ $(document).ready(function() {
 
 .scorecard-breadcrumb{
     background-color: #f1f1f1;
-    margin: 0 0 5px 0;
+    margin: 0;
 }
 
 /* Style the list */
@@ -223,7 +228,7 @@ input.search-bar{
 
             <!-- Tab links -->
             <div class='scorecard-sidebar tab col-12'>
-                <button class='tablinks active' type='button' id='pos'><h2>POS</h2></button>
+                <button  class='tablinks active' type='button' id='pos'><h2>POS</h2></button>
                 <button class='tablinks' type='button' id='salesrep'><h2>Sales Rep</h2></button>
                 <button class='tablinks' type='button' id='tags'><h2>Tags</h2></button>
                 <button class='tablinks' type='button' id='products'><h2>Products</h2></button>
@@ -650,6 +655,7 @@ input.search-bar{
                 <i class='fas fa-search'></i>
               </button>";
         $code .= "</div>";
+        $code .= "</div>";
         return $code;
     }
 
@@ -657,6 +663,8 @@ input.search-bar{
 
         $code ="";
 
+
+        $code .= "<div class='content col-9'>";
         $code .= "<div class='row col-12 scorecard-breadcrumb'>
                 <ul class='col-11'>
                     <li> Agnès BAUP </li>
@@ -665,14 +673,15 @@ input.search-bar{
                 </ul>
                 <i class='fas fa-times delete col-1'></i>
             </div>";
+        $code .= "</div>";
 
         return $code;
     }
 
     private function content(){
         $code = "";
-        $code .= "<div class='scorecard-content'>";
-        $code .= "<table class=\"col-12\">
+        $code .= "<div class='content col-9'>";
+        $code .= "<table class='col-12'>
                     <thead>
                         <tr>
                             <th class=''>Vertriebler</th>
