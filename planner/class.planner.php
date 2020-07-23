@@ -30,35 +30,39 @@ class PLANNER{
             $('form').children().css({userSelect: 'none'});
             
 
+        function search(value){
+        
+        
+            if (value.length > 0){                                       
+                 $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
+                 $('.accordion').addClass('active-accordion');
+            } else {
+                $('ul.pos').css('display', '');
+                $('.active-accordion').removeClass('active-accordion');                    
+            }
+    
+            //filter checkbox-labels for search value
+                    $('.pos li').hide(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                    
+        }
+
+
         /* SEARCH SIDEBAR */
         
             $('#searchInput').on('keyup', function () {
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
                 
-                    //filter checkbox-labels for search value
-                    $('.pos li').filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                    });
-                    // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
-                    $('.title-part').filter(function () {                    
-                        var id = $(this).attr('id');                    
-                        $(this).toggle( $(this).siblings('.' + id).text().toLowerCase().indexOf(value) > -1 );
-                    });
+                var valueArray = value.split(' ');
                     
-                     $('ul.pos').filter(function () {
-                        var children = $(this).children('li').text();
-                        $(this).toggle(children.toLowerCase().indexOf(value) > -1);
-                    });
-                   
-                 if (value.length > 0){                                       
-                     $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
-                     $('.accordion').addClass('active-accordion');
-                } else {
-                    $('ul.pos').css('display', '');
-                    $('.active-accordion').removeClass('active-accordion');                    
-                }
+                for(let word of valueArray){
                 
+                   
+                        search(value);
+                    
+                }
         
             });
             
@@ -655,232 +659,122 @@ class PLANNER{
 
     private function content(){
 
-        $cnt = 0;
-        $commentCnt = 0;
 
+        $dates['2020-05-04'] = 'monday';
+        $dates['2020-05-05'] = 'tuesday';
+        $dates['2020-05-06'] = 'wednesday';
+        $dates['2020-05-07'] = 'thursday';
+        $dates['2020-05-08'] = 'friday';
+
+
+        $cnt = 0;
         $code =  "";
         $code .= "<div class='col-9 content'>";
-        $code .= "<div class='timetable-box'>";
-        $code .= "<p class='list-header'>".l(18224,11,"Monday").", 4.5.</p>";
-        $code .= "<input type='hidden' name='monday' value=''>";
-        $code .= "<ul class='timetable monday connectedSortable' id='sortable-monday'>";
 
 
 
-        foreach($this->groups as $name => $shops) {
-            foreach ($shops as $shop) {
-                if (isset($this->shops[$shop['shop_id']]) && $this->shops[$shop['shop_id']]['date'] == 'monday') {
-                    $code .= "<li class='pos-infos col-12 freq-" . $shop['freq'] . "'  name='panel-" . $cnt . "' id='" . $shop['shop_id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    if ($shop['offline'] == 'true') {
-                        $code .= "<i class='fas fa-wifi-slash offline'></i>";
+
+        foreach($dates as $date=>$day) {
+
+            $code .= "<div class='timetable-box'>";
+            $code .= "<p class='list-header'>". ucfirst($day) ."</p>";
+            $code .= "<input type='hidden' name='". $day ."' value=''>";
+            $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."'>";
+
+            foreach ($this->shops as $entry) {
+                if ($entry['date'] == $date ) {
+                    if ($entry['shop_id'] > 0) {
+                        $code .= $this->shop($entry);
+
+                    } else {
+                        $code .= $this->event($entry);
                     }
-                    $code .= "<p class='pos-number'>" . $shop['number'] . "</p>";
-                    $code .= "<p class='pos-name'>" . $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $shop['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                    $code .= "<p class='pos-address'>" . $shop['street'] . ", " . $shop['city'] . "</p>";
-                    $code .= "<p class='pos-client'>" . $shop['client'] . " </p>";
-                    $code .= "<p class='pos-type'>" . $shop['typ'] . "</p>";
-
-                    if (isset($this->shops[$shop['shop_id']]['comment']) || isset($this->shops[$shop['shop_id']]['time'])){
-
-                        $code .= "<div class='comment col-12'>";
-                        $code .= "<i class='fas fa-info col-2'></i>";
-                        $code .= "<div class='col-10'>";
-                        $code .= "<p>" . $this->shops[$shop['shop_id']]['time'] . "</p>";
-                        $code .= "<p class='comment-" . $commentCnt . "''>";
-                        $code .= $this->shops[$shop['shop_id']]['comment'];
-                        $code .= "</p>";
-                        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-                        $code .= "</div>";
-                        $code .= "</div>";
-                    }
-
-                    $code .= "</li>";
-                    $commentCnt++;
                 }
+
             }
+
             $cnt++;
+            $code .= "</ul>";
+            $code .= "</div>";
         }
 
 
-        $code .= "</ul>";
-        $code .= "</div>";
-        $code .= "<div  class='timetable-box'><p class='list-header'>".l(18224,12,"Tuesday").", 5.5.</p>";
-        $code .= "<input type='hidden' name='tuesday' value=''>";
-        $code .= "<ul class='timetable tuesday connectedSortable' id='sortable-tuesday'>";
 
-        foreach($this->groups as $name => $shops) {
-            foreach ($shops as $shop) {
-                if (isset($this->shops[$shop['shop_id']]) && $this->shops[$shop['shop_id']]['date'] == 'tuesday') {
-                    $code .= "<li class='pos-infos col-12 freq-" . $shop['freq'] . "'  name='panel-" . $cnt . "' id='" . $shop['shop_id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    if ($shop['offline'] == 'true') {
-                        $code .= "<i class='fas fa-wifi-slash offline'></i>";
-                    }
-                    $code .= "<p class='pos-number'>" . $shop['number'] . "</p>";
-                    $code .= "<p class='pos-name'>" . $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $shop['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                    $code .= "<p class='pos-address'>" . $shop['street'] . ", " . $shop['city'] . "</p>";
-                    $code .= "<p class='pos-client'>" . $shop['client'] . " </p>";
-                    $code .= "<p class='pos-type'>" . $shop['typ'] . "</p>";
 
-                    if (isset($this->shops[$shop['shop_id']]['comment']) || isset($this->shops[$shop['shop_id']]['time'])){
-
-                        $code .= "<div class='comment col-12'>";
-                        $code .= "<i class='fas fa-info col-2'></i>";
-                        $code .= "<div class='col-10'>";
-                        $code .= "<p>" . $this->shops[$shop['shop_id']]['time'] . "</p>";
-                        $code .= "<p class='comment-" . $commentCnt . "''>";
-                        $code .= $this->shops[$shop['shop_id']]['comment'];
-                        $code .= "</p>";
-                        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-                        $code .= "</div>";
-                        $code .= "</div>";
-                    }
-
-                    $code .= "</li>";
-                    $commentCnt++;
-                }
-            }
-            $cnt++;
-        }
-        $code .= "</ul>";
-        $code .= "</div>";
-
-        $code .= "<div class='timetable-box'>";
-        $code .= "<p class='list-header'>".l(18224,13,"Wednesday").", 6.5.</p>";
-        $code .= "<input type='hidden' name='wednesday' value=''>";
-        $code .= "<ul class='timetable wednesday connectedSortable' id='sortable-wednesday'>";
-        foreach($this->groups as $name => $shops) {
-            foreach ($shops as $shop) {
-                if (isset($this->shops[$shop['shop_id']]) && $this->shops[$shop['shop_id']]['date'] == 'wednesday') {
-                    $code .= "<li class='pos-infos col-12 freq-" . $shop['freq'] . "'  name='panel-" . $cnt . "' id='" . $shop['shop_id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    if ($shop['offline'] == 'true') {
-                        $code .= "<i class='fas fa-wifi-slash offline'></i>";
-                    }
-                    $code .= "<p class='pos-number'>" . $shop['number'] . "</p>";
-                    $code .= "<p class='pos-name'>" . $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $shop['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                    $code .= "<p class='pos-address'>" . $shop['street'] . ", " . $shop['city'] . "</p>";
-                    $code .= "<p class='pos-client'>" . $shop['client'] . " </p>";
-                    $code .= "<p class='pos-type'>" . $shop['typ'] . "</p>";
-
-                    if (isset($this->shops[$shop['shop_id']]['comment']) || isset($this->shops[$shop['shop_id']]['time'])){
-
-                        $code .= "<div class='comment col-12'>";
-                        $code .= "<i class='fas fa-info col-2'></i>";
-                        $code .= "<div class='col-10'>";
-                        $code .= "<p>" . $this->shops[$shop['shop_id']]['time'] . "</p>";
-                        $code .= "<p class='comment-" . $commentCnt . "''>";
-                        $code .= $this->shops[$shop['shop_id']]['comment'];
-                        $code .= "</p>";
-                        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-                        $code .= "</div>";
-                        $code .= "</div>";
-                    }
-
-                    $code .= "</li>";
-                    $commentCnt++;
-                }
-            }
-            $cnt++;
-        }
-        $code .= "</ul>";
-        $code .= "</div>";
-
-        $code .= "<div class='timetable-box'>";
-        $code .= "<p class='list-header'>".l(18224,14,"Thursday").", 7.5.</p>";
-        $code .= "<input type='hidden' name='thursday' value=''>";
-        $code .= "<ul class='timetable thursday connectedSortable' id='sortable-thursday'>";
-        foreach($this->groups as $name => $shops) {
-            foreach ($shops as $shop) {
-                if (isset($this->shops[$shop['shop_id']]) && $this->shops[$shop['shop_id']]['date'] == 'thursday') {
-                    $code .= "<li class='pos-infos col-12 freq-" . $shop['freq'] . "'  name='panel-" . $cnt . "' id='" . $shop['shop_id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    if ($shop['offline'] == 'true') {
-                        $code .= "<i class='fas fa-wifi-slash offline'></i>";
-                    }
-                    $code .= "<p class='pos-number'>" . $shop['number'] . "</p>";
-                    $code .= "<p class='pos-name'>" . $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $shop['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                    $code .= "<p class='pos-address'>" . $shop['street'] . ", " . $shop['city'] . "</p>";
-                    $code .= "<p class='pos-client'>" . $shop['client'] . " </p>";
-                    $code .= "<p class='pos-type'>" . $shop['typ'] . "</p>";
-
-                    if (isset($this->shops[$shop['shop_id']]['comment']) || isset($this->shops[$shop['shop_id']]['time'])){
-
-                        $code .= "<div class='comment col-12'>";
-                        $code .= "<i class='fas fa-info col-2'></i>";
-                        $code .= "<div class='col-10'>";
-                        $code .= "<p>" . $this->shops[$shop['shop_id']]['time'] . "</p>";
-                        $code .= "<p class='comment-" . $commentCnt . "''>";
-                        $code .= $this->shops[$shop['shop_id']]['comment'];
-                        $code .= "</p>";
-                        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-                        $code .= "</div>";
-                        $code .= "</div>";
-                    }
-
-                    $code .= "</li>";
-                    $commentCnt++;
-                }
-            }
-            $cnt++;
-        }
-        $code .= "</ul>";
-        $code .= "</div>";
-        $code .= "<div class='timetable-box'>";
-        $code .= "<p class='list-header'>".l(18224,15,"Friday").", 8.5.</p>";
-        $code .= "<input type='hidden' name='friday' value=''>";
-        $code .= "<ul class='timetable friday connectedSortable' id='sortable-friday'>";
-        foreach($this->groups as $name => $shops) {
-            foreach ($shops as $shop) {
-                if (isset($this->shops[$shop['shop_id']]) && $this->shops[$shop['shop_id']]['date'] == 'friday') {
-                    $code .= "<li class='pos-infos col-12 freq-" . $shop['freq'] . "'  name='panel-" . $cnt . "' id='" . $shop['shop_id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    if ($shop['offline'] == 'true') {
-                        $code .= "<i class='fas fa-wifi-slash offline'></i>";
-                    }
-                    $code .= "<p class='pos-number'>" . $shop['number'] . "</p>";
-                    $code .= "<p class='pos-name'>" . $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $shop['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                    $code .= "<p class='pos-address'>" . $shop['street'] . ", " . $shop['city'] . "</p>";
-                    $code .= "<p class='pos-client'>" . $shop['client'] . " </p>";
-                    $code .= "<p class='pos-type'>" . $shop['typ'] . "</p>";
-
-                    if (isset($this->shops[$shop['shop_id']]['comment']) || isset($this->shops[$shop['shop_id']]['time'])){
-
-                        $code .= "<div class='comment col-12'>";
-                        $code .= "<i class='fas fa-info col-2'></i>";
-                        $code .= "<div class='col-10'>";
-                        $code .= "<p>" . $this->shops[$shop['shop_id']]['time'] . "</p>";
-                        $code .= "<p class='comment-" . $commentCnt . "''>";
-                        $code .= $this->shops[$shop['shop_id']]['comment'];
-                        $code .= "</p>";
-                        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-                        $code .= "</div>";
-                        $code .= "</div>";
-                    }
-
-                    $code .= "</li>";
-                    $commentCnt++;
-                }
-            }
-            $cnt++;
-        }
-        $code .= "</ul>";
-        $code .= "</div>";
         $code .= "</div>";
 
         return $code;
     }
 
 
+    private function shop($entry){
+
+        $commentCnt = 0;
+        $cnt = 0;
+
+        $code = "";
+        $code .= "<li class='pos-infos col-12 freq-" . $entry['freq'] . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
+        $code .= "<i class='fas fa-times delete'></i>";
+        $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+        if ($entry['offline'] == 'true') {
+            $code .= "<i class='fas fa-wifi-slash offline'></i>";
+        }
+        $code .= "<p class='pos-number'>" . $entry['number'] . "</p>";
+        $code .= "<p class='pos-name'>" . $entry['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $entry['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
+        $code .= "<p class='pos-address'>" . $entry['street'] . ", " . $entry['city'] . "</p>";
+        $code .= "<p class='pos-client'>" . $entry['client'] . " </p>";
+        $code .= "<p class='pos-type'>" . $entry['typ'] . "</p>";
+
+
+        if (isset($entry['comment']) || isset($entry['time'])){
+
+            $code .= "<div class='comment col-12'>";
+            $code .= "<i class='fas fa-info col-2'></i>";
+            $code .= "<div class='col-10'>";
+            $code .= "<p>" . $entry['time'] . "</p>";
+            $code .= "<p class='comment-" . $commentCnt . "''>";
+            $code .= $entry['comment'];
+            $code .= "</p>";
+            $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
+            $code .= "</div>";
+            $code .= "</div>";
+        }
+
+        $code .= "</li>";
+        $commentCnt++;
+
+        return $code;
+    }
 
 
 
+private function event($entry){
+
+    $code = "";
+    $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $entry['id'] . "'>";
+    $code .= "<i class='fas fa-times delete'></i>";
+    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+    $code .= "<div class='col-12'>";
+    $code .= "<p class='event-name col-10'>" . $entry['name'] . "</p>";
+    if (isset($entry['icon'])) {
+        $code .= "<img class='col-2' src='" . $entry['icon'] . "'>";
+    }
+    $code .= "</div>";
+//                    $code .= "<div class='comment col-12'>";
+//                    $code .= "<i class='fas fa-info col-2'></i>";
+//                    $code .= "<div class='col-10'>";
+//                    $code .= "<p>15:30</p>";
+//                    $code .= "<p class='comment-event-".$eventCnt."''>";
+//                    $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
+//                    $code .= "</p>";
+//                    $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
+//                    $code .= "</div>";
+//                    $code .= "</div>";
+
+    $code .= "</li>";
+
+    return $code;
+}
 
     //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
     var $user = '';

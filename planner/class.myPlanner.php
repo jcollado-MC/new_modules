@@ -19,13 +19,22 @@ class myPlanner extends Planner
         ini_set("max_execution_time", "1200");
 
 
-        $this -> shops[6] = [ 'order' => '0', 'time' => '12:30','comment' => 'test','date' => 'monday','shop_id' => '6', 'number' => '812', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Teutoburger Str. 98', 'city' => 'Bielefeld', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'false',  'group1'=>'Real', 'group2'=>'Bielefeld', 'group3'=>'Nordwest'];
-        $this -> shops[2] = ['order' => '0', 'time' => '18:30','comment' => 'Lorem Ipsum dolor sit amet, test test test','date' => 'tuesday', 'shop_id' => '2', 'number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Limbecker Platz 1a', 'city' =>'Essen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1', 'offline' => 'false', 'group1'=>'Saturn', 'group2'=>'Essen', 'group3'=>'Rhein-Ruhr'];
-        $this -> shops[4] = ['order' => '0', 'date' => 'wednesday','shop_id' => '4', 'number' => '1721', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Kabeler Str. 25', 'city' => 'Hagen', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'true', 'group1'=>'Real', 'group2'=>'Hagen', 'group3'=>'Nordwest'];
-        $this -> shops[8] = ['order' => '0', 'date' => 'thursday', 'shop_id' => '8', 'number' => '1375', 'client' => 'Metro C+C', 'name' => 'METRO Deutschland GmbH', 'street' => 'Parkstr. 200', 'city' => 'Krefeld', 'typ' => 'C&C', 'freq' => '4', 'offline' => 'true',  'group1'=>'Metro', 'group2'=>'Krefeld', 'group3'=>'Bergisches Land'];
-        $this -> shops[7] = ['order' => '2', 'date' => 'friday','shop_id' => '7', 'number' => '18803', 'client' => 'REWE Center', 'name' => 'REWE Markt N. Heiderich oHG', 'street' => 'Glindfelder Weg 1', 'city' => 'Medebach', 'typ' => '', 'freq' => '3', 'offline' => 'true',  'group1'=>'Rewe', 'group2'=>'Medebach', 'group3'=>'Nordwest'];
-        $this -> shops[1] = ['order' => '1', 'date' => 'friday','shop_id' => '1', 'number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Mittelstr. 20', 'city' =>'Hagen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1', 'offline' => 'true', 'group1'=>'Saturn', 'group2'=>'Hagen', 'group3'=>'Nordwest'];
-        $this -> shops[3] = ['order' => '0', 'date' => 'friday','shop_id' => '3', 'number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Bahnhofstr. 48', 'city' =>'Gelsenkirchen',  'typ' => 'Elektrofachm (groß)', 'freq' => '2','offline' => 'true', 'group1'=>'Saturn', 'group2'=>'Gelsenkirchen', 'group3'=>'Rhein-Ruhr'];
+        $this -> shops[] = [ 'order' => '0', 'time' => '12:30','comment' => 'test','date' => '2020-05-04','shop_id' => '6', 'number' => '812', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Teutoburger Str. 98', 'city' => 'Bielefeld', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'false',  'group1'=>'Real', 'group2'=>'Bielefeld', 'group3'=>'Nordwest'];
+        $this -> shops[] = ['order' => '0', 'time' => '18:30','comment' => 'Lorem Ipsum dolor sit amet, test test test','date' => '2020-05-05', 'shop_id' => '2', 'number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Limbecker Platz 1a', 'city' =>'Essen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1', 'offline' => 'false', 'group1'=>'Saturn', 'group2'=>'Essen', 'group3'=>'Rhein-Ruhr'];
+        $this -> shops[] = ['order' => '0', 'date' => '2020-05-06','shop_id' => '4', 'number' => '1721', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Kabeler Str. 25', 'city' => 'Hagen', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'true', 'group1'=>'Real', 'group2'=>'Hagen', 'group3'=>'Nordwest'];
+        $this -> shops[] = ['id'=>4, 'shop_id' => '0',  'name'=>'Call', 'date' => '2020-05-06','multiple' =>'true'];
+        $this -> shops[] = ['id'=>5, 'shop_id' => '0', 'name'=>'Holiday','date' => '2020-05-07', 'multiple' =>'', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/12_20160706121710.png"];
+        $this -> shops[] = ['order' => '0', 'date' => '2020-05-07', 'shop_id' => '8', 'number' => '1375', 'client' => 'Metro C+C', 'name' => 'METRO Deutschland GmbH', 'street' => 'Parkstr. 200', 'city' => 'Krefeld', 'typ' => 'C&C', 'freq' => '4', 'offline' => 'true',  'group1'=>'Metro', 'group2'=>'Krefeld', 'group3'=>'Bergisches Land'];
+        $this -> shops[] = ['order' => '2', 'date' => '2020-05-06','shop_id' => '7', 'number' => '18803', 'client' => 'REWE Center', 'name' => 'REWE Markt N. Heiderich oHG', 'street' => 'Glindfelder Weg 1', 'city' => 'Medebach', 'typ' => '', 'freq' => '3', 'offline' => 'true',  'group1'=>'Rewe', 'group2'=>'Medebach', 'group3'=>'Nordwest'];
+        $this -> shops[] = ['id'=>5, 'shop_id' => '0', 'name'=>'Holiday','date' => '2020-05-08', 'multiple' =>'', 'icon'=>"http://brita.de.market-control.net/intern/data_site/PRV/12_20160706121710.png"];
+        $this -> shops[] = ['order' => '1', 'date' => '2020-05-08','shop_id' => '1', 'number' => '1714', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Mittelstr. 20', 'city' =>'Hagen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1', 'offline' => 'true', 'group1'=>'Saturn', 'group2'=>'Hagen', 'group3'=>'Nordwest'];
+        $this -> shops[] = ['order' => '0', 'date' => '2020-05-08','shop_id' => '3', 'number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Bahnhofstr. 48', 'city' =>'Gelsenkirchen',  'typ' => 'Elektrofachm (groß)', 'freq' => '2','offline' => 'true', 'group1'=>'Saturn', 'group2'=>'Gelsenkirchen', 'group3'=>'Rhein-Ruhr'];
+
+
+
+
+
+
 
 
 
