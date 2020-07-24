@@ -19,7 +19,7 @@ class myPlanner extends Planner
         ini_set("max_execution_time", "1200");
 
 
-        $this -> shops[] = [ 'order' => '0', 'time' => '12:30','comment' => 'test','date' => '2020-05-04','shop_id' => '6', 'number' => '812', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Teutoburger Str. 98', 'city' => 'Bielefeld', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'false',  'group1'=>'Real', 'group2'=>'Bielefeld', 'group3'=>'Nordwest'];
+        /*$this -> shops[] = [ 'order' => '0', 'time' => '12:30','comment' => 'test','date' => '2020-05-04','shop_id' => '6', 'number' => '812', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Teutoburger Str. 98', 'city' => 'Bielefeld', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'false',  'group1'=>'Real', 'group2'=>'Bielefeld', 'group3'=>'Nordwest'];
         $this -> shops[] = ['order' => '0', 'time' => '18:30','comment' => 'Lorem Ipsum dolor sit amet, test test test','date' => '2020-05-05', 'shop_id' => '2', 'number' => '1715', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Limbecker Platz 1a', 'city' =>'Essen',  'typ' => 'Elektrofachm (groß)', 'freq' => '1', 'offline' => 'false', 'group1'=>'Saturn', 'group2'=>'Essen', 'group3'=>'Rhein-Ruhr'];
         $this -> shops[] = ['order' => '0', 'date' => '2020-05-06','shop_id' => '4', 'number' => '1721', 'client' => 'Real', 'name' => 'real GmbH', 'street' => 'Kabeler Str. 25', 'city' => 'Hagen', 'typ' => 'SBW Hypermarket', 'freq' => '1', 'offline' => 'true', 'group1'=>'Real', 'group2'=>'Hagen', 'group3'=>'Nordwest'];
         $this -> shops[] = ['id'=>4, 'shop_id' => '0',  'name'=>'Call', 'date' => '2020-05-06','multiple' =>'true'];
@@ -31,7 +31,7 @@ class myPlanner extends Planner
         $this -> shops[] = ['order' => '0', 'date' => '2020-05-08','shop_id' => '3', 'number' => '1553', 'client' => 'Saturn', 'name' => 'Saturn Electro-Handels GmbH', 'street' => 'Bahnhofstr. 48', 'city' =>'Gelsenkirchen',  'typ' => 'Elektrofachm (groß)', 'freq' => '2','offline' => 'true', 'group1'=>'Saturn', 'group2'=>'Gelsenkirchen', 'group3'=>'Rhein-Ruhr'];
 
 
-
+*/
 
 
 

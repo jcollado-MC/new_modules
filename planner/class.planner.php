@@ -29,42 +29,57 @@ class PLANNER{
             
             $('form').children().css({userSelect: 'none'});
             
-
-        function search(value){
-        
-        
-            if (value.length > 0){                                       
-                 $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
-                 $('.accordion').addClass('active-accordion');
-            } else {
-                $('ul.pos').css('display', '');
-                $('.active-accordion').removeClass('active-accordion');                    
+            /* SIDEBAR SEARCH */
+            
+            function search(value){   
+            
+                //filter checkbox-labels for search value            
+                $( '.pos li' ).each(function( index ) {
+                    if($(this).text().toLowerCase().indexOf(value) < 0){               
+                        //console.log( index + \": \" + $( this ).text() );
+                        $(this).hide();
+                    }
+                });
+                
+                $( '.pos li' ).each( function() {
+                    if ($(this).text().toLowerCase().indexOf(value) < 0) {
+                        $(this).hide();
+                    }
+                });              
+                
+                $('.title-part').each( function() {
+                    var id = $(this).attr('id');                     
+                    if ($(this).siblings('.' + id).text().toLowerCase().indexOf(value) < 0) {
+                        $(this).hide();
+                    }                
+                });
+                
+                $('ul.pos').each( function() {                 
+                    if ($(this).children('li').text().toLowerCase().indexOf(value) < 0) {
+                        $(this).hide();
+                    }                
+                });
             }
     
-            //filter checkbox-labels for search value
-                    $('.pos li').hide(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                    });
-                    
-        }
-
-
-        /* SEARCH SIDEBAR */
-        
+            
             $('#searchInput').on('keyup', function () {
                 //get value of searchbar input
-                var value = $(this).val().toLowerCase();
+                var value = $(this).val().toLowerCase();     
                 
-                var valueArray = value.split(' ');
-                    
-                for(let word of valueArray){
+                $( '.pos li, ul.pos, .title-part' ).show();       
+                var valueArray = value.split(' ');                                    
+                valueArray.forEach(search);
                 
-                   
-                        search(value);
-                    
+                if (value.length > 0){                                       
+                     $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
+                     $('.accordion').addClass('active-accordion');
+                } else {
+                    $('ul.pos').css('display', '');
+                    $('.active-accordion').removeClass('active-accordion');                    
                 }
         
             });
+            
             
             /* ACCORDION */
 
