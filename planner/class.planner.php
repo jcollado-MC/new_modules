@@ -138,7 +138,10 @@ class PLANNER{
                   revert: true,
                   
                   stop: function (event, ui) {
-                    ui.item.clone().appendTo('#' + recieverId);
+                  console.log($('#' + recieverId).children('#' + ui.item.attr('id')).length);
+                    if(!( ui.item.hasClass('single') && $('#' + recieverId).children('#' + ui.item.attr('id')).length > 1)){                        
+                        ui.item.clone().appendTo('#' + recieverId);
+                    }
                     $('.' + ui.item.attr('name')).sortable('cancel');
                   },
                   update: function(event, ui) {                      
@@ -974,44 +977,6 @@ private function event($entry){
 
         $code .= "<h4  class='col-12'>Events</h4>";
 
-            $code .= "<div class='title-part accordion' id='panel-event'>";
-            $code .= "<h5 class='col-12'>Events</h5>";
-            $code .= "<hr class='col-12'>";
-            $code .= "</div>";
-
-
-
-
-            $code .= "<ul class='panel-event pos connectedSortable' id='sortable-event'>";
-
-            foreach ($this->events as $event) {
-                if ($event['multiple'] != 'true') {
-                    $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $event['id'] . "'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    $code .= "<div class='col-12'>";
-                    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                    if (isset($event['icon'])) {
-                        $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                    }
-                    $code .= "</div>";
-//                    $code .= "<div class='comment col-12'>";
-//                    $code .= "<i class='fas fa-info col-2'></i>";
-//                    $code .= "<div class='col-10'>";
-//                    $code .= "<p>15:30</p>";
-//                    $code .= "<p class='comment-event-".$eventCnt."''>";
-//                    $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-//                    $code .= "</p>";
-//                    $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
-//                    $code .= "</div>";
-//                    $code .= "</div>";
-
-                    $code .= "</li>";
-                }
-                $eventCnt++;
-            }
-            $code .= "</ul>";
-
             $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
             $code .= "<h5 class='col-12'>Multiple Events</h5>";
             $code .= "<hr class='col-12'>";
@@ -1019,18 +984,21 @@ private function event($entry){
             $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
 
             foreach ($this->events as $event) {
-                if ($event['multiple'] == 'true') {
-                    $code .= "<li class='multiple-event-infos col-12' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
-                    $code .= "<i class='fas fa-times delete'></i>";
-                    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                    $code .= "<div class='col-12'>";
-                    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                    if (isset($event['icon'])) {
-                        $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                    }
-                    $code .= "</div>";
-                    $code .= "</li>";
+                $code .= "<li class='multiple-event-infos col-12";
+
+                if ($event['multiple'] != 'true') {
+                    $code .=" single ";
                 }
+                $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
+                $code .= "<i class='fas fa-times delete'></i>";
+                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+                $code .= "<div class='col-12'>";
+                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
+                if (isset($event['icon'])) {
+                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
+                }
+                $code .= "</div>";
+                $code .= "</li>";
                 $eventCnt++;
             }
             $code .= "</ul>";
@@ -1046,145 +1014,6 @@ private function event($entry){
 
 
 
-    private function sidebar2(){
-        $cnt = 0;
-        $commentCnt = 0;
-        $eventCnt = 0;
-
-        $code = "";
-        $code .= "<div class='col-3'>";
-        $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2  class='col-12'>Planning Settings</h2>";
-
-        $code .= "<div class='search col-12'>";
-        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
-        $code .= "<i class='fas fa-search search-icon col-1'></i>";
-        $code .= "</div>";
-
-        $code .= "<h4  class='col-7'>Points of Sales</h4>";
-        $code .= "<div class='col-5' id='color-filter'>";
-        $code .= "<button class='active' id='freq-4' type='button'></button>";
-        $code .= "<button class='active' id='freq-3' type='button'></button>";
-        $code .= "<button class='active' id='freq-2' type='button'></button>";
-        $code .= "<button class='active' id='freq-1' type='button'></button>";
-        $code .= "</div>";
-        $code .= "<div class='grouping col-12'>";
-        $code .= "<button class='active' type='button' id='group1'>Chain</button>";
-        $code .= "<button type='button' id='group2'>City</button>";
-        $code .= "<button type='button' id='group3'>Group</button>";
-        $code .= "</div>";
-
-
-
-
-        foreach($this->groups as $name => $shops) {
-            $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>";
-            $code .= "<h5 class='col-12'>" . $name . "</h5>";
-            $code .= "<hr class='col-12'>";
-            $code .= "</div>";
-
-            $code .= "<ul class='panel-".$cnt." pos connectedSortable' id='sortable-".$cnt."'>";
-            foreach ($shops as $shop) {
-                $code .= "<li class='pos-infos col-12 freq-". $shop['freq'] ."'  name='panel-".$cnt ."' id='". $shop['shop_id'] ."'>";
-                $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                if( $shop['offline'] == 'true' ) {
-                    $code .= "<i class='fas fa-wifi-slash offline'></i>";
-                }
-                $code .= "<p class='pos-number'>". $shop['number'] ."</p>";
-                $code .= "<p class='pos-name'>". $shop['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=". $shop['shop_id'] ."'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-                $code .= "<p class='pos-address'>". $shop['street'] . ", " . $shop['city'] ."</p>";
-                $code .= "<p class='pos-client'>". $shop['client'] ." </p>";
-                $code .= "<p class='pos-type'>". $shop['typ'] ."</p>";
-//                $code .= "<div class='comment col-12'>";
-//                $code .= "<i class='fas fa-info col-2'></i>";
-//                $code .= "<div class='col-10'>";
-//                $code .= "<p>15:30</p>";
-//                $code .= "<p class='comment-".$commentCnt."''>";
-//                $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-//                $code .= "</p>";
-//                $code .= "<a class='readMore' id='comment-".$commentCnt."'>".l(18221,1,"read more")."</a>";
-//                $code .= "</div>";
-//                $code .= "</div>";
-
-                $code .= "</li>";
-                $commentCnt++;
-            }
-            $code .= "</ul>";
-            $cnt++;
-        }
-
-        $code .= "<h4  class='col-12'>Events</h4>";
-
-        $code .= "<div class='title-part accordion' id='panel-event'>";
-        $code .= "<h5 class='col-12'>Events</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "</div>";
-
-
-
-
-        $code .= "<ul class='panel-event pos connectedSortable' id='sortable-event'>";
-
-        foreach ($this->events as $event) {
-            if ($event['multiple'] != 'true') {
-                $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $event['id'] . "'>";
-                $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                $code .= "<div class='col-12'>";
-                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                if (isset($event['icon'])) {
-                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                }
-                $code .= "</div>";
-//                    $code .= "<div class='comment col-12'>";
-//                    $code .= "<i class='fas fa-info col-2'></i>";
-//                    $code .= "<div class='col-10'>";
-//                    $code .= "<p>15:30</p>";
-//                    $code .= "<p class='comment-event-".$eventCnt."''>";
-//                    $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-//                    $code .= "</p>";
-//                    $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
-//                    $code .= "</div>";
-//                    $code .= "</div>";
-
-                $code .= "</li>";
-            }
-            $eventCnt++;
-        }
-        $code .= "</ul>";
-
-        $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
-        $code .= "<h5 class='col-12'>Multiple Events</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "</div>";
-        $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
-
-        foreach ($this->events as $event) {
-            if ($event['multiple'] == 'true') {
-                $code .= "<li class='multiple-event-infos col-12' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
-                $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                $code .= "<div class='col-12'>";
-                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                if (isset($event['icon'])) {
-                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                }
-                $code .= "</div>";
-                $code .= "</li>";
-            }
-            $eventCnt++;
-        }
-        $code .= "</ul>";
-
-
-
-        $code .= "</div>";
-        $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
-        $code .= "</div>";
-
-        return $code;
-    }
 
 
 
