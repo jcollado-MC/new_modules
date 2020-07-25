@@ -1,18 +1,33 @@
 <?php
-// Script created with CFB Framework Builder
-// Client:  MARKET CONTROL
-// Project: MASTER I
-// Class Revision: 2
-// Date of creation: 2020-06-25
-// All Copyrights reserved
-// This is a class file and can not be executed directly
-// CLASS FILE
-if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){
-    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-    exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
-}
-class PLANNER{
+  // Script created with CFB Framework Builder 
+  // Client:  MARKET CONTROL
+  // Project: MASTER I
+  // Class Revision: 2
+  // Date of creation: 2020-07-25 
+  // All Copyrights reserved 
+  // This is a class file and can not be executed directly 
+  // CLASS FILE
+    if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){ 
+      header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+      exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
+    }
+    class PLANNER{
 //[SUBTASKS]
+//SUBTASK 18259: "DATES" --------------------------------------------
+static function dates($date_start, $date_end, $weekends= FALSE){
+    global $myPageBody;
+  $dates = array();
+    $duration = (strtotime($date_end)-strtotime($date_start));
+  $days = floor(($duration / 24 / 60 / 60));
+  // $myPageBody .= "$days =    $duration = ($date_end-$date_start);<hr>";
+    for($n=0;$n<$days;$n++){
+    $date = date("Y-m-d", strtotime($date_start." +".$n."DAYS"));
+    $weekday = date("l", strtotime($date_start." +".$n."DAYS"));
+    $dates[$date] = $weekday;
+  }
+  return $dates;
+}
+
 //SUBTASK 18223: "STATIC: HEADER" --------------------------------------------
     private static $header;
     static function Header(){
@@ -565,164 +580,108 @@ class PLANNER{
 
         return $code;
     }
+//SUBTASK 18224: "STUFF" --------------------------------------------
 
 
-    //SUBTASK 18224: "STUFF" --------------------------------------------
+private function editModal(){
+  $code = "";
+  $code .= "<div class='pos-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code .= "<div>";
+  $code .= "<h5>Additional Infos:</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "<label>".l(18224,1,"Time")."</label>";
+  $code .= "<input type='time' min='06:00' max='24:00'>";
+  $code .= "<label>".l(18224,2,"Comment")."</label>";
+  $code .= "<textarea class='col-12' rows='5'></textarea>";
+  $code .= "</div>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save' type='button'>".l(18224,3,"Save Comment")."</button>";
+  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  return $code;
+}
+
+private function filter(){
+  
+  $code  = "<div class='content row col-9'>";
+  $code  .= "<div class='col-9 autoplans'>";
+  $code  .= "<button class='dropbtn modal-button' id='autoplan-modal' type='button'>";
+  $code  .= "<h5>".l(18224,5,"Autoplan week")."</h5>";
+  $code  .= "</button>";
+  
+  $code .= "<div class='autoplan-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code  .= "<div class='col-12'>";
+  $code  .= "Autoplan coming soon!";
+  $code  .= "</div>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  $code  .= "<button class='dropbtn modal-button' id='import-modal' type='button'>";
+  $code  .= "<h5>".l(18224,7,"Import canvas")."</h5>";
+  $code  .= "</button>";
+  
+  $code .= "<div class='import-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code  .= "<div class='col-12'>";
+  $code  .= "Import coming soon!";
+  $code  .= "</div>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  $code  .= "<button class='dropbtn modal-button' id='copy-modal' type='button'>";
+  $code  .= "<h5>".l(18224,8,"Copy other week")."</h5>";
+  $code  .= "</button>";
+  
+  $code .= "<div class='copy-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code  .= "<div class='col-12'>";
+  $code  .= "Copy Week coming soon!";
+  $code  .= "</div>";
+  $code .= "<div class='modal-buttons'>";
+  $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
+  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  
+  $code .= "</div>";
+  return $code;
+}
 
 
+private function actions(){
+  $code = "";
+  $code .= "<div class='col-3 actions'>";
+  $code .= "<button class='download' type='button'>";
+  $code .= "<i class='fas fa-file-download'></i>";
+  $code .= "</button>";
+  $code .= "<button class='copy' type='button'>";
+  $code .= "<i class='fas fa-copy'></i>";
+  $code .= "</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  return $code;
+}
 
-
-    private function editModal(){
-        $code = "";
-        $code .= "<div class='pos-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code .= "<div>";
-        $code .= "<h5>Additional Infos:</h5>";
-        $code .= "<hr class='col-12'>";
-        $code .= "<label>".l(18224,1,"Time")."</label>";
-        $code .= "<input type='time' min='06:00' max='24:00'>";
-        $code .= "<label>".l(18224,2,"Comment")."</label>";
-        $code .= "<textarea class='col-12' rows='5'></textarea>";
-        $code .= "</div>";
-        $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save' type='button'>".l(18224,3,"Save Comment")."</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        return $code;
-    }
-
-
-    private function filter(){
-
-        $code  = "<div class='content row col-9'>";
-        $code  .= "<div class='col-9 autoplans'>";
-        $code  .= "<button class='dropbtn modal-button' id='autoplan-modal' type='button'>";
-        $code  .= "<h5>".l(18224,5,"Autoplan week")."</h5>";
-        $code  .= "</button>";
-
-        $code .= "<div class='autoplan-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code  .= "<div class='col-12'>";
-        $code  .= "Autoplan coming soon!";
-        $code  .= "</div>";
-        $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        $code  .= "<button class='dropbtn modal-button' id='import-modal' type='button'>";
-        $code  .= "<h5>".l(18224,7,"Import canvas")."</h5>";
-        $code  .= "</button>";
-
-        $code .= "<div class='import-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code  .= "<div class='col-12'>";
-        $code  .= "Import coming soon!";
-        $code  .= "</div>";
-        $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        $code  .= "<button class='dropbtn modal-button' id='copy-modal' type='button'>";
-        $code  .= "<h5>".l(18224,8,"Copy other week")."</h5>";
-        $code  .= "</button>";
-
-        $code .= "<div class='copy-modal'>";
-        $code .= "<div class='modal-content'>";
-        $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-        $code  .= "<div class='col-12'>";
-        $code  .= "Copy Week coming soon!";
-        $code  .= "</div>";
-        $code .= "<div class='modal-buttons'>";
-        $code .= "<button id='save' type='button'>".l(18224,6,"Load")."</button>";
-        $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-
-        $code .= "</div>";
-        return $code;
-    }
-
-
-    private function actions(){
-        $code = "";
-        $code .= "<div class='col-3 actions'>";
-        $code .= "<button class='download' type='button'>";
-        $code .= "<i class='fas fa-file-download'></i>";
-        $code .= "</button>";
-        $code .= "<button class='copy' type='button'>";
-        $code .= "<i class='fas fa-copy'></i>";
-        $code .= "</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        return $code;
-    }
-
-
-
-
-    private function content(){
-
-
-        $dates['2020-05-04'] = 'monday';
-        $dates['2020-05-05'] = 'tuesday';
-        $dates['2020-05-06'] = 'wednesday';
-        $dates['2020-05-07'] = 'thursday';
-        $dates['2020-05-08'] = 'friday';
-
-
-        $cnt = 0;
-        $code =  "";
-        $code .= "<div class='col-9 content'>";
-
-
-
-
-        foreach($dates as $date=>$day) {
-
-            $code .= "<div class='timetable-box'>";
-            $code .= "<p class='list-header'>". ucfirst($day) ."</p>";
-            $code .= "<input type='hidden' name='". $day ."' value=''>";
-            $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."'>";
-
-            foreach ($this->shops as $entry) {
-                if ($entry['date'] == $date ) {
-                    if ($entry['shop_id'] > 0) {
-                        $code .= $this->shop($entry);
-
-                    } else {
-                        $code .= $this->event($entry);
-                    }
-                }
-
-            }
-
-            $cnt++;
-            $code .= "</ul>";
-            $code .= "</div>";
-        }
-
-
-
-
-        $code .= "</div>";
-
-        return $code;
-    }
 
 
     private function shop($entry){
@@ -794,84 +753,105 @@ private function event($entry){
     return $code;
 }
 
-    //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
-    var $user = '';
-    var $date_start = '';
-    var $date_end = '';
-    var $shops = [];
-    function __construct($user, $date_start='', $date_end=''){
-        global $myPageBody;
-        if(!is_numeric($user)){
-            $user = db_value("SELECT id FROM authuser WHERE uname='$user'");
-        }
-        // CHECK USER
-        $user = db_direct("SELECT id FROM authuser WHERE id=$user");
-        if($user['id']==''){
-            throw new Exception(
-                label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
-            );
-        }
-        $this->user = $user;
-        $this->date_start = $date_start;
-        $this->date_end = $date_end;
-        // LOAD SHOPS
-        $myShops = \rtm::shops($user['id']);
-        if(count($myShops)==0){
-            throw new Exception(
-                label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
-            );
-        }
-        $sql= "SELECT crm_shops_bs.id,
-                              crm_shops_bs.name,
-                crm_shops_bs.shop_street AS street,
-                crm_shops_bs.shop_city AS city,
-                crm_shops_lk.name AS cat,
-                crm_clients_bs.name AS client
+//SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
+var $user = '';
+var $date_start = '';
+var $date_end = '';
+var $dates = [];
+var $shops = [];
+var $events = [];
+function __construct($user, $date_start='', $date_end=''){
+    global $myPageBody;
+  if(!is_numeric($user)){
+    $user = db_value("SELECT id FROM authuser WHERE uname='$user'");
+  }
+  // CHECK USER
+  $user = db_direct("SELECT id FROM authuser WHERE id=$user");
+  if($user['id']==''){
+    throw new Exception(
+      label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
+    );
+  }
+  $this->user = $user;
+  $this->date_start = $date_start;
+  $this->date_end = $date_end;
+  $this->dates = self::dates($date_start, $date_end);
+  // LOAD SHOPS
+  $myShops = \rtm::shops($user['id']);
+  if(count($myShops)==0){
+    throw new Exception(
+      label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
+    );
+  }
+  $sql= "SELECT crm_shops_bs.id AS shop_id, 
+                              crm_shops_bs.name, 
+                crm_shops_bs.shop_street AS street, 
+                crm_shops_bs.shop_city AS city, 
+                crm_shops_lk.name AS cat, 
+                crm_clients_bs.name AS client, 
+                crm_shops_bs.comment AS comment,  
+                crm_shops_bs.comment AS reminder, 
+                rt_focus_dt.status_color AS color,  
+                crm_clients_bs.name AS group1, 
+                crm_shops_bs.shop_city AS group2, 
+                rt_focus_bs.name AS group3
+
            FROM crm_shops_bs
       LEFT JOIN crm_shops_lk ON crm_shops_bs.cat_id = crm_shops_lk.id
       LEFT JOIN crm_clients_bs ON crm_shops_bs.client_id=crm_clients_bs.id
+      LEFT JOIN rt_focus_dt ON crm_shops_bs.id= rt_focus_dt.shop_id 
+                                                      AND rt_focus_dt.status<90
+                              AND ( rt_focus_dt.date_end='0000-00-00' 
+                                          OR rt_focus_dt.date_end >DATE(NOW())
+                                   )
+      LEFT JOIN rt_focus_bs ON rt_focus_bs.id=focus_id 
+                                                  AND rt_focus_bs.status<90
+                                                  AND  rt_focus_bs.gpv_id IN (".$user['id'].")
               WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
-        // $myPageBody .= "$sql<br>";
-        $result = db_query($sql);
-        while($row = db_fetch_row($result)){
-            $this->groups[$row['client']][] = $row;
-        }
-    }
-
-    //SUBTASK 18221: "SIDEBOARD" --------------------------------------------
-    private function sidebar()
-    {
-        $eventCnt = 0;
-
-        $code = "";
-        $code .= "<div class='col-3'>";
-        $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2  class='col-12'>Planning Settings</h2>";
-
-        $code .= "<div class='search col-12'>";
-        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
-        $code .= "<i class='fas fa-search search-icon col-1'></i>";
-        $code .= "</div>";
-
-        $code .= "<h4  class='col-7'>Points of Sales</h4>";
-        $code .= "<div class='col-5' id='color-filter'>";
-        $code .= "<button class='active' id='freq-4' type='button'></button>";
-        $code .= "<button class='active' id='freq-3' type='button'></button>";
-        $code .= "<button class='active' id='freq-2' type='button'></button>";
-        $code .= "<button class='active' id='freq-1' type='button'></button>";
-        $code .= "</div>";
-        $code .= "<div class='grouping col-12'>";
-        $code .= "<button class='active' type='button' id='group1'>Chain</button>";
-        $code .= "<button type='button' id='group2'>City</button>";
-        $code .= "<button type='button' id='group3'>Group</button>";
-        $code .= "</div>";
-        $code .= "<div class='points-of-sales'></div>";
-
-
-        $code .= "<script>
-
-
-
+  // $myPageBody .= "$sql<br>";
+  $result = db_query($sql);
+  while($row = db_fetch_row($result)){
+    $this->groups[$row['client']][] = $row;
+  }
+  $sql= "SELECT * 
+                   FROM gpv_previsit_lk
+          WHERE active='true'
+              AND is_visit <> 'true' 
+       ORDER BY pos, name";
+  $result = db_query($sql);
+  while($row = db_fetch_row($result)){
+    $this->events[] = $row;
+  }
+}
+//SUBTASK 18221: "SIDEBAR" --------------------------------------------
+private function sidebar(){
+  $eventCnt = 0;
+  
+  $code = "";
+  $code .= "<div class='col-3'>";
+  $code .= "<div class='col-12 tabs'>";
+  $code .= "<h2  class='col-12'>Planning Settings</h2>";
+  
+  $code .= "<div class='search col-12'>";
+  $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
+  $code .= "<i class='fas fa-search search-icon col-1'></i>";
+  $code .= "</div>";
+  
+  $code .= "<h4  class='col-7'>Points of Sales</h4>";
+  $code .= "<div class='col-5' id='color-filter'>";
+  $code .= "<button class='active' id='freq-4' type='button'></button>";
+  $code .= "<button class='active' id='freq-3' type='button'></button>";
+  $code .= "<button class='active' id='freq-2' type='button'></button>";
+  $code .= "<button class='active' id='freq-1' type='button'></button>";
+  $code .= "</div>";
+  $code .= "<div class='grouping col-12'>";
+  $code .= "<button class='active' type='button' id='group1'>Chain</button>";
+  $code .= "<button type='button' id='group2'>City</button>";
+  $code .= "<button type='button' id='group3'>Group</button>";
+  $code .= "</div>";
+  $code .= "<div class='points-of-sales'></div>";
+  
+  $code .= "<script>
         function groupShops(groupName){
             
             $('.points-of-sales').empty();
@@ -960,79 +940,106 @@ private function event($entry){
              
              
          }";
-
-
-        $jsonShops = [];
-
-        foreach($this->groups as $name => $shops){
-
-            foreach ($shops as $shop) {
-                $jsonShops[$shop['shop_id']] = $shop;
-            }
-        }
-        $code .= "var shops = ".json_encode($jsonShops) .";";
-
-        $code .= "</script>";
-
-
-        $code .= "<h4  class='col-12'>Events</h4>";
-
-            $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
-            $code .= "<h5 class='col-12'>Multiple Events</h5>";
-            $code .= "<hr class='col-12'>";
-            $code .= "</div>";
-            $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
-
-            foreach ($this->events as $event) {
-                $code .= "<li class='multiple-event-infos col-12";
-
-                if ($event['multiple'] != 'true') {
-                    $code .=" single ";
-                }
-                $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
-                $code .= "<i class='fas fa-times delete'></i>";
-                $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-                $code .= "<div class='col-12'>";
-                $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-                if (isset($event['icon'])) {
-                    $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-                }
-                $code .= "</div>";
-                $code .= "</li>";
-                $eventCnt++;
-            }
-            $code .= "</ul>";
-
-
-
-        $code .= "</div>";
-        $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
-        $code .= "</div>";
-
-        return $code;
+      
+  
+  $jsonShops = [];
+  
+  foreach($this->groups as $name => $shops){
+    
+    foreach ($shops as $shop) {
+      $jsonShops[$shop['shop_id']] = $shop;
     }
+  }
+  $code .= "var shops = ".json_encode($jsonShops) .";";
+  
+  $code .= "</script>";
+  
+  
+  $code .= "<h4  class='col-12'>Events</h4>";
+  
+  $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
+  $code .= "<h5 class='col-12'>Multiple Events</h5>";
+  $code .= "<hr class='col-12'>";
+  $code .= "</div>";
+  $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
 
-
-
-
-
-
-
-    //SUBTASK 18222: "SHOW" --------------------------------------------
-    function show(){
-        $code = "";
-        $code .= self::header();
-        $code .= "<main>";
-        $code .="<form method='post'>";
-        $code .= $this->sidebar();
-        $code .= $this->filter();
-        $code .= $this->actions();
-        $code .= $this->editModal();
-        $code .= $this->content();
-        $code .= "</form>";
-        $code .= "</main>";
-        return $code;
+  foreach ($this->events as $event) {
+    $code .= "<li class='multiple-event-infos col-12";
+    
+    if ($event['multiple'] != 'true') {
+      $code .=" single ";
     }
+    $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
+    $code .= "<i class='fas fa-times delete'></i>";
+    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+    $code .= "<div class='col-12'>";
+    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
+    if (isset($event['icon'])) {
+      $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
+    }
+    $code .= "</div>";
+    $code .= "</li>";
+    $eventCnt++;
+  }
+  $code .= "</ul>";
+  
+  
+  
+  $code .= "</div>";
+  $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
+  $code .= "</div>";
+  
+  return $code;
 }
 
+
+
+
+
+//SUBTASK 18222: "SHOW" --------------------------------------------
+function show(){
+  $code = "";
+  $code .= self::header();
+  $code .= "<main>";
+  $code .="<form method='post'>";
+  $code .= $this->sidebar();
+  $code .= $this->filter();
+  $code .= $this->actions();
+  $code .= $this->editModal();
+  $code .= $this->content();
+  $code .= "</form>";
+  $code .= "</main>";
+  return $code;
+}
+//SUBTASK 18260: "CONTENT" --------------------------------------------
+private function content(){
+  $cnt = 0;
+  $code =  "<div class='col-9 content'>";
+  foreach($this->dates as $date=>$day) {
+    $code .= "<div class='timetable-box'>";
+    $code .= "<p class='list-header'>";
+    $code .= label('WEEKDAY', $day, $day)."<br>";
+    $code .= "<small>".format::date($date)."</small>";
+    $code .= "</p>";
+    $code .= "<input type='text' name='". $day ."' value=''>";
+    $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."'>";
+    foreach ($this->shops as $entry) {
+      if ($entry['date'] <> $date )  continue;
+      if ($entry['shop_id'] > 0) {
+        $code .= $this->shop($entry);
+      } else {
+        $code .= $this->event($entry);
+      }
+    }
+    $code .= "</ul>";
+    $code .= "</div>";
+    $cnt++;
+  }
+  $code .= "</div>";
+  return $code;
+}
+
+
+//[/SUBTASKS]
+  }
 ?>
