@@ -39,6 +39,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
         $code .= "
         
         <script>
+        
+        
+        /* UNDEFINED LABEL FOR GROUPING */
+        var undefined_label = '". l(18221, 101, 'no category') ."';
 
         $(document).ready( function() {
             
@@ -102,6 +106,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  $(this).toggleClass('active-accordion');
                  var id = $(this).attr('id');
                 $('.' + id).toggleClass('active-accordion');
+                
+                $('.' + id).css('display', '');
             });
              
              
@@ -201,8 +207,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   $(this).parent().remove();
              });
              
-             $('.timetable').on('click', '.pos-infos i.delete, .event-infos i.delete', function(){   
-             
+             $('.timetable').on('click', '.pos-infos i.delete, .event-infos i.delete', function(){                
                  var textDelete = $(this).parent().text();
                  var input =  $(this).parent().parent().siblings('input');
                  var timetableId = $(this).parent().parent().attr('id');                                   
@@ -218,29 +223,23 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     $('#' + timetableId).find('li').text()
                   );            
                  
-             });
-             
+             });             
 
-             
-             
+            
              /* MODALS */
 
-            $('.timetable').on('click', '.modal-button' , function(){
+            $('.content').on('click', '.modal-button' , function(){
                var id = $(this).attr('id');
                 $('.'+id).show();
             });
         
         
             $('.modal-content span.close').on('click', function() {
-        
-                $(this).parent().parent().hide();
-        
+                $(this).parent().parent().hide();        
             });
         
-            $('.modal-content button.cancel').on('click', function() {
-        
-                $('[class$=\"-modal\"]').hide();
-        
+            $('.modal-content button.cancel').on('click', function() {        
+                $('[class$=\"-modal\"]').hide();        
             });
             
             
@@ -333,7 +332,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   groupShops(id);
                   
             });
-            
+           
             
             /* AUTOPLAN */
             
@@ -488,61 +487,61 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
            
-            #color-filter button#freq-1, #color-filter button#freq-1:hover{
+            #color-filter button#red, #color-filter button#red:hover{
                 border-color: darkred;
                 background: none;
                 box-shadow: none;
             }
             
-            #color-filter button#freq-1.active{
+            #color-filter button#red.active{
                 background-color: darkred;
                 box-shadow: inset 0 0 5px #fff;
             }
             
-            #color-filter button#freq-2, #color-filter button#freq-2:hover{
+            #color-filter button#yellow, #color-filter button#yellow:hover{
                 border-color: orange;  
                 background: none;             
             }
             
-            #color-filter button#freq-2.active{
+            #color-filter button#yellow.active{
                 background-color: orange;   
                 box-shadow: inset 0 0 5px #fff;            
             }
             
-            #color-filter button#freq-3, #color-filter button#freq-3:hover{
+            #color-filter button#green, #color-filter button#green:hover{
                 border-color: limegreen;  
                 background: none;              
             }
             
-            #color-filter button#freq-3.active{
+            #color-filter button#green.active{
                 background-color: limegreen;   
                 box-shadow: inset 0 0 5px #fff;             
             }
             
-            #color-filter button#freq-4, #color-filter button#freq-4:hover{
+            #color-filter button#blue, #color-filter button#blue:hover{
                 border-color: dodgerblue;
                 background: none;
             } 
             
-            #color-filter button#freq-4.active{
+            #color-filter button#blue.active{
                 background-color: dodgerblue;
                 box-shadow: inset 0 0 5px #fff;
             }
             
             
-            li.freq-1 p.pos-name{
+            li.red p.pos-name{
                 color: darkred;
             }
             
-            li.freq-2 p.pos-name{
+            li.yellow p.pos-name{
                 color: orange;
             }
             
-            li.freq-3 p.pos-name{
+            li.green p.pos-name{
                 color: limegreen;
             }
             
-            li.freq-4 p.pos-name{
+            li.blue p.pos-name{
                 color: dodgerblue;
             }
             
@@ -589,7 +588,7 @@ private function editModal(){
   $code .= "<div class='modal-content'>";
   $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
   $code .= "<div>";
-  $code .= "<h5>Additional Infos:</h5>";
+  $code .= "<h5>".l(18224,101,"Additional Infos:")."</h5>";
   $code .= "<hr class='col-12'>";
   $code .= "<label>".l(18224,1,"Time")."</label>";
   $code .= "<input type='time' min='06:00' max='24:00'>";
@@ -607,9 +606,51 @@ private function editModal(){
 }
 
 private function filter(){
+
+    $eventCnt = 0;
   
   $code  = "<div class='content row col-9'>";
   $code  .= "<div class='col-9 autoplans'>";
+
+    $code  .= "<button class='dropbtn modal-button' id='add-event-modal' type='button'>";
+    $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
+    $code  .= "</button>";
+
+    $code .= "<div class='add-event-modal'>";
+    $code .= "<div class='modal-content'>";
+    $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+
+    $code  .= "<h5>".l(18224,102,'Add Event')."</h5>";
+    $code  .= "<hr>";
+    $code  .= "<div class='col-6'>";
+    $code  .= "<label>".l(18224,11,"Select Event")."</label>";
+    $code  .= "<select>";
+    foreach ($this->events as $event) {
+        $code  .= "<option>" . $event['name'] . "</option>";
+        $eventCnt++;
+    }
+    $code  .= "</select>";
+    $code .= "</div>";
+    $code  .= "<div class='col-6'>";
+    $code  .= "<label>".l(18224,12,"Select Days")."</label>";
+
+    $code .= "<label><input type='checkbox'>".l(18224,15,"One Day Event")."</label>";
+    $code .= "<div class='col-12'>".l(18224,13,"From")." ";
+    $code .= "<input type='date' name='event[date_start]' value=''>";
+    $code .= "</div>";
+    $code .= "<div class='col-12'>".l(18224,14,"To")." ";
+    $code .= "<input type='date' name='event[date_end]' value=''>";
+    $code .= "</div>";
+    $code  .= "</div>";
+    $code .= "<div class='modal-buttons'>";
+    $code .= "<button id='save' type='button'>".l(18224,10,"Add")."</button>";
+    $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+    $code .= "</div>";
+    $code .= "</div>";
+    $code .= "</div>";
+
+
+
   $code  .= "<button class='dropbtn modal-button' id='autoplan-modal' type='button'>";
   $code  .= "<h5>".l(18224,5,"Autoplan week")."</h5>";
   $code  .= "</button>";
@@ -685,30 +726,25 @@ private function actions(){
 
 
     private function shop($entry){
-
         $commentCnt = 0;
         $cnt = 0;
-
         $code = "";
-        $code .= "<li class='pos-infos col-12 freq-" . $entry['freq'] . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
+        $code .= "<li class='pos-infos col-12 " . $entry['color'] . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
         $code .= "<i class='fas fa-times delete'></i>";
         $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
         if ($entry['offline'] == 'true') {
             $code .= "<i class='fas fa-wifi-slash offline'></i>";
         }
-        $code .= "<p class='pos-number'>" . $entry['number'] . "</p>";
+        $code .= "<p class='pos-number'>" . $entry['shop_id'] . "</p>";
         $code .= "<p class='pos-name'>" . $entry['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $entry['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
         $code .= "<p class='pos-address'>" . $entry['street'] . ", " . $entry['city'] . "</p>";
         $code .= "<p class='pos-client'>" . $entry['client'] . " </p>";
         $code .= "<p class='pos-type'>" . $entry['typ'] . "</p>";
-
-
-        if (isset($entry['comment']) || isset($entry['time'])){
-
+        if (isset($entry['comment']) || isset($entry['reminder'])){
             $code .= "<div class='comment col-12'>";
             $code .= "<i class='fas fa-info col-2'></i>";
             $code .= "<div class='col-10'>";
-            $code .= "<p>" . $entry['time'] . "</p>";
+            $code .= "<p>" . $entry['reminder'] . "</p>";
             $code .= "<p class='comment-" . $commentCnt . "''>";
             $code .= $entry['comment'];
             $code .= "</p>";
@@ -716,7 +752,6 @@ private function actions(){
             $code .= "</div>";
             $code .= "</div>";
         }
-
         $code .= "</li>";
         $commentCnt++;
 
@@ -726,7 +761,6 @@ private function actions(){
 
 
 private function event($entry){
-
     $code = "";
     $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $entry['id'] . "'>";
     $code .= "<i class='fas fa-times delete'></i>";
@@ -749,7 +783,6 @@ private function event($entry){
 //                    $code .= "</div>";
 
     $code .= "</li>";
-
     return $code;
 }
 
@@ -830,106 +863,103 @@ private function sidebar(){
   $code = "";
   $code .= "<div class='col-3'>";
   $code .= "<div class='col-12 tabs'>";
-  $code .= "<h2  class='col-12'>Planning Settings</h2>";
+  $code .= "<h2  class='col-12'>".l( 18221, 1, 'Planning Settings')."</h2>";
   
   $code .= "<div class='search col-12'>";
-  $code .= "<input class='col-11' type='text' id='searchInput' placeholder='Search'>";
+  $code .= "<input class='col-11' type='text' id='searchInput' placeholder='".l( 18221, 3, 'search')."'>";
   $code .= "<i class='fas fa-search search-icon col-1'></i>";
   $code .= "</div>";
   
-  $code .= "<h4  class='col-7'>Points of Sales</h4>";
+  $code .= "<h4  class='col-7'>".l( 18221, 4, 'Point of sales')."</h4>";
   $code .= "<div class='col-5' id='color-filter'>";
-  $code .= "<button class='active' id='freq-4' type='button'></button>";
-  $code .= "<button class='active' id='freq-3' type='button'></button>";
-  $code .= "<button class='active' id='freq-2' type='button'></button>";
-  $code .= "<button class='active' id='freq-1' type='button'></button>";
+  $code .= "<button class='active' id='blue' type='button'></button>";
+  $code .= "<button class='active' id='green' type='button'></button>";
+  $code .= "<button class='active' id='yellow' type='button'></button>";
+  $code .= "<button class='active' id='red' type='button'></button>";
   $code .= "</div>";
   $code .= "<div class='grouping col-12'>";
-  $code .= "<button class='active' type='button' id='group1'>Chain</button>";
-  $code .= "<button type='button' id='group2'>City</button>";
-  $code .= "<button type='button' id='group3'>Group</button>";
+  $code .= "<button class='active' type='button' id='group1'>".l( 18221, 6, 'Chain')."</button>";
+  $code .= "<button type='button' id='group2'>".l( 18221, 7, 'City')."</button>";
+  $code .= "<button type='button' id='group3'>".l( 18221, 8, 'Group')."</button>";
   $code .= "</div>";
   $code .= "<div class='points-of-sales'></div>";
   
   $code .= "<script>
-        function groupShops(groupName){
-            
+        function groupShops(groupName){            
             $('.points-of-sales').empty();
-
-             var groups = {};
-
-            
+             var groups = {};            
              for(let shop in shops){                
                 var myShops = shops[shop];                
-                var myGroups = myShops[groupName];                
-                
+                var myGroups = myShops[groupName];
                 if(groups[myGroups] == undefined){
                     groups[myGroups] = [];
                 }
                 
+                
                 groups[myGroups].push(myShops);
-             }
-             
-
-             var html = '';
-             var cnt = 0;
+                
+             }  
+                      
             
-             for(let group in groups){
+             const orderedGroups = {};
+                Object.keys(groups).sort().forEach(function(key) {
+                orderedGroups[key] = groups[key];
+             });
+             
+             var html = '';
+             var cnt = 0;            
+             for(let group in orderedGroups){
                  html += '<div class=\'title-part accordion\' id=\'panel-' + cnt + '\'>';
-                 html += '<h5 class=\'col-12\'>' + group + '</h5>';
+                 html += '<h5 class=\'col-12\'>';  
+                 if(group != 'null' && group != null){
+                   html += group 
+                 } else { 
+                   html += undefined_label;
+                 }  
+                 html +='</h5>';
                  html += '<hr class=\'col-12\'>';
                  html += '</div>';
-
                  html += ' <ul class=\'panel-' + cnt + ' pos connectedSortable\' id=\'sortable-' + cnt + '\'>';
                  
-                 for(let shopIndex in groups[group]){
-                     
+                 for(let shopIndex in groups[group]){                     
                     var shop = groups[group][shopIndex];
                     /*DON'T LOAD ITEMS THAT ARE ALREADY IN THE TIMETABLE*/
                     if($('.timetable').find('li#' + shop['shop_id'] ).length < 1 ){                 
                      
-                        html += ' <li class=\'pos-infos col-12 freq-' + shop['freq'] + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
+                        html += ' <li class=\'pos-infos col-12 ' + shop['color'] + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
                         html += '<i class=\'fas fa-times delete\'></i>';
                         html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
                         if( shop['offline'] == 'true' ) {
                             html += '<i class=\'fas fa-wifi-slash offline\'></i>';
                         }
-                        html += '<p class=\'pos-number\'>' + shop['number'] + ' </p>';
-                        html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';
-                        html += '<p class=\'pos-address\'>'+ shop['street'] + ' , ' + shop['city'] + '</p>';
-                        html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';
-                        html += '<p class=\'pos-type\'>' + shop['typ'] +' </p>';
+                        if(shop['shop_id']) { html += '<p class=\'pos-number\'>' + shop['shop_id'] + ' </p>';}
+                         if(shop['name']) {html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
+                         if(shop['street'] ||  shop['city']) {html += '<p class=\'pos-address\'>'+ shop['street'] + ' , ' + shop['city'] + '</p>';}
+                         if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
+                         if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
 
                     html += '</li>';       
                     } else{                        
                         /*CHANGE GROUP NAME IN LISTED ITEMS*/
                         $('.timetable').find('li#' + shop['shop_id']).attr('name' ,'panel-' + cnt);
-                    }
-                    
-                }
-                 
-                 html += '</ul>';
-                 
+                    }                    
+                }                 
+                 html += '</ul>';                 
                  cnt++;
-             }
+             }             
+             $(html).appendTo('.points-of-sales');       
              
-             $(html).appendTo('.points-of-sales');
-                    
-            /*ADD SORDTABLE*/
-             
+            /*ADD SORDTABLE*/             
              $( '[id *= \'sortable-\']' ).sortable({                
               connectWith: '.timetable',
               revert: true,
-            }).disableSelection();
-         
+            }).disableSelection();         
              
              /* ONLY SHOW SELECTED COLORS */
             
-            $('#color-filter button').each( function() {
-             
+            $('#color-filter button').each( function() {             
                 var isActive = $(this).hasClass('active');
                 var id = $(this).attr('id');  
-              
                 
                 if(isActive){
                     $('ul.pos li.' + id).show();
@@ -937,56 +967,22 @@ private function sidebar(){
                     $('ul.pos li.' + id).hide();
                 }
             });
-             
-             
+            
+            $('input#searchInput').keyup();
          }";
       
   
   $jsonShops = [];
   
   foreach($this->groups as $name => $shops){
-    
     foreach ($shops as $shop) {
       $jsonShops[$shop['shop_id']] = $shop;
     }
   }
   $code .= "var shops = ".json_encode($jsonShops) .";";
-  
   $code .= "</script>";
-  
-  
-  $code .= "<h4  class='col-12'>Events</h4>";
-  
-  $code .= "<div class='title-part accordion' id='panel-multiple-event'>";
-  $code .= "<h5 class='col-12'>Multiple Events</h5>";
-  $code .= "<hr class='col-12'>";
   $code .= "</div>";
-  $code .= "<ul class='panel-multiple-event pos' id='sortable-multiple-events'>";
-
-  foreach ($this->events as $event) {
-    $code .= "<li class='multiple-event-infos col-12";
-    
-    if ($event['multiple'] != 'true') {
-      $code .=" single ";
-    }
-    $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
-    $code .= "<i class='fas fa-times delete'></i>";
-    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-    $code .= "<div class='col-12'>";
-    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-    if (isset($event['icon'])) {
-      $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-    }
-    $code .= "</div>";
-    $code .= "</li>";
-    $eventCnt++;
-  }
-  $code .= "</ul>";
-  
-  
-  
-  $code .= "</div>";
-  $code .= "<div ><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
+  $code .= "<div><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
   $code .= "</div>";
   
   return $code;
@@ -1013,12 +1009,14 @@ function show(){
 }
 //SUBTASK 18260: "CONTENT" --------------------------------------------
 private function content(){
+
+
   $cnt = 0;
   $code =  "<div class='col-9 content'>";
   foreach($this->dates as $date=>$day) {
     $code .= "<div class='timetable-box'>";
     $code .= "<p class='list-header'>";
-    $code .= label('WEEKDAY', $day, $day)."<br>";
+    $code .=  l('WEEKDAY', $day, $day)."<br>";
     $code .= "<small>".format::date($date)."</small>";
     $code .= "</p>";
     $code .= "<input type='text' name='". $day ."' value=''>";

@@ -15,7 +15,7 @@
 //[SUBTASKS]
 //SUBTASK 17492: "DATE" --------------------------------------------
 static function date($date){
-  return cfr_formatdate($date);
+  return $date;
 }
 //SUBTASK 17473: "MINUTES" --------------------------------------------
 function minutes($val){
