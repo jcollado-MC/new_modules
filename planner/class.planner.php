@@ -751,18 +751,30 @@ private function shop($entry){
     $commentCnt = 0;
     $cnt = 0;
     $code = "";
-    $code .= "<li class='pos-infos col-12 " . $entry['color'] . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
+    $code .= "<li class='pos-infos col-12 " . strtolower($entry['color']) . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
     $code .= "<i class='fas fa-times delete'></i>";
     $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
     if ($entry['offline'] == 'true') {
         $code .= "<i class='fas fa-wifi-slash offline'></i>";
     }
-    $code .= "<p class='pos-number'>" . $entry['shop_id'] . "</p>";
-    $code .= "<p class='sap-number'>" . $entry['sap_number'] . "</p>";
-    $code .= "<p class='pos-name'>" . $entry['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $entry['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";
-    $code .= "<p class='pos-address'>" . $entry['street'] . ", " . $entry['city'] . "</p>";
-    $code .= "<p class='pos-client'>" . $entry['client'] . " </p>";
-    $code .= "<p class='pos-type'>" . $entry['cat'] . "</p>";
+    if (!empty($entry['shop_id'])  ) {$code .= "<p class='pos-number'>" . $entry['shop_id'] . "</p>";}
+    if (!empty($entry['sap_number'])  ) {$code .= "<p class='sap-number'>" . $entry['sap_number'] . "</p>";}
+    if (!empty($entry['name'])  ) {$code .= "<p class='pos-name'>" . $entry['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $entry['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";}
+    if (!empty($entry['street']) || !empty($entry['city'])  ) {
+        $code .= "<p class='pos-address'>";
+        if (!empty($entry['street'])  ) {
+            $code .= $entry['street'];
+        }
+        if (!empty($entry['street']) && !empty($entry['city'])  ) {
+            $code .= ", ";
+        }
+        if (!empty($entry['city'])  ) {
+            $code .= $entry['city'];
+        }
+        $code .= "</p>";
+    }
+    if (!empty($entry['client'])) {$code .= "<p class='pos-client'>" . $entry['client'] . " </p>";}
+    if (!empty($entry['cat'])) {$code .= "<p class='pos-type'>" . $entry['cat'] . "</p>";}
     if (isset($entry['comment']) || isset($entry['reminder'])){
         $code .= "<div class='comment col-12'>";
         $code .= "<i class='fas fa-info col-2'></i>";
