@@ -1036,13 +1036,13 @@ function show(){
 private function content(){
   $cnt = 0;
   $code =  "<div class='col-9 content'>";
+  $code .= "<input class='col-12' type='text' value=''>";
   foreach($this->dates as $date=>$day) {
     $code .= "<div class='timetable-box'>";
     $code .= "<p class='list-header'>";
     $code .=  l('WEEKDAY', $day, $day)."<br>";
     $code .= "<small>".format::date($date)."</small>";
     $code .= "</p>";
-    $code .= "<input type='text' name='". $day ."' value=''>";
       $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" .format::date($date)."'>";
       $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
       $code  .= "</button>";
