@@ -392,13 +392,20 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             margin: 0 0 5px 0;
             }
             
+            
+            
             .pos-number, .pos-address, .pos-client, .pos-type, .sap-number{
                 font-size: 0.8rem;
-                margin: 0 0 5px 0;
             }
             
-            .sap-number{
+            .pos-number, .sap-number{
+                display: inline;
+            }
+            
+            p.sap-number{
                 color: #6e6e6e;
+                float: right;
+                margin: 3px 0 5px; 0;
             }
             
             .pos-client, .pos-type{
