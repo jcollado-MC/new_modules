@@ -246,12 +246,9 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             $('button#add-event-modal').on('click', function() {        
                 var date = $(this).attr('date');
                 var timetable = $('ul[date=\"'+ date +'\"]');
-                var singlesInTimetable  = $(timetable).find('.single');
-                
-                $('.add-event-modal').attr('id', date);
-                
-                $('.add-event-modal li').show();
-                
+                var singlesInTimetable  = $(timetable).find('.single');                
+                $('.add-event-modal').attr('id', date);                
+                $('.add-event-modal li').show();                
                 singlesInTimetable.each(function() { 
                     var id = $(this).attr('id');
                     $('.add-event-modal#' + date).find('#' + id).hide();
@@ -261,7 +258,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             $('.add-event-modal li').on('click', function() {        
                 var date = $('.add-event-modal').attr('id');
                 var timetable = $('ul[date=\"'+ date +'\"]');
-                $(this).clone().appendTo($(timetable));              
+                $(this).clone().prependTo($(timetable));              
                 $('[class$=\"-modal\"]').hide();                         
             });
             
