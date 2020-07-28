@@ -970,8 +970,13 @@ private function sidebar(){
                              if(shop['street']){
                                  html += shop['street'];
                              } 
+                             
+                             if(shop['street'] &&  shop['city']){
+                                 html += ', ';
+                             }
+                             
                              if(shop['city']){
-                                 html += ', ' + shop['city'];
+                                 html += shop['city'];
                              } 
                              html += '</p>';}
                          if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
