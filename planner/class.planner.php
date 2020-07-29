@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-07-25 
+  // Date of creation: 2020-07-29
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -96,7 +96,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             
             /* ACCORDION */
-
              $('.tabs').on('click', '.accordion', function(){
                  $(this).toggleClass('active-accordion');
                  var id = $(this).attr('id');
@@ -108,7 +107,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              
              
              /* SORTABLES */
-
              $( function() {
                  
                  var recieverId;
@@ -219,10 +217,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   );            
                  
              });             
-
             
              /* MODALS */
-
             $('.content').on('click', '.modal-button' , function(){
                var id = $(this).attr('id');
                 $('.'+id).show();
@@ -260,7 +256,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             /*COMMENTS*/
             
-
             
             var comments = $('.comment p');            
             
@@ -280,7 +275,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
             
-
             $('a.readMore').click(function() {
                 var id = $(this).attr('id');                
                 $('.comment p.' + id + ' span').toggle();
@@ -331,7 +325,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     container.hide();
                 }
             });
-
             
             
             /* GROUPING */
@@ -366,11 +359,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              </script>";
 
         $code .= "<style>
-
             h4{
                 margin: 15px 0 10px 0;
             }
-
+            
             ul {
             list-style-type: none;
             padding: 0;
@@ -587,8 +579,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 background-color: #bbb;
                 color: white;                
             }
-
-
             /*AUTOPLAN*/
             
             .planning-content{
@@ -854,7 +844,8 @@ function __construct($user, $date_start='', $date_end=''){
     );
   }
   $sql= "SELECT crm_shops_bs.id AS shop_id, 
-                              crm_shops_bs.name, 
+                              crm_shops_bs.name AS name, 
+                              crm_shops_bs.sap_number AS sap_number, 
                 crm_shops_bs.shop_street AS street, 
                 crm_shops_bs.shop_city AS city, 
                 crm_shops_lk.name AS cat, 
@@ -880,7 +871,7 @@ function __construct($user, $date_start='', $date_end=''){
               WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
   // $myPageBody .= "$sql<br>";
   $result = db_query($sql);
-  while($row = db_fetch_row($result)){
+  while($row = mysql_fetch_assoc($result)){
     $this->groups[$row['client']][] = $row;
   }
   $sql= "SELECT * 
@@ -989,8 +980,7 @@ private function sidebar(){
                 }                 
                  html += '</ul>';                 
                  cnt++;
-             }     
-             
+             }             
              $(html).appendTo('.points-of-sales');       
              
             /*ADD SORDTABLE*/             
@@ -1020,7 +1010,6 @@ private function sidebar(){
   
   foreach($this->groups as $name => $shops){
     foreach ($shops as $shop) {
-      $shop['name'] = utf8_encode($shop['name']);
       $jsonShops[$shop['shop_id']] = $shop;
     }
   }
@@ -1032,8 +1021,6 @@ private function sidebar(){
   
   return $code;
 }
-
-
 //SUBTASK 18222: "SHOW" --------------------------------------------
 function show(){
   $code = "";
@@ -1054,7 +1041,8 @@ function show(){
 private function content(){
   $cnt = 0;
   $code =  "<div class='col-9 content'>";
-  $code .= "<input class='col-12' type='text' value=''>";
+  //$code .= "<input type='text' name='myPlan' id='myPlan' value='".$this->object()."'>";
+  $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
   foreach($this->dates as $date=>$day) {
     $code .= "<div class='timetable-box'>";
     $code .= "<p class='list-header'>";
