@@ -20,8 +20,6 @@ class myPlanner extends Planner
 
     function __construct($date_start='', $date_end='')
     {
-
-
         $this->date_start = $date_start;
         $this->date_end = $date_end;
         $this->dates = self::dates($date_start, $date_end);
