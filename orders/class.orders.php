@@ -27,6 +27,8 @@ class orders{
             
             
             /* SEARCH TABLE SIDEBAR */
+            
+            /*
         
             $('#searchInput').on('keyup', function () {
                 
@@ -56,6 +58,60 @@ class orders{
                 }
         
             });
+            */
+            
+            
+            function search(value){   
+            
+                //filter checkbox-labels for search value            
+                $( '.checkboxes label.checkbox-label' ).each(function( index ) {
+                    if($(this).text().toLowerCase().indexOf(value) < 0){               
+                        //console.log( index + \": \" + $( this ).text() );
+                        $(this).hide();
+                    }
+                });
+                
+                $('.title-part').each( function() {
+                    var id = $(this).attr('id');                     
+                    if ($(this).siblings('.' + id).text().toLowerCase().indexOf(value) < 0) {
+                        $(this).hide();
+                    }                
+                });
+                
+                $('[class*=\'panel-\']').each( function() {                 
+                    if ($(this).children('label').text().toLowerCase().indexOf(value) < 0) {
+                        $(this).hide();
+                    }                
+                });
+            }
+            
+            
+            
+            
+            
+            $('#searchInput').on('keyup', function () {
+                //get value of searchbar input
+                var value = $(this).val().toLowerCase();     
+                
+                $( '.checkboxes label.checkbox-label, [class*=\'panel-\'], .title-part' ).show();       
+                var valueArray = value.split(' ');                                    
+                valueArray.forEach(search);
+                
+                if (value.length > 0){                                       
+                     $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
+                     $('.accordion').addClass('active-accordion');
+                } else {
+                    $('ul.pos').css('display', '');
+                    $('.active-accordion').removeClass('active-accordion');                    
+                }
+            });
+            
+            
+            
+            
+            
+            
+            
             
             /* ACCORDION */
 
@@ -79,10 +135,11 @@ class orders{
                  var name = $(this).parent().text();
                  var qty = $(this).parent().siblings().children('.quantity input').val();
                  var length = table.rows.length;
+                 var productCode = 
                  
                  var checked = $(this).prop('checked');
                  if(checked){
-                     table.insertRow( [idThis, name, '' , '' , qty] ,0, true);
+                     table.insertRow( [idThis, productCode, name, '' , '' , qty] ,0, true);
                  } else {
                      for(let i = 0; i < length; i++){
                          let val = table.getValueFromCoords([0], [i]);
@@ -111,13 +168,13 @@ class orders{
         
         
          var updateRow = function(){
-//                    var tableLength = table.rows.length + 1;
-//            
-//                    for(let i = 0; i < tableLength; i++){                    
-//                        table.setReadOnly( 'A' + i , true);
-//                        table.setReadOnly( 'C' + i , true);
-//                        table.setReadOnly( 'D' + i , true);                                                
-//                    }
+                    var tableLength = table.rows.length + 1;
+                    
+                    for(let i = 0; i < tableLength; i++){                    
+                        table.setReadOnly( 'A' + i , true);
+                        table.setReadOnly( 'C' + i , true);
+                        table.setReadOnly( 'D' + i , true);                                                
+                    }
             };
         
         

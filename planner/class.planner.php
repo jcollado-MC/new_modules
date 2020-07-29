@@ -53,18 +53,13 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             function search(value){   
             
                 //filter checkbox-labels for search value            
-                $( '.pos li' ).each(function( index ) {
+                $( '.pos li' ).each(function(  ) {
                     if($(this).text().toLowerCase().indexOf(value) < 0){               
-                        //console.log( index + \": \" + $( this ).text() );
+                       
                         $(this).hide();
                     }
                 });
-                
-                $( '.pos li' ).each( function() {
-                    if ($(this).text().toLowerCase().indexOf(value) < 0) {
-                        $(this).hide();
-                    }
-                });              
+                  
                 
                 $('.title-part').each( function() {
                     var id = $(this).attr('id');                     
@@ -405,7 +400,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             p.sap-number{
                 color: #6e6e6e;
                 float: right;
-                margin: 3px 0 5px; 0;
+                margin: 0 0 5px; 0;
             }
             
             .pos-client, .pos-type{
@@ -564,7 +559,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 color: darkred;
             }
             
-            li.yellow p.pos-name{
+            li.orange p.pos-name{
                 color: orange;
             }
             
@@ -969,19 +964,16 @@ private function sidebar(){
                             html += '<i class=\'fas fa-wifi-slash offline\'></i>';
                         }
                         if(shop['shop_id']) { html += '<p class=\'pos-number\'>' + shop['shop_id'] + ' </p>'; }
-                        if(shop['sap_number']) { html += '<p class=\'sap-number\'>' + shop['sap_number'] + ' </p>';} ".
-      "
+                        if(shop['sap_number']) { html += '<p class=\'sap-number\'>' + shop['sap_number'] + ' </p>';} 
                          if(shop['name']) {html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
                          if(shop['street'] ||  shop['city']) {
                              html += '<p class=\'pos-address\'>';
                              if(shop['street']){
                                  html += shop['street'];
-                             } 
-                             
+                             }
                              if(shop['street'] &&  shop['city']){
                                  html += ', ';
                              }
-                             
                              if(shop['city']){
                                  html += shop['city'];
                              } 
@@ -989,15 +981,16 @@ private function sidebar(){
                          if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
                          if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
 
-                    html += '</li>';       
-                    } else{                        
+                        html += '</li>';       
+                    } else {                        
                         /*CHANGE GROUP NAME IN LISTED ITEMS*/
                         $('.timetable').find('li#' + shop['shop_id']).attr('name' ,'panel-' + cnt);
                     }                    
                 }                 
                  html += '</ul>';                 
                  cnt++;
-             }             
+             }     
+             
              $(html).appendTo('.points-of-sales');       
              
             /*ADD SORDTABLE*/             
@@ -1027,6 +1020,7 @@ private function sidebar(){
   
   foreach($this->groups as $name => $shops){
     foreach ($shops as $shop) {
+      $shop['name'] = utf8_encode($shop['name']);
       $jsonShops[$shop['shop_id']] = $shop;
     }
   }
