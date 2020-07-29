@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-07-25 
+  // Date of creation: 2020-07-29 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -13,6 +13,46 @@
     }
     class PLANNER{
 //[SUBTASKS]
+//SUBTASK 18266: "OBJECT" --------------------------------------------
+private function object(){
+  global $myPageBody;
+  $data = [];
+  $sql= "SELECT gpv_previsit_bs.kam_id AS gpv_id, 
+                gpv_previsit_bs.id AS id, 
+                              gpv_previsit_bs.date_start AS date_start, 
+                gpv_previsit_bs.pos AS pos, 
+                gpv_previsit_bs.cat_id AS cat_id, 
+                gpv_previsit_bs.shop_id AS shop_id, 
+                gpv_previsit_bs.time_start AS time, 
+                gpv_previsit_bs.comment AS comment 
+                   FROM gpv_previsit_bs
+          WHERE gpv_previsit_bs.kam_id          IN ('".implode("','",$this->user)."')
+            AND gpv_previsit_bs.date_start IN ('".implode("','",array_keys($this->dates))."') 
+              AND gpv_previsit_bs.status < 90
+       GROUP BY gpv_previsit_bs.id 
+       ORDER BY gpv_previsit_bs.kam_id, 
+                  gpv_previsit_bs.date_start, 
+                  gpv_previsit_bs.pos, 
+                gpv_previsit_bs.id";
+  // $myPageBody .= "$sql<hr>"; 
+  $result = db_query($sql);
+  while($row = db_fetch_row($result)){
+    if($last_date <> $row['date_start']) $pos=1;
+    $entry['id']             = $row['id'];
+    $entry['date']         = $row['date_start'];
+    $entry['pos']         = $pos;
+    $entry['cat_id']     = $row['cat_id'];
+    $entry['shop_id'] = $row['shop_id'];
+    $entry['time']         = $row['time'];
+    $entry['comment'] = $row['comment'];
+    $data[] = $entry;
+    $pos++;
+    $last_date = $row['date_start'];
+  }
+  // $myPageBody .= "<pre>".print_r($data,true)."</pre>";
+  $json = json_encode($data);
+  return $json;
+}
 //SUBTASK 18259: "DATES" --------------------------------------------
 static function dates($date_start, $date_end, $weekends= FALSE){
     global $myPageBody;
@@ -29,6 +69,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
 }
 
 //SUBTASK 18223: "STATIC: HEADER" --------------------------------------------
+//SUBTASK 18223: "STATIC: HEADER" --------------------------------------------
     private static $header;
     static function Header(){
         if (self::$header == TRUE) return;
@@ -43,7 +84,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
         
         /* UNDEFINED LABEL FOR GROUPING */
         var undefined_label = '". l(18221, 101, 'no category') ."';
-
         $(document).ready( function() {
             
             $('form').children().css({userSelect: 'none'});
@@ -101,7 +141,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             
             /* ACCORDION */
-
              $('.tabs').on('click', '.accordion', function(){
                  $(this).toggleClass('active-accordion');
                  var id = $(this).attr('id');
@@ -113,7 +152,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              
              
              /* SORTABLES */
-
              $( function() {
                  
                  var recieverId;
@@ -224,10 +262,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   );            
                  
              });             
-
             
              /* MODALS */
-
             $('.content').on('click', '.modal-button' , function(){
                var id = $(this).attr('id');
                 $('.'+id).show();
@@ -265,7 +301,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             /*COMMENTS*/
             
-
             
             var comments = $('.comment p');            
             
@@ -285,7 +320,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
             
-
             $('a.readMore').click(function() {
                 var id = $(this).attr('id');                
                 $('.comment p.' + id + ' span').toggle();
@@ -336,7 +370,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     container.hide();
                 }
             });
-
             
             
             /* GROUPING */
@@ -371,11 +404,9 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              </script>";
 
         $code .= "<style>
-
             h4{
                 margin: 15px 0 10px 0;
             }
-
             ul {
             list-style-type: none;
             padding: 0;
@@ -387,7 +418,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             list-style-type: none;
             display: block;
             }
-
             .pos p{
             margin: 0 0 5px 0;
             }
@@ -499,9 +529,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             .comment p span{
             display: none;
             }
-
             /* COLOR FILTERS */
-
             #color-filter{
                 margin: 15px 0 0 0;
                 
@@ -592,8 +620,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 background-color: #bbb;
                 color: white;                
             }
-
-
             /*AUTOPLAN*/
             
             .planning-content{
@@ -859,7 +885,8 @@ function __construct($user, $date_start='', $date_end=''){
     );
   }
   $sql= "SELECT crm_shops_bs.id AS shop_id, 
-                              crm_shops_bs.name, 
+                              crm_shops_bs.name AS name, 
+                              crm_shops_bs.sap_number AS sap_number, 
                 crm_shops_bs.shop_street AS street, 
                 crm_shops_bs.shop_city AS city, 
                 crm_shops_lk.name AS cat, 
@@ -885,7 +912,7 @@ function __construct($user, $date_start='', $date_end=''){
               WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
   // $myPageBody .= "$sql<br>";
   $result = db_query($sql);
-  while($row = db_fetch_row($result)){
+  while($row = mysql_fetch_assoc($result)){
     $this->groups[$row['client']][] = $row;
   }
   $sql= "SELECT * 
@@ -988,7 +1015,6 @@ private function sidebar(){
                              html += '</p>';}
                          if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
                          if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
-
                     html += '</li>';       
                     } else{                        
                         /*CHANGE GROUP NAME IN LISTED ITEMS*/
@@ -1038,8 +1064,6 @@ private function sidebar(){
   
   return $code;
 }
-
-
 //SUBTASK 18222: "SHOW" --------------------------------------------
 function show(){
   $code = "";
@@ -1060,7 +1084,8 @@ function show(){
 private function content(){
   $cnt = 0;
   $code =  "<div class='col-9 content'>";
-  $code .= "<input class='col-12' type='text' value=''>";
+  //$code .= "<input type='text' name='myPlan' id='myPlan' value='".$this->object()."'>";
+  $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
   foreach($this->dates as $date=>$day) {
     $code .= "<div class='timetable-box'>";
     $code .= "<p class='list-header'>";
@@ -1086,7 +1111,6 @@ private function content(){
   $code .= "</div>";
   return $code;
 }
-
 
 //[/SUBTASKS]
   }
