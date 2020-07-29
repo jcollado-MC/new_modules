@@ -11,12 +11,10 @@ class myPlanner extends Planner
     {
         echo parent::Header();
     }
-
     function object(){
         $object = "{\"111\":{\"date\":\"2020-07-20\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"1714\",\"time\":\"\",\"comment\":\"\"},\"112\":{\"date\":\"2020-07-20\",\"pos\":2,\"cat_id\":\"6\",\"shop_id\":\"1715\",\"time\":\"\",\"comment\":\"\"},\"113\":{\"date\":\"2020-07-20\",\"pos\":3,\"cat_id\":\"6\",\"shop_id\":\"1716\",\"time\":\"\",\"comment\":\"\"},\"114\":{\"date\":\"2020-07-20\",\"pos\":4,\"cat_id\":\"6\",\"shop_id\":\"1717\",\"time\":\"\",\"comment\":\"\"},\"115\":{\"date\":\"2020-07-20\",\"pos\":5,\"cat_id\":\"6\",\"shop_id\":\"1718\",\"time\":\"\",\"comment\":\"\"},\"116\":{\"date\":\"2020-07-21\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"1719\",\"time\":\"\",\"comment\":\"\"},\"117\":{\"date\":\"2020-07-21\",\"pos\":2,\"cat_id\":\"6\",\"shop_id\":\"1720\",\"time\":\"\",\"comment\":\"\"}}";
         return $object;
     }
-
 
     function __construct($date_start='', $date_end='')
     {
