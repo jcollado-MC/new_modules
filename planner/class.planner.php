@@ -1040,7 +1040,26 @@ function show(){
 //SUBTASK 18260: "CONTENT" --------------------------------------------
 private function content(){
   $cnt = 0;
-  $code =  "<div class='col-9 content'>";
+  $code = "";
+
+
+    $code .= "
+
+        <script>
+        $(document).ready( function() {        
+            value = $('#myPlan').val();
+            var savedShops = JSON.parse(value);
+            console.log(savedShops);
+            
+            for(let savedShop in savedShops){
+                console.log(savedShops[savedShop].shop_id);
+                console.log(savedShops[savedShop].date);
+            }   
+        }); 
+    </script>";
+
+
+  $code .=  "<div class='col-9 content'>";
   //$code .= "<input type='text' name='myPlan' id='myPlan' value='".$this->object()."'>";
   $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
   foreach($this->dates as $date=>$day) {
