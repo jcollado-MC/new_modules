@@ -811,7 +811,15 @@ private function loadSavedShops(){
                         
                         if(savedEventCatID == catID){
                             
-                            html += '<li class=\'event-infos col-12\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
+                            html += '<li class=\'event-infos col-12'; 
+                           
+                            
+                            console.log(event['multiple']);
+                            if( event['multiple'] != 'true'){
+                                html += ' single';
+                            }
+                            
+                            html += '\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
                             html += '<div class=\'col-12\'>';
