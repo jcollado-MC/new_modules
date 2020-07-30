@@ -1055,7 +1055,10 @@ private function content(){
     $code .= "
 
         <script>
-        $(document).ready( function() {        
+        $(document).ready( function() { 
+            
+            console.log(events);
+            
             value = $('#myPlan').val();
             var savedShops = JSON.parse(value);
             var cnt = 0;
@@ -1066,7 +1069,7 @@ private function content(){
                 var savedShopDate = savedShops[savedShop].date;
                 var savedShopComment = savedShops[savedShop].comment;
                 var savedShopTime = savedShops[savedShop].time;
-                var savedEventCatID = savedShops[savedShop].catID; 
+                var savedEventCatID = savedShops[savedShop].cat_id; 
                 var html = ''; 
                 
                 if(savedShopId > 0){
@@ -1121,7 +1124,9 @@ private function content(){
                 if (savedShopId < 1) {
                     for(let catID in events){
                         var event = events[catID];
+                        
                         if(savedEventCatID == catID){
+                            
                             html += '<li class=\'event-infos col-12\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
