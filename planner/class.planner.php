@@ -45,6 +45,9 @@ static function dates($date_start, $date_end, $weekends= FALSE){
         var undefined_label = '". l(18221, 101, 'no category') ."';
 
         $(document).ready( function() {
+        
+        
+            
             /*SAVED SHOPS JSON*/
         
             var value = $('#myPlan').val();
@@ -59,13 +62,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
                 //filter checkbox-labels for search value            
                 $( '.pos li' ).each(function(  ) {
-                    if($(this).text().toLowerCase().indexOf(value) < 0){               
-                       
+                    if($(this).text().toLowerCase().indexOf(value) < 0){
                         $(this).hide();
                     }
                 });
-                  
-                
                 $('.title-part').each( function() {
                     var id = $(this).attr('id');                     
                     if ($(this).siblings('.' + id).text().toLowerCase().indexOf(value) < 0) {
@@ -95,8 +95,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 } else {
                     $('ul.pos').css('display', '');
                     $('.active-accordion').removeClass('active-accordion');                    
-                }
-        
+                }        
             });
             
             
@@ -154,17 +153,15 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              
              
              /* DELETE FROM TIMETABLE */
-            
              
              $('.timetable').on('click', '.pos-infos i.delete, .event-infos i.delete', function(){
                  var shopID = $(this).parent().attr('id');                                 
                  var liElementName = $(this).parent().attr('name');
                  var liElementId = $(this).parent().attr('id');
                  var li = $('body').find('.' + liElementName);
-                 var shopPos = $(this).parent().index() +1;     
+                 var shopPos = $(this).parent().index() +1 ;     
                  var shopDate = $(this).parent().parent().attr('date');
                  var isEvent = $(this).parent().hasClass('event-infos');
-                  
                   
                  if(isEvent){   
                     $(this).parent().remove();
@@ -174,12 +171,11 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  
                  for(let i = 0; i < savedShops['savedShops'].length; i++){
                     if(savedShops['savedShops'][i].date == shopDate && savedShops['savedShops'][i].pos > shopPos){
-                        savedShops['savedShops'][i].pos--;
+                        console.log(savedShops['savedShops'][i].pos);
+                        console.log(savedShops['savedShops'][i].date);
+                        savedShops['savedShops'][i].pos = savedShops['savedShops'][i].pos -1;
                     }
-                    if(savedShops['savedShops'][i].shop_id == shopID && savedShops['savedShops'][i].pos == shopPos){
-                        savedShops['savedShops'].splice(i, 1);
-                    }
-                    if(('event-' + savedShops['savedShops'][i].cat_id) == shopID && savedShops['savedShops'][i].pos == shopPos){
+                    if(savedShops['savedShops'][i].shop_id == shopID || ('event-' + savedShops['savedShops'][i].cat_id) == shopID  && savedShops['savedShops'][i].pos == shopPos){
                         savedShops['savedShops'].splice(i, 1);
                     }
                  }
@@ -217,13 +213,12 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             $('.add-event-modal li').on('click', function() {        
                 var date = $('.add-event-modal').attr('id');
                 var timetable = $('ul[date=\"'+ date +'\"]');
-                $(this).clone().prependTo($(timetable));              
+                $(this).clone().removeClass('col-6').addClass('col-12').prependTo($(timetable));              
                 $('[class$=\"-modal\"]').hide();                         
             });
             
             
-            /*COMMENTS*/
-            
+            /*COMMENTS*/            
             
             var comments = $('.comment p');            
             
@@ -241,6 +236,42 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     $(comment).append('<span>' + text2 + '</span>')
                 }
             }
+            
+            $('ul').on('click', 'i#pos-modal', function() {
+                var id = $(this).parent().attr('id');
+                console.log(id);                            
+                $('.pos-modal').attr('id', id); 
+                for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
+                        $('.pos-modal').find('input[type=time]').val(savedShops['savedShops'][i].time);
+                        $('.pos-modal').find('textarea').val(savedShops['savedShops'][i].comment);
+                    }
+                }
+            });
+            
+            
+            $('.pos-modal').on('click', '#save', function() {
+                var time = $(this).parent().parent().find('input[type=time]').val();
+                var comment = $(this).parent().parent().find('textarea').val();
+                var id = $('.pos-modal').attr('id'); 
+                for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
+                        savedShops['savedShops'][i].time = time;
+                        savedShops['savedShops'][i].comment = comment;
+                    }
+                }
+                
+                if(time.length > 0 || comment.length > 0){
+                    $('li#' + id + ' div.comment').removeClass('hidden');
+                    $('li#' + id + ' div.comment  p.time').text(time);
+                    $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
+                }
+                
+                $('.pos-modal').hide();
+                
+                $('#myPlan').val(JSON.stringify(savedShops));
+                
+            });
             
             
             $('a.readMore').click(function() {
@@ -426,10 +457,9 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             /*COMMENTS*/
             
-            .pos .comment{
-            display: none;
+            .pos .comment, .hidden{
+                display: none;
             }
-            
             
             .comment{
                 margin: 5px 0;
@@ -570,9 +600,9 @@ private function eventModal(){
     $code  .= "<hr>";
     $code  .= "<div class='col-12'>";
     $code  .= "<label>".l(18224,11,"Select Event")."</label>";
-    $code .= "<ul class='pos'>";
+    $code .= "<ul>";
     foreach ($this->events as $event) {
-        $code .= "<li class='event-infos col-12";
+        $code .= "<li class='event-infos col-6";
         if ($event['multiple'] != 'true') {
             $code .=" single ";
         }
@@ -599,7 +629,7 @@ private function eventModal(){
 }
 
 
-private function editModal(){
+private function commentModal(){
   $code = "";
   $code .= "<div class='pos-modal'>";
   $code .= "<div class='modal-content'>";
@@ -754,23 +784,29 @@ private function loadSavedShops(){
                             if(shop.client ) {html += '<p class=\'pos-client\'>' + shop.client  + ' </p>';}
                             if(shop.cat ) {html += '<p class=\'pos-type\'>' + shop.cat  +' </p>';}
                              
-                            if(savedShopComment || savedShopTime){
-                               html += '<div class=\'comment col-12\'>';
-                               html += '<i class=\'fas fa-info col-2\'></i>';
-                               html += '<div class=\'col-10\'>';
-                               if(savedShopTime){
-                                   html += '<p>' + savedShopTime + '</p>';
-                               }
-                               if(savedShopComment){
-                                   html += '<p class=\'comment-' + commentCnt + '\'>';
-                                   html += savedShopComment;
-                                   html += '</p>';
-                                   html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
-                               }
-                               html += '</div>';
-                               html += '</div>';
+                            
+                           html += '<div class=\'comment'; 
+                            if(!(savedShopTime || savedShopComment)){
+                                html += ' hidden';
                             }
-                            html += '</li>';   
+                           html +=' col-12\'>';
+                           html += '<i class=\'fas fa-info col-2\'></i>';
+                           html += '<div class=\'col-10\'>';
+                           
+                           html += '<p class=\'time\'>' ;
+                           if(savedShopTime){ html += savedShopTime; }
+                           html += '</p>';
+                           html += '<p class=\'comment-';
+                           html += commentCnt; 
+                           html += '\'>';
+                           if(savedShopComment){ html += savedShopComment; }
+                           html += '</p>';
+                           html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
+                       
+                           html += '</div>';
+                           html += '</div>';
+                            
+                           html += '</li>';   
                         } 
                     } 
                 }
@@ -793,22 +829,23 @@ private function loadSavedShops(){
                             }
                             html += '</div>';
                             
-                            if(savedShopComment || savedShopTime){
-                               html += '<div class=\'comment col-12\'>';
-                               html += '<i class=\'fas fa-info col-2\'></i>';
-                               html += '<div class=\'col-10\'>';
-                               if(savedShopTime){
-                                   html += '<p>' + savedShopTime + '</p>';
-                               }
-                               if(savedShopComment){
-                                   html += '<p class=\'comment-' + commentCnt + '\'>';
-                                   html += savedShopComment;
-                                   html += '</p>';
-                                   html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
-                               }
-                               html += '</div>';
-                               html += '</div>';
-                            }
+                            
+                           html += '<div class=\'comment col-12\'>';
+                           html += '<i class=\'fas fa-info col-2\'></i>';
+                           html += '<div class=\'col-10\'>';
+                           html += '<p class=\'time\'>' ;
+                           if(savedShopTime){ html += savedShopTime; }
+                           html += '</p>';
+                           html += '<p class=\'comment-';
+                           html += commentCnt; 
+                           html += '\'>';
+                           if(savedShopComment){ html += savedShopComment; }
+                           html += '</p>';
+                           html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
+                       
+                           html += '</div>';
+                           html += '</div>';
+                            
                             
                             html += '</li>';
                         }
@@ -944,7 +981,8 @@ private function sidebar(){
              });
              
              var html = '';
-             var cnt = 0;            
+             var cnt = 0;  
+             var commentCnt = 0; 
              for(let group in orderedGroups){
                  html += '<div class=\'title-part accordion\' id=\'panel-' + cnt + '\'>';
                  html += '<h5 class=\'col-12\'>';  
@@ -987,6 +1025,16 @@ private function sidebar(){
                          if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
                          if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
 
+                         html += '<div class=\'comment hidden col-12\'>';
+                           html += '<i class=\'fas fa-info col-2\'></i>';
+                           html += '<div class=\'col-10\'>';
+                           html += '<p class=\'time\'></p>';
+                           html += '<p class=\'comment-' + commentCnt + '\'>';
+                           html += '</p>';
+                           html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
+                           html += '</div>';
+                           html += '</div>';
+                         
                         html += '</li>';       
                     } else {                        
                         /*CHANGE GROUP NAME IN LISTED ITEMS*/
@@ -1041,7 +1089,7 @@ function show(){
   $code .= $this->sidebar();
   $code .= $this->filter();
   $code .= $this->actions();
-  $code .= $this->editModal();
+  $code .= $this->commentModal();
   $code .= $this->eventModal();
   $code .= $this->content();
   $code .= $this->loadSavedShops();
