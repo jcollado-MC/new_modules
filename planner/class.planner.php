@@ -45,7 +45,12 @@ static function dates($date_start, $date_end, $weekends= FALSE){
         var undefined_label = '". l(18221, 101, 'no category') ."';
 
         $(document).ready( function() {
+            /*SAVED SHOPS JSON*/
+        
+            var value = $('#myPlan').val();
+            var savedShops = JSON.parse(value);
             
+            /**/
             $('form').children().css({userSelect: 'none'});
             
             /* SIDEBAR SEARCH */
@@ -189,32 +194,39 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              
              /* DELETE FROM TIMETABLE */
              
-              $('.timetable').on( 'click' , '.multiple-event-infos i.delete' , function(){                 
-                 var text = $(this).parent().text();
-                 var input =  $(this).parent().parent().siblings('input');
+              $('.timetable').on( 'click' , '.event-infos i.delete' , function(){                 
+                 var eventID = $(this).parent().attr('id');
                  
-                 $(input).val(function() {
-                        return $(this).val().replace(text, '');
-                  });
-                  
+                 for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(('event-' + savedShops['savedShops'][i].cat_id) == eventID){
+                        savedShops['savedShops'].splice(i, 1);
+                    }
+                 }
+                
+                $('#myPlan').val(JSON.stringify(savedShops));
+                 
                   $(this).parent().remove();
              });
              
-             $('.timetable').on('click', '.pos-infos i.delete, .event-infos i.delete', function(){                
-                 var textDelete = $(this).parent().text();
-                 var input =  $(this).parent().parent().siblings('input');
-                 var timetableId = $(this).parent().parent().attr('id');                                   
+             $('.timetable').on('click', '.pos-infos i.delete', function(){
+                 var shopID = $(this).parent().attr('id');                                 
                  var liElementName = $(this).parent().attr('name');
                  var liElementId = $(this).parent().attr('id');
+                 
+                 console.log(shopID);
                  
                  var li = $('body').find('.' + liElementName);
                     
                  $('#' + liElementId).appendTo(li);     
                  
-                 
-                 $(input).val(
-                    $('#' + timetableId).find('li').text()
-                  );            
+                 for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(savedShops['savedShops'][i].shop_id == shopID){
+                        savedShops['savedShops'].splice(i, 1);
+                    }
+                 }
+                
+                $('#myPlan').val(JSON.stringify(savedShops));
+                
                  
              });             
             
@@ -710,8 +722,6 @@ private function filter(){
   $code .= "</div>";
   $code .= "</div>";
   $code .= "</div>";
-  
-  
   $code .= "</div>";
   return $code;
 }
@@ -743,46 +753,50 @@ private function loadSavedShops(){
     $code .= "<script> var events = ".json_encode($jsonEvents) ."; </script>";
     $code .= "<script>
         $(document).ready( function() {
-            value = $('#myPlan').val();
+            /*SAVED SHOPS JSON*/
+        
+            var value = $('#myPlan').val();
             var savedShops = JSON.parse(value);
             var cnt = 0;
             var commentCnt = 0;
             
-            for(let savedShop in savedShops){
-                var savedShopId = savedShops[savedShop].shop_id;
-                var savedShopDate = savedShops[savedShop].date;
-                var savedShopComment = savedShops[savedShop].comment;
-                var savedShopTime = savedShops[savedShop].time;
-                var savedEventCatID = savedShops[savedShop].cat_id; 
+            for(let savedShopID in savedShops['savedShops']){
+                
+                var savedShop = savedShops['savedShops'][savedShopID];                
+                var savedShopId = savedShop.shop_id;
+                var savedShopDate = savedShop.date;
+                var savedShopComment = savedShop.comment;
+                var savedShopTime = savedShop.time;
+                var savedEventCatID = savedShop.cat_id; 
                 var html = ''; 
                 
                 if(savedShopId > 0){
                     for(let shopID in shops){
                         var shop = shops[shopID];
                         if(savedShopId == shopID){
-                            html += ' <li class=\'pos-infos col-12 ' + shop['color'].toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
+                            html += ' <li class=\'pos-infos col-12 ' + shop.color .toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop.shop_id  + '\'> ';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
-                            if( shop['offline'] == 'true' ) {
+                            if( shop.offline  == 'true' ) {
                                 html += '<i class=\'fas fa-wifi-slash offline\'></i>';
                             }
-                            if(shop['shop_id']) { html += '<p class=\'pos-number\'>' + shop['shop_id'] + ' </p>'; }
-                            if(shop['sap_number']) { html += '<p class=\'sap-number\'>' + shop['sap_number'] + ' </p>';} 
-                            if(shop['name']) {html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
-                            if(shop['street'] ||  shop['city']) {
+                            if(shop.shop_id ) { html += '<p class=\'pos-number\'>' + shop.shop_id  + ' </p>'; }
+                            if(shop.sap_number ) { html += '<p class=\'sap-number\'>' + shop.sap_number  + ' </p>';} 
+                            if(shop.name ) {html += '<p class=\'pos-name\'>' + shop.name  + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop.shop_id  + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
+                            if(shop.street  ||  shop.city ) {
                                 html += '<p class=\'pos-address\'>';
-                                if(shop['street']){
-                                    html += shop['street'];
+                                if(shop.street ){
+                                    html += shop.street ;
                                 }
-                                if(shop['street'] &&  shop['city']){
+                                if(shop.street  &&  shop.city ){
                                     html += ', ';
                                 }
-                                if(shop['city']){
-                                    html += shop['city'];
+                                if(shop.city ){
+                                    html += shop.city ;
                                 } 
                                 html += '</p>';}
-                            if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
-                            if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
+                            if(shop.client ) {html += '<p class=\'pos-client\'>' + shop.client  + ' </p>';}
+                            if(shop.cat ) {html += '<p class=\'pos-type\'>' + shop.cat  +' </p>';}
                              
                             if(savedShopComment || savedShopTime){
                                html += '<div class=\'comment col-12\'>';
@@ -810,16 +824,16 @@ private function loadSavedShops(){
                         var event = events[catID];
                         if(savedEventCatID == catID){
                             html += '<li class=\'event-infos col-12'; 
-                            if( event['multiple'] != 'true'){
+                            if( event.multiple  != 'true'){
                                 html += ' single';
                             }
-                            html += '\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
+                            html += '\'  name=\'panel-event\' id=\'event-' + event.id  + '\'>';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
                             html += '<div class=\'col-12\'>';
-                            html += '<p class=\'event-name col-10\'>'  + event['name'] + '</p>';
-                            if (event['icon']) {
-                                html += '<img class=\'col-2\' src=\''  + event['icon'] + '\'>';
+                            html += '<p class=\'event-name col-10\'>'  + event.name  + '</p>';
+                            if (event.icon ) {
+                                html += '<img class=\'col-2\' src=\''  + event.icon  + '\'>';
                             }
                             html += '</div>';
                             
@@ -1026,16 +1040,13 @@ private function sidebar(){
                  html += '</ul>';                 
                  cnt++;
              }             
-             $(html).appendTo('.points-of-sales');       
-             
+             $(html).appendTo('.points-of-sales');
             /*ADD SORDTABLE*/             
              $( '[id *= \'sortable-\']' ).sortable({                
               connectWith: '.timetable',
               revert: true,
-            }).disableSelection();         
-             
+            }).disableSelection();    
              /* ONLY SHOW SELECTED COLORS */
-            
             $('#color-filter button').each( function() {             
                 var isActive = $(this).hasClass('active');
                 var id = $(this).attr('id');  
@@ -1046,7 +1057,6 @@ private function sidebar(){
                     $('ul.pos li.' + id).hide();
                 }
             });
-            
             $('input#searchInput').keyup();
          }";
       
