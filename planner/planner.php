@@ -1,6 +1,6 @@
 <?php
 include 'class.myPlanner.php';
-$planner = new myPlanner('2020-05-04', '2020-05-10');
+$planner = new myPlanner('2020-07-20', '2020-07-24');
 
 ?>
 <!DOCTYPE html>
