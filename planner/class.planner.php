@@ -239,8 +239,12 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             $('ul').on('click', 'i#pos-modal', function() {
                 var id = $(this).parent().attr('id');
+                var date = $(this).parent().parent().attr(date);
+                var pos = $(this).parent().index() + 1;
                 console.log(id);                            
                 $('.pos-modal').attr('id', id); 
+                $('.pos-modal').attr('date', date); 
+                $('.pos-modal').attr('pos', pos); 
                 for(let i = 0; i < savedShops['savedShops'].length; i++){
                     if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
                         $('.pos-modal').find('input[type=time]').val(savedShops['savedShops'][i].time);
@@ -254,6 +258,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 var time = $(this).parent().parent().find('input[type=time]').val();
                 var comment = $(this).parent().parent().find('textarea').val();
                 var id = $('.pos-modal').attr('id'); 
+                var date = $('.pos-modal').attr(date);
+                var pos = $('.pos-modal').attr(pos);
                 for(let i = 0; i < savedShops['savedShops'].length; i++){
                     if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
                         savedShops['savedShops'][i].time = time;
