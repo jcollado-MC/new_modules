@@ -808,17 +808,11 @@ private function loadSavedShops(){
                 if (savedShopId < 1) {
                     for(let catID in events){
                         var event = events[catID];
-                        
                         if(savedEventCatID == catID){
-                            
                             html += '<li class=\'event-infos col-12'; 
-                           
-                            
-                            console.log(event['multiple']);
                             if( event['multiple'] != 'true'){
                                 html += ' single';
                             }
-                            
                             html += '\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
@@ -828,6 +822,24 @@ private function loadSavedShops(){
                                 html += '<img class=\'col-2\' src=\''  + event['icon'] + '\'>';
                             }
                             html += '</div>';
+                            
+                            if(savedShopComment || savedShopTime){
+                               html += '<div class=\'comment col-12\'>';
+                               html += '<i class=\'fas fa-info col-2\'></i>';
+                               html += '<div class=\'col-10\'>';
+                               if(savedShopTime){
+                                   html += '<p>' + savedShopTime + '</p>';
+                               }
+                               if(savedShopComment){
+                                   html += '<p class=\'comment-' + commentCnt + '\'>';
+                                   html += savedShopComment;
+                                   html += '</p>';
+                                   html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
+                               }
+                               html += '</div>';
+                               html += '</div>';
+                            }
+                            
                             html += '</li>';
                         }
                     }
