@@ -123,13 +123,17 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   
                         var newDate = $(this).attr('date');
                         var newId = ui.item.attr('id');
-                        var newPos = ui.item.index();
+                        var newPos = ui.item.index() +1; 
                         var newElement = true;
                   
                         for(let i = 0; i < savedShops['savedShops'].length; i++){
                             if(savedShops['savedShops'][i].shop_id == newId || ('event-' + savedShops['savedShops'][i].cat_id) == newId){
                                 newElement = false;
                                 savedShops['savedShops'][i].date = newDate;
+                                savedShops['savedShops'][i].pos = newPos;
+                            }
+                            if(savedShops['savedShops'][i].pos >= newPos && savedShops['savedShops'][i].date == newDate){
+                                savedShops['savedShops'][i].pos ++;
                             }
                         }
                         if(newElement){  
@@ -152,8 +156,18 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              /* DELETE FROM TIMETABLE */
              
               $('.timetable').on( 'click' , '.event-infos i.delete' , function(){                 
-                 var eventID = $(this).parent().attr('id');                 
+                 var eventID = $(this).parent().attr('id');  
+                 var eventPos = $(this).parent().index() +1;     
+                 var eventDate = $(this).parent().parent().attr('date');     
+                 
+                 console.log(eventPos);
+                 console.log(eventDate);
+                 
+                     
                  for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(savedShops['savedShops'][i].date == eventDate && savedShops['savedShops'][i].pos > eventPos){
+                        savedShops['savedShops'][i].pos--;
+                    }
                     if(('event-' + savedShops['savedShops'][i].cat_id) == eventID){
                         savedShops['savedShops'].splice(i, 1);
                     }
@@ -167,10 +181,15 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  var liElementName = $(this).parent().attr('name');
                  var liElementId = $(this).parent().attr('id');
                  var li = $('body').find('.' + liElementName);
+                 var eventPos = $(this).parent().index() +1;     
+                 var eventDate = $(this).parent().parent().attr('date');
                     
                  $('#' + liElementId).appendTo(li);     
                  
                  for(let i = 0; i < savedShops['savedShops'].length; i++){
+                    if(savedShops['savedShops'][i].date == eventDate && savedShops['savedShops'][i].pos > eventPos){
+                        savedShops['savedShops'][i].pos--;
+                    }
                     if(savedShops['savedShops'][i].shop_id == shopID){
                         savedShops['savedShops'].splice(i, 1);
                     }
