@@ -119,102 +119,53 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $( '[id *= \'sortable-\']' ).sortable({                
                   connectWith: '.timetable',
                   revert: true,
-                  receive: function(event, ui) {                        
-                        recieverId = $(this).attr('id');
-                    },                  
-                  update: function(event, ui) {                      
-                  var input = ui.item.parent().siblings(input);
-                  var id = ui.item.parent().attr('id');
-                  var text = ui.item.text();
-                  var sender = ui.sender;
+                  receive: function(event, ui) {
                   
+                        var newDate = $(this).attr('date');
+                        var newId = ui.item.attr('id');
+                        var newPos = ui.item.index();
+                        var newElement = true;
                   
-                  
-                  if(sender != null){
-                      var senderInput = ui.sender.siblings('input');
-                      
-                      $(senderInput).val(
-                        $(sender).find('li').text()
-                      );
-                  }
-                      
-                    var elements = [];                    
-                    var dayListElements = $('#' + id + ' li');      
-                    
-                    for(let element of dayListElements){
-                        let text = $(element).find('p').text();                       
-                        elements.push(text);
+                        for(let i = 0; i < savedShops['savedShops'].length; i++){
+                            if(savedShops['savedShops'][i].shop_id == newId || ('event-' + savedShops['savedShops'][i].cat_id) == newId){
+                                newElement = false;
+                                savedShops['savedShops'][i].date = newDate;
+                            }
+                        }
+                        if(newElement){  
+                            var element = {
+                                'date': newDate,
+                                'pos': newPos,
+                                'cat_id': '6',
+                                'shop_id': newId,
+                                'time': '',
+                                'comment': '',
+                            };
+                        savedShops['savedShops'].push(element);
+                        }
+                      $('#myPlan').val(JSON.stringify(savedShops));
                     }
-                    $(input).val(elements);   
-                  },
-                  
                 }).disableSelection();
-                
-                
-                $( '#sortable-multiple-events' ).sortable({
-                
-                  connectWith: '.timetable',
-                  revert: true,
-                  
-                  stop: function (event, ui) {
-                  console.log($('#' + recieverId).children('#' + ui.item.attr('id')).length);
-                    if(!( ui.item.hasClass('single') && $('#' + recieverId).children('#' + ui.item.attr('id')).length > 1)){                        
-                        ui.item.clone().appendTo('#' + recieverId);
-                    }
-                    $('.' + ui.item.attr('name')).sortable('cancel');
-                  },
-                  update: function(event, ui) {                      
-                  var input = ui.item.parent().siblings(input);
-                  var id = ui.item.parent().attr('id');
-                  var text = ui.item.text();
-                  var sender = ui.sender;
-                  
-                  if(sender != null){
-                      var senderInput = ui.sender.siblings('input');
-                      
-                      $(senderInput).val(function() {
-                        return $(this).val().replace(text, '')
-                      });
-                  }
-                      
-                    var elements = [];                    
-                    var dayListElements = $('#' + id + ' li');      
-                    
-                    for(let element of dayListElements){
-                        let text = $(element).find('p').text();                       
-                        elements.push(text);
-                    }
-                    $(input).val(elements);   
-                  },
-                  
-                }).disableSelection();
-                
-                
-             });
+               });
+             
              
              /* DELETE FROM TIMETABLE */
              
               $('.timetable').on( 'click' , '.event-infos i.delete' , function(){                 
-                 var eventID = $(this).parent().attr('id');
-                 
+                 var eventID = $(this).parent().attr('id');                 
                  for(let i = 0; i < savedShops['savedShops'].length; i++){
                     if(('event-' + savedShops['savedShops'][i].cat_id) == eventID){
                         savedShops['savedShops'].splice(i, 1);
                     }
                  }
-                
-                $('#myPlan').val(JSON.stringify(savedShops));
-                 
-                  $(this).parent().remove();
+                $('#myPlan').val(JSON.stringify(savedShops));                 
+                $(this).parent().remove();
              });
              
              $('.timetable').on('click', '.pos-infos i.delete', function(){
                  var shopID = $(this).parent().attr('id');                                 
                  var liElementName = $(this).parent().attr('name');
                  var liElementId = $(this).parent().attr('id');
-                 
-                 console.log(shopID);
-                 
                  var li = $('body').find('.' + liElementName);
                     
                  $('#' + liElementId).appendTo(li);     
@@ -224,10 +175,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         savedShops['savedShops'].splice(i, 1);
                     }
                  }
-                
                 $('#myPlan').val(JSON.stringify(savedShops));
-                
-                 
              });             
             
              /* MODALS */
@@ -616,7 +564,7 @@ private function eventModal(){
     $code  .= "<label>".l(18224,11,"Select Event")."</label>";
     $code .= "<ul class='pos'>";
     foreach ($this->events as $event) {
-        $code .= "<li class='multiple-event-infos col-12";
+        $code .= "<li class='event-infos col-12";
         if ($event['multiple'] != 'true') {
             $code .=" single ";
         }
