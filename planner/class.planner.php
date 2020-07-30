@@ -329,16 +329,11 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             /* GROUPING */
             
-            
-            groupShops('group1');
-            
             $('.grouping button').click( function() {
                 var id = $(this).attr('id');
                   $('.grouping .active').removeClass('active');                  
-                  $(this).addClass('active');
-                  
-                  groupShops(id);
-                  
+                  $(this).addClass('active');                  
+                  groupShops(id);                  
             });
            
             
@@ -739,79 +734,109 @@ private function actions(){
 
 
 
-private function shop($entry){
-    $commentCnt = 0;
-    $cnt = 0;
+private function loadSavedShops(){
     $code = "";
-    $code .= "<li class='pos-infos col-12 " . strtolower($entry['color']) . "'  name='panel-" . $cnt . "' id='" . $entry['shop_id'] . "'>";
-    $code .= "<i class='fas fa-times delete'></i>";
-    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-    if ($entry['offline'] == 'true') {
-        $code .= "<i class='fas fa-wifi-slash offline'></i>";
+    $jsonEvents = [];
+    foreach($this->events as $event){
+        $jsonEvents[$event['id']] = $event;
     }
-    if (!empty($entry['shop_id'])  ) {$code .= "<p class='pos-number'>" . $entry['shop_id'] . "</p>";}
-    if (!empty($entry['sap_number'])  ) {$code .= "<p class='sap-number'>" . $entry['sap_number'] . "</p>";}
-    if (!empty($entry['name'])  ) {$code .= "<p class='pos-name'>" . $entry['name'] . " <a target='_blank' href='/intern/modules/AGI/PV/shops_show.php?id=" . $entry['shop_id'] . "'><i class='fas fa-external-link-alt'> </i> </a> </p>";}
-    if (!empty($entry['street']) || !empty($entry['city'])  ) {
-        $code .= "<p class='pos-address'>";
-        if (!empty($entry['street'])  ) {
-            $code .= $entry['street'];
-        }
-        if (!empty($entry['street']) && !empty($entry['city'])  ) {
-            $code .= ", ";
-        }
-        if (!empty($entry['city'])  ) {
-            $code .= $entry['city'];
-        }
-        $code .= "</p>";
-    }
-    if (!empty($entry['client'])) {$code .= "<p class='pos-client'>" . $entry['client'] . " </p>";}
-    if (!empty($entry['cat'])) {$code .= "<p class='pos-type'>" . $entry['cat'] . "</p>";}
-    if (isset($entry['comment']) || isset($entry['reminder'])){
-        $code .= "<div class='comment col-12'>";
-        $code .= "<i class='fas fa-info col-2'></i>";
-        $code .= "<div class='col-10'>";
-        $code .= "<p>" . $entry['reminder'] . "</p>";
-        $code .= "<p class='comment-" . $commentCnt . "''>";
-        $code .= $entry['comment'];
-        $code .= "</p>";
-        $code .= "<a class='readMore' id='comment-" . $commentCnt . "'>" . l(18221, 1, "read more") . "</a>";
-        $code .= "</div>";
-        $code .= "</div>";
-    }
-    $code .= "</li>";
-    $commentCnt++;
+    $code .= "<script> var events = ".json_encode($jsonEvents) ."; </script>";
+    $code .= "<script>
+        $(document).ready( function() {
+            value = $('#myPlan').val();
+            var savedShops = JSON.parse(value);
+            var cnt = 0;
+            var commentCnt = 0;
+            
+            for(let savedShop in savedShops){
+                var savedShopId = savedShops[savedShop].shop_id;
+                var savedShopDate = savedShops[savedShop].date;
+                var savedShopComment = savedShops[savedShop].comment;
+                var savedShopTime = savedShops[savedShop].time;
+                var savedEventCatID = savedShops[savedShop].cat_id; 
+                var html = ''; 
+                
+                if(savedShopId > 0){
+                    for(let shopID in shops){
+                        var shop = shops[shopID];
+                        if(savedShopId == shopID){
+                            html += ' <li class=\'pos-infos col-12 ' + shop['color'].toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
+                            html += '<i class=\'fas fa-times delete\'></i>';
+                            html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
+                            if( shop['offline'] == 'true' ) {
+                                html += '<i class=\'fas fa-wifi-slash offline\'></i>';
+                            }
+                            if(shop['shop_id']) { html += '<p class=\'pos-number\'>' + shop['shop_id'] + ' </p>'; }
+                            if(shop['sap_number']) { html += '<p class=\'sap-number\'>' + shop['sap_number'] + ' </p>';} 
+                            if(shop['name']) {html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
+                            if(shop['street'] ||  shop['city']) {
+                                html += '<p class=\'pos-address\'>';
+                                if(shop['street']){
+                                    html += shop['street'];
+                                }
+                                if(shop['street'] &&  shop['city']){
+                                    html += ', ';
+                                }
+                                if(shop['city']){
+                                    html += shop['city'];
+                                } 
+                                html += '</p>';}
+                            if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
+                            if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
+                             
+                            if(savedShopComment || savedShopTime){
+                               html += '<div class=\'comment col-12\'>';
+                               html += '<i class=\'fas fa-info col-2\'></i>';
+                               html += '<div class=\'col-10\'>';
+                               if(savedShopTime){
+                                   html += '<p>' + savedShopTime + '</p>';
+                               }
+                               if(savedShopComment){
+                                   html += '<p class=\'comment-' + commentCnt + '\'>';
+                                   html += savedShopComment;
+                                   html += '</p>';
+                                   html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
+                               }
+                               html += '</div>';
+                               html += '</div>';
+                            }
+                            html += '</li>';   
+                        } 
+                    } 
+                }
+                    
+                if (savedShopId < 1) {
+                    for(let catID in events){
+                        var event = events[catID];
+                        
+                        if(savedEventCatID == catID){
+                            
+                            html += '<li class=\'event-infos col-12\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
+                            html += '<i class=\'fas fa-times delete\'></i>';
+                            html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
+                            html += '<div class=\'col-12\'>';
+                            html += '<p class=\'event-name col-10\'>'  + event['name'] + '</p>';
+                            if (event['icon']) {
+                                html += '<img class=\'col-2\' src=\''  + event['icon'] + '\'>';
+                            }
+                            html += '</div>';
+                            html += '</li>';
+                        }
+                    }
+                }  
+                
+                $(html).appendTo( $('ul[date=\"'+ savedShopDate +'\"]'));
+            }  
+            
+            /*GROUP SHOPS*/
+            $('#group1').click();
+            }); 
+        
+    </script>";
 
     return $code;
 }
 
-
-
-private function event($entry){
-    $code = "";
-    $code .= "<li class='event-infos col-12'  name='panel-event' id='event-" . $entry['id'] . "'>";
-    $code .= "<i class='fas fa-times delete'></i>";
-    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-    $code .= "<div class='col-12'>";
-    $code .= "<p class='event-name col-10'>" . $entry['name'] . "</p>";
-    if (isset($entry['icon'])) {
-        $code .= "<img class='col-2' src='" . $entry['icon'] . "'>";
-    }
-    $code .= "</div>";
-//                    $code .= "<div class='comment col-12'>";
-//                    $code .= "<i class='fas fa-info col-2'></i>";
-//                    $code .= "<div class='col-10'>";
-//                    $code .= "<p>15:30</p>";
-//                    $code .= "<p class='comment-event-".$eventCnt."''>";
-//                    $code .= "Kinder delice en este centro se vende muy bien. Falta stock de cards. Bombones y nutella sin stock practicamente.";
-//                    $code .= "</p>";
-//                    $code .= "<a class='readMore' id='comment-event-".$eventCnt."'>".l(18221,1,"read more")."</a>";
-//                    $code .= "</div>";
-//                    $code .= "</div>";
-
-    $code .= "</li>";
-    return $code;
-}
 
 //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
 var $user = '';
@@ -1014,15 +1039,6 @@ private function sidebar(){
     }
   }
   $code .= "var shops = ".json_encode($jsonShops) .";";
-
-    $jsonEvents = [];
-
-    foreach($this->events as $event){
-        $jsonEvents[$event['id']] = $event;
-    }
-    $code .= "var events = ".json_encode($jsonEvents) .";";
-
-
   $code .= "</script>";
   $code .= "</div>";
   $code .= "<div><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
@@ -1042,6 +1058,7 @@ function show(){
   $code .= $this->editModal();
   $code .= $this->eventModal();
   $code .= $this->content();
+  $code .= $this->loadSavedShops();
   $code .= "</form>";
   $code .= "</main>";
   return $code;
@@ -1050,103 +1067,6 @@ function show(){
 private function content(){
   $cnt = 0;
   $code = "";
-
-
-    $code .= "
-
-        <script>
-        $(document).ready( function() { 
-            
-            console.log(events);
-            
-            value = $('#myPlan').val();
-            var savedShops = JSON.parse(value);
-            var cnt = 0;
-            var commentCnt = 0;
-            
-            for(let savedShop in savedShops){
-                var savedShopId = savedShops[savedShop].shop_id;
-                var savedShopDate = savedShops[savedShop].date;
-                var savedShopComment = savedShops[savedShop].comment;
-                var savedShopTime = savedShops[savedShop].time;
-                var savedEventCatID = savedShops[savedShop].cat_id; 
-                var html = ''; 
-                
-                if(savedShopId > 0){
-                    for(let shopID in shops){
-                        var shop = shops[shopID];
-                        if(savedShopId == shopID){
-                            html += ' <li class=\'pos-infos col-12 ' + shop['color'].toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
-                            html += '<i class=\'fas fa-times delete\'></i>';
-                            html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
-                            if( shop['offline'] == 'true' ) {
-                                html += '<i class=\'fas fa-wifi-slash offline\'></i>';
-                            }
-                            if(shop['shop_id']) { html += '<p class=\'pos-number\'>' + shop['shop_id'] + ' </p>'; }
-                            if(shop['sap_number']) { html += '<p class=\'sap-number\'>' + shop['sap_number'] + ' </p>';} 
-                            if(shop['name']) {html += '<p class=\'pos-name\'>' + shop['name'] + '<a target=\'_blank\' href=\'/intern/modules/AGI/PV/shops_show.php?id=' + shop['shop_id'] + ' \'> <i class=\'fas fa-external-link-alt\'> </i> </a> </p>';}
-                            if(shop['street'] ||  shop['city']) {
-                                html += '<p class=\'pos-address\'>';
-                                if(shop['street']){
-                                    html += shop['street'];
-                                }
-                                if(shop['street'] &&  shop['city']){
-                                    html += ', ';
-                                }
-                                if(shop['city']){
-                                    html += shop['city'];
-                                } 
-                                html += '</p>';}
-                            if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
-                            if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
-                             
-                            if(savedShopComment || savedShopTime){
-                               html += '<div class=\'comment col-12\'>';
-                               html += '<i class=\'fas fa-info col-2\'></i>';
-                               html += '<div class=\'col-10\'>';
-                               if(savedShopTime){
-                                   html += '<p>' + savedShopTime + '</p>';
-                               }
-                               if(savedShopComment){
-                                   html += '<p class=\'comment-' + commentCnt + '\'>';
-                                   html += savedShopComment;
-                                   html += '</p>';
-                                   html += '<a class=\'readMore\' id=\'comment-\'' + commentCnt + '\'> + </a>';
-                               }
-                               html += '</div>';
-                               html += '</div>';
-                            }
-                            html += '</li>';   
-                        } 
-                    } 
-                }
-                    
-                if (savedShopId < 1) {
-                    for(let catID in events){
-                        var event = events[catID];
-                        
-                        if(savedEventCatID == catID){
-                            
-                            html += '<li class=\'event-infos col-12\'  name=\'panel-event\' id=\'event-' + event['id'] + '\'>';
-                            html += '<i class=\'fas fa-times delete\'></i>';
-                            html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
-                            html += '<div class=\'col-12\'>';
-                            html += '<p class=\'event-name col-10\'>'  + event['name'] + '</p>';
-                            if (event['icon']) {
-                                html += '<img class=\'col-2\' src=\''  + event['icon'] + '\'>';
-                            }
-                            html += '</div>';
-                            html += '</li>';
-                        }
-                    }
-                }  
-                
-                $(html).appendTo( $('ul[date=\"'+ savedShopDate +'\"]'));
-            }
-        }); 
-    </script>";
-
-
   $code .=  "<div class='col-9 content'>";
   //$code .= "<input type='text' name='myPlan' id='myPlan' value='".$this->object()."'>";
   $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
