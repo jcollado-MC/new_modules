@@ -1095,7 +1095,7 @@ private function content(){
       $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" .format::date($date)."'>";
       $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
       $code  .= "</button>";
-    $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."' date='" .format::date($date)."'>";
+    $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."' date='" . $date ."'>";
     /* Saved shops are loaded inside here */
     $code .= "</ul>";
     $code .= "</div>";
