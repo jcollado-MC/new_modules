@@ -125,14 +125,14 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         var newPos = ui.item.index() +1; 
                         var newElement = true;
                   
-                        for(let i = 0; i < savedShops['savedShops'].length; i++){
-                            if(savedShops['savedShops'][i].shop_id == newId || ('event-' + savedShops['savedShops'][i].cat_id) == newId){
+                        for(let i = 0; i < savedShops.length; i++){
+                            if(savedShops[i].shop_id == newId || ('event-' + savedShops[i].cat_id) == newId){
                                 newElement = false;
-                                savedShops['savedShops'][i].date = newDate;
-                                savedShops['savedShops'][i].pos = newPos;
+                                savedShops[i].date = newDate;
+                                savedShops[i].pos = newPos;
                             }
-                            if(savedShops['savedShops'][i].pos >= newPos && savedShops['savedShops'][i].date == newDate){
-                                savedShops['savedShops'][i].pos ++;
+                            if(savedShops[i].pos >= newPos && savedShops[i].date == newDate){
+                                savedShops[i].pos ++;
                             }
                         }
                         if(newElement){  
@@ -144,7 +144,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                                 'time': '',
                                 'comment': '',
                             };
-                        savedShops['savedShops'].push(element);
+                        savedShops.push(element);
                         }
                       $('#myPlan').val(JSON.stringify(savedShops));
                     }
@@ -169,14 +169,14 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     $('#' + liElementId).appendTo(li);
                  }     
                  
-                 for(let i = 0; i < savedShops['savedShops'].length; i++){
-                    if(savedShops['savedShops'][i].date == shopDate && savedShops['savedShops'][i].pos > shopPos){
-                        console.log(savedShops['savedShops'][i].pos);
-                        console.log(savedShops['savedShops'][i].date);
-                        savedShops['savedShops'][i].pos = savedShops['savedShops'][i].pos -1;
+                 for(let i = 0; i < savedShops.length; i++){
+                    if(savedShops[i].date == shopDate && savedShops[i].pos > shopPos){
+                        console.log(savedShops[i].pos);
+                        console.log(savedShops[i].date);
+                        savedShops[i].pos = savedShops[i].pos -1;
                     }
-                    if(savedShops['savedShops'][i].shop_id == shopID || ('event-' + savedShops['savedShops'][i].cat_id) == shopID  && savedShops['savedShops'][i].pos == shopPos){
-                        savedShops['savedShops'].splice(i, 1);
+                    if(savedShops[i].shop_id == shopID || ('event-' + savedShops[i].cat_id) == shopID  && savedShops[i].pos == shopPos){
+                        savedShops.splice(i, 1);
                     }
                  }
                 $('#myPlan').val(JSON.stringify(savedShops));
@@ -245,10 +245,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $('.pos-modal').attr('id', id); 
                 $('.pos-modal').attr('date', date); 
                 $('.pos-modal').attr('pos', pos); 
-                for(let i = 0; i < savedShops['savedShops'].length; i++){
-                    if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
-                        $('.pos-modal').find('input[type=time]').val(savedShops['savedShops'][i].time);
-                        $('.pos-modal').find('textarea').val(savedShops['savedShops'][i].comment);
+                for(let i = 0; i < savedShops.length; i++){
+                    if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
+                        $('.pos-modal').find('input[type=time]').val(savedShops[i].time);
+                        $('.pos-modal').find('textarea').val(savedShops[i].comment);
                     }
                 }
             });
@@ -260,10 +260,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 var id = $('.pos-modal').attr('id'); 
                 var date = $('.pos-modal').attr(date);
                 var pos = $('.pos-modal').attr(pos);
-                for(let i = 0; i < savedShops['savedShops'].length; i++){
-                    if(savedShops['savedShops'][i].shop_id == id || ('event-' + savedShops['savedShops'][i].cat_id) == id){
-                        savedShops['savedShops'][i].time = time;
-                        savedShops['savedShops'][i].comment = comment;
+                for(let i = 0; i < savedShops.length; i++){
+                    if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
+                        savedShops[i].time = time;
+                        savedShops[i].comment = comment;
                     }
                 }
                 
@@ -752,9 +752,9 @@ private function loadSavedShops(){
             var cnt = 0;
             var commentCnt = 0;
             
-            for(let savedShopID in savedShops['savedShops']){
+            for(let savedShopID in savedShops){
                 
-                var savedShop = savedShops['savedShops'][savedShopID];                
+                var savedShop = savedShops[savedShopID];                
                 var savedShopId = savedShop.shop_id;
                 var savedShopDate = savedShop.date;
                 var savedShopComment = savedShop.comment;

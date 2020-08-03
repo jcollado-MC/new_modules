@@ -12,7 +12,7 @@ class myPlanner extends Planner
         echo parent::Header();
     }
     function object(){
-        $object = "{ \"savedShops\": [ {\"date\":\"2020-07-20\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"1714\",\"time\":\"12:15\",\"comment\":\"hi!\"},{\"date\":\"2020-07-20\",\"pos\":2,\"cat_id\":\"6\",\"shop_id\":\"1715\",\"time\":\"\",\"comment\":\"\"},{\"date\":\"2020-07-20\",\"pos\":3,\"cat_id\":\"6\",\"shop_id\":\"1716\",\"time\":\"\",\"comment\":\"\"},{\"date\":\"2020-07-20\",\"pos\":5,\"cat_id\":\"6\",\"shop_id\":\"1718\",\"time\":\"\",\"comment\":\"\"},{\"date\":\"2020-07-21\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"1719\",\"time\":\"\",\"comment\":\"\"},{\"date\":\"2020-07-21\",\"pos\":2,\"cat_id\":\"6\",\"shop_id\":\"1720\",\"time\":\"\",\"comment\":\"\"},{\"date\":\"2020-07-21\",\"pos\":3,\"cat_id\":\"3\",\"shop_id\":\"0\",\"time\":\"12:15\",\"comment\":\"hi!\"}, {\"date\":\"2020-07-21\",\"pos\":4,\"cat_id\":\"1\",\"shop_id\":\"0\",\"time\":\"12:15\",\"comment\":\"hi!\"}]}";
+        $object = "[{\"id\":\"433211\",\"date\":\"2020-06-25\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"55\",\"time\":\"\",\"comment\":\"\"},{\"id\":\"433207\",\"date\":\"2020-06-26\",\"pos\":1,\"cat_id\":\"6\",\"shop_id\":\"55\",\"time\":\"\",\"comment\":\"\"},{\"id\":\"433208\",\"date\":\"2020-06-26\",\"pos\":2,\"cat_id\":\"6\",\"shop_id\":\"31\",\"time\":\"\",\"comment\":\"\"},{\"id\":\"433209\",\"date\":\"2020-06-26\",\"pos\":3,\"cat_id\":\"6\",\"shop_id\":\"25\",\"time\":\"\",\"comment\":\"\"},{\"id\":\"433210\",\"date\":\"2020-06-26\",\"pos\":4,\"cat_id\":\"6\",\"shop_id\":\"157\",\"time\":\"\",\"comment\":\"\"}]";
         return $object;
     }
 
