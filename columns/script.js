@@ -1,17 +1,17 @@
 $(document).ready( function() {
 
     /* ACCORDION */
-
-    $('.tabs').on('click', '.accordion', function(){
-        $(this).toggleClass('active-accordion');
-        var id = $(this).attr('id');
+     $('.tabs').on('click', '.accordion', function(){
+         $(this).toggleClass('active-accordion');
+         var id = $(this).attr('id');
         $('.' + id).toggleClass('active-accordion');
+        $('.' + id).css('display', '');
     });
 
 
     /* MODALS */
 
-    $('.timetable').on('click', '.modal-button' , function(){
+    $('.content').on('click', '.modal-button' , function(){
        var id = $(this).attr('id');
         $('.'+id).show();
     });

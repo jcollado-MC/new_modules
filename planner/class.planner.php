@@ -99,15 +99,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             });
             
             
-            /* ACCORDION */
-             $('.tabs').on('click', '.accordion', function(){
-                 $(this).toggleClass('active-accordion');
-                 var id = $(this).attr('id');
-                $('.' + id).toggleClass('active-accordion');
-                
-                $('.' + id).css('display', '');
-            });
-             
+        
              
              
              /* SORTABLES */
@@ -182,20 +174,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $('#myPlan').val(JSON.stringify(savedShops));
              });             
             
-             /* MODALS */
-            $('.content').on('click', '.modal-button' , function(){
-               var id = $(this).attr('id');
-                $('.'+id).show();
-            });
-        
-            $('.modal-content span.close').on('click', function() {
-                $(this).parent().parent().hide();        
-            });
-        
-            $('.modal-content button.cancel').on('click', function() {        
-                $('[class$=\"-modal\"]').hide();        
-            });
-            
+
             /*Add Event Modal*/
             
             $('button#add-event-modal').on('click', function() {        
@@ -311,15 +290,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             });
             
             
-            /* DROPDOWN */
-            $(document).on(\"click\", 'button.dropbtn', function () {
-                // get button id
-                var id = $(this).attr('id');
-                // show dropdown-content when it's class is button id
-                $(\".dropdown-content.\" + id).toggle();
-                // hide all other dropdowns then
-                $(\".dropdown-content\").not(\".\" + id).hide();
-            });
         
             $(document).mouseup(function (e) {
                 // set container value
@@ -752,9 +722,11 @@ private function loadSavedShops(){
             var cnt = 0;
             var commentCnt = 0;
             
-            for(let savedShopID in savedShops){
+            for(let savedShopsID in savedShops){
                 
-                var savedShop = savedShops[savedShopID];                
+                console.log(savedShopsID);
+                
+                var savedShop = savedShops[savedShopsID];                
                 var savedShopId = savedShop.shop_id;
                 var savedShopDate = savedShop.date;
                 var savedShopComment = savedShop.comment;
@@ -762,10 +734,14 @@ private function loadSavedShops(){
                 var savedEventCatID = savedShop.cat_id; 
                 var html = ''; 
                 
+                console.log(savedShop.shop_id);
+                
                 if(savedShopId > 0){
                     for(let shopID in shops){
                         var shop = shops[shopID];
+                        
                         if(savedShopId == shopID){
+                            console.log(shop.shop_id);
                             html += ' <li class=\'pos-infos col-12 ' + shop.color .toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop.shop_id  + '\'> ';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
