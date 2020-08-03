@@ -394,6 +394,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 background-color: #fff;
             }
             
+            .modal-content li.event-infos{
+                height: 80px;
+            }
+            
             
             .event-infos img,  .multiple-event-infos img{
                 height: auto;              
