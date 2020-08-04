@@ -111,7 +111,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   connectWith: '.timetable',
                   revert: true,
                   receive: function(event, ui) {
-                  
+                        console.log('receive');
                         var newDate = $(this).attr('date');
                         var senderDate = ui.sender.attr('date');
                         var newId = ui.item.attr('id');                        
@@ -125,7 +125,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                                 savedShops[i].date = newDate;
                                 savedShops[i].pos = newPos;
                             }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && savedShops[i].shop_id != newId){
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && (savedShops[i].shop_id != newId && ('event-' + savedShops[i].cat_id) != newId)){
                                 savedShops[i].pos ++;
                             }
                             if(savedShops[i].pos >= newPos && savedShops[i].date === senderDate){
@@ -145,18 +145,17 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         }
                       $('#myPlan').val(JSON.stringify(savedShops));
                     },
-                    update: function(event, ui) {
-                  
+                    update: function(event, ui) {                  
                         var newDate = $(this).attr('date');
                         var newId = ui.item.attr('id');                        
                         var newPos = ui.item.index() + 1; 
+                        console.log('update');
                   
                         for(let i = 0; i < savedShops.length; i++){
-                            if(savedShops[i].shop_id == newId || ('event-' + savedShops[i].cat_id) === newId){
-                                savedShops[i].date = newDate;
+                            if(savedShops[i].shop_id === newId || ('event-' + savedShops[i].cat_id) === newId){
                                 savedShops[i].pos = newPos;
                             }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && savedShops[i].shop_id != newId){
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && (savedShops[i].shop_id != newId && ('event-' + savedShops[i].cat_id) != newId)){
                                 savedShops[i].pos ++;
                             }
                         }
@@ -219,6 +218,12 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $(this).clone().removeClass('col-6').addClass('col-12').prependTo($(timetable));              
                 $('[class$=\"-modal\"]').hide();
                 
+                for(let i = 0; i < savedShops.length; i++){
+                    if(savedShops[i].pos >= 1 && savedShops[i].date === date){
+                        savedShops[i].pos ++;
+                    }
+                }
+                
                 var element = {
                     'date': date,
                     'pos': '1',
@@ -250,12 +255,18 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
             $('ul').on('click', 'i#pos-modal', function() {
-                var id = $(this).parent().attr('id');                        
-                $('.pos-modal').attr('id', id); 
+                var id = $(this).parent().attr('id'); 
+                var pos = $(this).parent().parent().index() + 1;
+                var date = $(this).parent().parent().attr('date');            
+                $('.pos-modal').attr('id', id);
+                $('.pos-modal').attr('date', date); 
+                $('.pos-modal').attr('position', pos); 
                 for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
+                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos === pos){
                         $('.pos-modal').find('input[type=time]').val(savedShops[i].time);
                         $('.pos-modal').find('textarea').val(savedShops[i].comment);
+                        
+                        
                     }
                 }
             });
@@ -265,8 +276,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 var time = $(this).parent().parent().find('input[type=time]').val();
                 var comment = $(this).parent().parent().find('textarea').val();
                 var id = $('.pos-modal').attr('id'); 
+                var pos = $('.pos-modal').attr('position'); 
+                var date = $('.pos-modal').attr('date');       
                 for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
+                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos === pos){
                         savedShops[i].time = time;
                         savedShops[i].comment = comment;
                     }
@@ -276,7 +289,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     $('li#' + id + ' div.comment').removeClass('hidden');
                     $('li#' + id + ' div.comment  p.time').text(time);
                     $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
-                } else if(time.length == 0 || comment.length == 0){
+                } else if(time.length === 0 || comment.length === 0){
                     $('li#' + id + ' div.comment').addClass('hidden');
                     $('li#' + id + ' div.comment  p.time').text(time);
                     $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
