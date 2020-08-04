@@ -199,8 +199,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $(this).clone().removeClass('col-6').addClass('col-12').prependTo($(timetable));              
                 $('[class$=\"-modal\"]').hide();
                 
-                
-                
                 var element = {
                     'date': date,
                     'pos': '1',
@@ -218,13 +216,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             /*COMMENTS*/            
             
-            var comments = $('.comment p');            
-            
+            var comments = $('.comment p');     
             for (let comment of comments){                
                 var text = $(comment).text();
-                       
-                var commentLength = 15;             
-                   
+                var commentLength = 15;         
                 if (text.length > commentLength){                                  
                     var text1 = text.slice(0, commentLength);
                     var text2 = text.slice(commentLength, text.length);
@@ -237,12 +232,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             $('ul').on('click', 'i#pos-modal', function() {
                 var id = $(this).parent().attr('id');
-                var date = $(this).parent().parent().attr(date);
-                var pos = $(this).parent().index() + 1;
                 console.log(id);                            
                 $('.pos-modal').attr('id', id); 
-                $('.pos-modal').attr('date', date); 
-                $('.pos-modal').attr('pos', pos); 
                 for(let i = 0; i < savedShops.length; i++){
                     if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
                         $('.pos-modal').find('input[type=time]').val(savedShops[i].time);
@@ -256,8 +247,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 var time = $(this).parent().parent().find('input[type=time]').val();
                 var comment = $(this).parent().parent().find('textarea').val();
                 var id = $('.pos-modal').attr('id'); 
-                var date = $('.pos-modal').attr(date);
-                var pos = $('.pos-modal').attr(pos);
                 for(let i = 0; i < savedShops.length; i++){
                     if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
                         savedShops[i].time = time;
@@ -286,9 +275,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                     $(this).text(' - ');
                 } else {
                     $(this).text(' + ');
-                }
-                
-                                
+                }    
             });
             
             
@@ -420,6 +407,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             .event-infos img,  .multiple-event-infos img{
                 height: auto;              
+            }
+            
+            .add-event-modal li i{
+                display: none;
             }
             
             
