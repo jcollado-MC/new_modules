@@ -113,7 +113,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   receive: function(event, ui) {
                         console.log('receive');
                         var newDate = $(this).attr('date');
-                        var senderDate = ui.sender.attr('date');
                         var newId = ui.item.attr('id');                        
                         var newPos = ui.item.index() + 1; 
                         var newElement = true;
@@ -124,12 +123,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                                 newElement = false;
                                 savedShops[i].date = newDate;
                                 savedShops[i].pos = newPos;
-                            }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && (savedShops[i].shop_id != newId && ('event-' + savedShops[i].cat_id) != newId)){
-                                savedShops[i].pos ++;
-                            }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === senderDate){
-                                savedShops[i].pos --;
                             }
                         }
                         if(newElement){  
@@ -145,20 +138,18 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         }
                       $('#myPlan').val(JSON.stringify(savedShops));
                     },
-                    update: function(event, ui) {                  
+                    update: function(event, ui) {            
                         var newDate = $(this).attr('date');
-                        var newId = ui.item.attr('id');                        
-                        var newPos = ui.item.index() + 1; 
                         console.log('update');
                   
-                        for(let i = 0; i < savedShops.length; i++){
-                            if(savedShops[i].shop_id === newId || ('event-' + savedShops[i].cat_id) === newId){
-                                savedShops[i].pos = newPos;
+                        
+                        $('ul[date=\"'+ newDate +'\"] li').each( function(){
+                            for(let i = 0; i < savedShops.length; i++){
+                                if( $(this).attr('id') ===  savedShops[i].shop_id || $(this).attr('id') === ('event-' + savedShops[i].cat_id)){
+                                    savedShops[i].pos = $(this).index() + 1;
+                                }
                             }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && (savedShops[i].shop_id != newId && ('event-' + savedShops[i].cat_id) != newId)){
-                                savedShops[i].pos ++;
-                            }
-                        }
+                        });
                         
                       $('#myPlan').val(JSON.stringify(savedShops));
                     }
@@ -259,7 +250,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $('.pos-modal').attr('id', id);
                 $('.pos-modal').attr('date', date); 
                 $('.pos-modal').attr('position', pos); 
-                console.log(pos, id, date);
                 for(let i = 0; i < savedShops.length; i++){
                     if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos == pos){
                         $('.pos-modal').find('input[type=time]').val(savedShops[i].time);
