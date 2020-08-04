@@ -176,18 +176,16 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  var shopPos = $(this).parent().index() +1 ;     
                  var shopDate = $(this).parent().parent().attr('date');
                  var isEvent = $(this).parent().hasClass('event-infos');
-                  
                  if(isEvent){   
                     $(this).parent().remove();
                  } else {
                     $('#' + liElementId).appendTo(li);
                  }     
-                 
                  for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].date == shopDate && savedShops[i].pos >= shopPos && savedShops[i].shop_id != shopID){                        
+                    if(savedShops[i].date === shopDate && savedShops[i].pos >= shopPos){                        
                         savedShops[i].pos --;
                     }
-                    if(savedShops[i].shop_id == shopID || ('event-' + savedShops[i].cat_id) == shopID  && savedShops[i].pos == shopPos){
+                    if(savedShops[i].shop_id == shopID || ('event-' + savedShops[i].cat_id) == shopID  && savedShops[i].pos == shopPos && savedShops[i].date === shopDate){
                         savedShops.splice(i, 1);
                     }
                  }
@@ -256,17 +254,16 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             
             $('ul').on('click', 'i#pos-modal', function() {
                 var id = $(this).parent().attr('id'); 
-                var pos = $(this).parent().parent().index() + 1;
+                var pos = $(this).parent().index() + 1;
                 var date = $(this).parent().parent().attr('date');            
                 $('.pos-modal').attr('id', id);
                 $('.pos-modal').attr('date', date); 
                 $('.pos-modal').attr('position', pos); 
+                console.log(pos, id, date);
                 for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos === pos){
+                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos == pos){
                         $('.pos-modal').find('input[type=time]').val(savedShops[i].time);
                         $('.pos-modal').find('textarea').val(savedShops[i].comment);
-                        
-                        
                     }
                 }
             });
@@ -277,22 +274,25 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 var comment = $(this).parent().parent().find('textarea').val();
                 var id = $('.pos-modal').attr('id'); 
                 var pos = $('.pos-modal').attr('position'); 
-                var date = $('.pos-modal').attr('date');       
+                var date = $('.pos-modal').attr('date');
+                
+                
+                       
                 for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos === pos){
+                    if(savedShops[i].shop_id === id || ('event-' + savedShops[i].cat_id) === id && savedShops[i].date === date && savedShops[i].pos == pos){
                         savedShops[i].time = time;
                         savedShops[i].comment = comment;
                     }
                 }
                 
                 if(time.length > 0 || comment.length > 0){
-                    $('li#' + id + ' div.comment').removeClass('hidden');
-                    $('li#' + id + ' div.comment  p.time').text(time);
-                    $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment').removeClass('hidden');
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment p.time').text(time);
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment p[class^=\'comment-\']').text(comment);
                 } else if(time.length === 0 || comment.length === 0){
-                    $('li#' + id + ' div.comment').addClass('hidden');
-                    $('li#' + id + ' div.comment  p.time').text(time);
-                    $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment').addClass('hidden');
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment p.time').text(time);
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment p[class^=\'comment-\']').text(comment);
                 }
                 
                 $('.pos-modal').hide();
@@ -617,6 +617,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
 
 private function eventModal(){
     $eventCnt = 0;
+    $commentCnt = 0;
     $code = "";
     $code .= "<div class='add-event-modal'>";
     $code .= "<div class='modal-content'>";
@@ -640,8 +641,19 @@ private function eventModal(){
             $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
         }
         $code .= "</div>";
+        $code .="<div class='comment hidden col-12'>";
+        $code .="<i class='fas fa-info col-2'></i>";
+        $code .="<div class='col-10'>";
+        $code .="<p class='time'></p>";
+        $code .="<p class='comment-" . $commentCnt ."'>";
+        $code .="</p>";
+        $code .="<a class='readMore' id='comment-'" . $commentCnt ."'> + </a>";
+        $code .="</div>";
+        $code .="</div>";
+        
         $code .= "</li>";
         $eventCnt++;
+        $commentCnt ++;
     }
     $code .= "</ul>";
     $code .= "</div>";
