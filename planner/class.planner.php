@@ -1096,7 +1096,7 @@ private function content(){
     $code .=  l('WEEKDAY', $day, $day)."<br>";
     $code .= "<small>".format::date($date)."</small>";
     $code .= "</p>";
-      $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" .format::date($date)."'>";
+      $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" . $date ."'>";
       $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
       $code  .= "</button>";
     $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."' date='" . $date ."'>";
