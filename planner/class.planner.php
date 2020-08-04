@@ -116,14 +116,15 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         var newId = ui.item.attr('id');
                         var newPos = ui.item.index() +1; 
                         var newElement = true;
+                        var cat_id = '6';
                   
                         for(let i = 0; i < savedShops.length; i++){
-                            if(savedShops[i].shop_id == newId || ('event-' + savedShops[i].cat_id) == newId){
+                            if(savedShops[i].shop_id == newId || ('event-' + savedShops[i].cat_id) === newId){
                                 newElement = false;
                                 savedShops[i].date = newDate;
                                 savedShops[i].pos = newPos;
                             }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date == newDate){
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate){
                                 savedShops[i].pos ++;
                             }
                         }
@@ -131,7 +132,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                             var element = {
                                 'date': newDate,
                                 'pos': newPos,
-                                'cat_id': '6',
+                                'cat_id': cat_id,
                                 'shop_id': newId,
                                 'time': '',
                                 'comment': '',
@@ -178,9 +179,11 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             /*Add Event Modal*/
             
             $('button#add-event-modal').on('click', function() {        
+                var id = $(this).attr('id');
                 var date = $(this).attr('date');
                 var timetable = $('ul[date=\"'+ date +'\"]');
-                var singlesInTimetable  = $(timetable).find('.single');                
+                var singlesInTimetable  = $(timetable).find('.single');   
+                $('.' + id).show();             
                 $('.add-event-modal').attr('id', date);                
                 $('.add-event-modal li').show();                
                 singlesInTimetable.each(function() { 
@@ -189,11 +192,27 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 });             
             });
             
-            $('.add-event-modal li').on('click', function() {        
+            $('.add-event-modal li').on('click', function() {
+                var id = $(this).attr('id').replace('event-', '');
                 var date = $('.add-event-modal').attr('id');
                 var timetable = $('ul[date=\"'+ date +'\"]');
                 $(this).clone().removeClass('col-6').addClass('col-12').prependTo($(timetable));              
-                $('[class$=\"-modal\"]').hide();                         
+                $('[class$=\"-modal\"]').hide();
+                
+                
+                
+                var element = {
+                    'date': date,
+                    'pos': '1',
+                    'cat_id': id,
+                    'shop_id': '0',
+                    'time': '',
+                    'comment': '',
+                };
+                savedShops.push(element);
+                
+                $('#myPlan').val(JSON.stringify(savedShops));         
+                                
             });
             
             

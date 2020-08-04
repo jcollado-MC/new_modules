@@ -13,7 +13,7 @@ $(document).ready( function() {
 
     $('.content').on('click', '.modal-button' , function(){
        var id = $(this).attr('id');
-        $('.'+id).show();
+        $('.' + id).show();
     });
 
     $('.modal-content span.close').on('click', function() {
