@@ -114,8 +114,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   
                         var newDate = $(this).attr('date');
                         var senderDate = ui.sender.attr('date');
-                        var newId = ui.item.attr('id');
-                        
+                        var newId = ui.item.attr('id');                        
                         var newPos = ui.item.index() + 1; 
                         var newElement = true;
                         var cat_id = '6';
@@ -144,6 +143,24 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                             };
                             savedShops.push(element);
                         }
+                      $('#myPlan').val(JSON.stringify(savedShops));
+                    },
+                    update: function(event, ui) {
+                  
+                        var newDate = $(this).attr('date');
+                        var newId = ui.item.attr('id');                        
+                        var newPos = ui.item.index() + 1; 
+                  
+                        for(let i = 0; i < savedShops.length; i++){
+                            if(savedShops[i].shop_id == newId || ('event-' + savedShops[i].cat_id) === newId){
+                                savedShops[i].date = newDate;
+                                savedShops[i].pos = newPos;
+                            }
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && savedShops[i].shop_id != newId){
+                                savedShops[i].pos ++;
+                            }
+                        }
+                        
                       $('#myPlan').val(JSON.stringify(savedShops));
                     }
                 }).disableSelection();
@@ -226,7 +243,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 if (text.length > commentLength){                                  
                     var text1 = text.slice(0, commentLength);
                     var text2 = text.slice(commentLength, text.length);
-                                   
                     $(comment).parent().find('a.readMore').show();
                     $(comment).text(text1);
                     $(comment).append('<span>' + text2 + '</span>')
@@ -234,8 +250,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
             $('ul').on('click', 'i#pos-modal', function() {
-                var id = $(this).parent().attr('id');
-                console.log(id);                            
+                var id = $(this).parent().attr('id');                        
                 $('.pos-modal').attr('id', id); 
                 for(let i = 0; i < savedShops.length; i++){
                     if(savedShops[i].shop_id == id || ('event-' + savedShops[i].cat_id) == id){
@@ -745,8 +760,6 @@ private function loadSavedShops(){
             
             for(let savedShopsID in savedShops){
                 
-                console.log(savedShopsID);
-                
                 var savedShop = savedShops[savedShopsID];                
                 var savedShopId = savedShop.shop_id;
                 var savedShopDate = savedShop.date;
@@ -755,14 +768,12 @@ private function loadSavedShops(){
                 var savedEventCatID = savedShop.cat_id; 
                 var html = ''; 
                 
-                console.log(savedShop.shop_id);
                 
                 if(savedShopId > 0){
                     for(let shopID in shops){
                         var shop = shops[shopID];
                         
                         if(savedShopId == shopID){
-                            console.log(shop.shop_id);
                             html += ' <li class=\'pos-infos col-12 ' + shop.color .toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop.shop_id  + '\'> ';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
