@@ -113,8 +113,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                   receive: function(event, ui) {
                   
                         var newDate = $(this).attr('date');
+                        var senderDate = ui.sender.attr('date');
                         var newId = ui.item.attr('id');
-                        var newPos = ui.item.index() +1; 
+                        
+                        var newPos = ui.item.index() + 1; 
                         var newElement = true;
                         var cat_id = '6';
                   
@@ -124,8 +126,11 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                                 savedShops[i].date = newDate;
                                 savedShops[i].pos = newPos;
                             }
-                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate){
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === newDate && savedShops[i].shop_id != newId){
                                 savedShops[i].pos ++;
+                            }
+                            if(savedShops[i].pos >= newPos && savedShops[i].date === senderDate){
+                                savedShops[i].pos --;
                             }
                         }
                         if(newElement){  
@@ -137,7 +142,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                                 'time': '',
                                 'comment': '',
                             };
-                        savedShops.push(element);
+                            savedShops.push(element);
                         }
                       $('#myPlan').val(JSON.stringify(savedShops));
                     }
@@ -163,10 +168,8 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  }     
                  
                  for(let i = 0; i < savedShops.length; i++){
-                    if(savedShops[i].date == shopDate && savedShops[i].pos > shopPos){
-                        console.log(savedShops[i].pos);
-                        console.log(savedShops[i].date);
-                        savedShops[i].pos = savedShops[i].pos -1;
+                    if(savedShops[i].date == shopDate && savedShops[i].pos >= shopPos && savedShops[i].shop_id != shopID){                        
+                        savedShops[i].pos --;
                     }
                     if(savedShops[i].shop_id == shopID || ('event-' + savedShops[i].cat_id) == shopID  && savedShops[i].pos == shopPos){
                         savedShops.splice(i, 1);
@@ -256,6 +259,10 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 
                 if(time.length > 0 || comment.length > 0){
                     $('li#' + id + ' div.comment').removeClass('hidden');
+                    $('li#' + id + ' div.comment  p.time').text(time);
+                    $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
+                } else if(time.length == 0 || comment.length == 0){
+                    $('li#' + id + ' div.comment').addClass('hidden');
                     $('li#' + id + ' div.comment  p.time').text(time);
                     $('li#' + id + ' div.comment   p[class^=\'comment-\']').text(comment);
                 }
