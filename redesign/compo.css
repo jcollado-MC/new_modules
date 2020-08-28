@@ -1,0 +1,122 @@
+/* MAin Font color and type */
+
+* {
+    font-family: "Open Sans", sans-serif;
+    color: #585858;
+}
+
+table.task_list th input::placeholder, table.task_list th input::-webkit-input-placeholder{
+    color: #585858;
+}
+
+
+/*Main color*/
+#mobile-nav,
+#menu,
+button,
+.button,
+.submit,
+input[type="submit"],
+button#save,
+button.update,
+input:checked + .slider,
+.btn.active, .type-btn.type-active,
+.cfr_link, .visit_listview,
+.box_area .quickaccess_box,
+aside ul li,
+aside select,
+[class = cfr_dropdown]
+{
+    background-color: #bfbf00;
+    color: white;
+}
+
+
+
+
+a,
+a:visited,
+td a,
+td a i,
+i.add-comment:hover,
+.actions button,
+.actions button i,
+.tasks_header i,
+button.aside-button,
+button.aside-button i,
+aside select option,
+[class = cfr_dropdown] option,
+.jexcel_filter button i,
+.action-buttons i,
+button.ui-datepicker-trigger i
+{
+    color:  #bfbf00;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #bfbf00;
+}
+
+/*Highlight color*/
+aside ul li:hover,
+.box_area .quickaccess_box:hover,
+.cfr_link:hover
+{
+    background-color: #d3d300;
+    cursor: pointer;
+}
+
+.is-focused, .action-buttons{
+    border-color: #d3d300;
+}
+
+
+
+/* For Desktop */
+@media only screen and (min-width: 768px) {
+    /* Main color */
+    #menu ul li:hover ul{
+        background-color: #bfbf00;
+    }
+
+    #breadcrumb ul li a{
+        color: #bfbf00;
+    }
+
+    /* highlight color */
+    #menu ul li:hover,
+    #menu ul ul li:hover{
+        background-color: #d3d300;
+    }
+
+    #breadcrumb ul li a:hover{
+        color: #d3d300;
+    }
+}
+
+
+
+
+
+/* FOR OVERWRITING THE JQUERY UI TABS COLORS */
+
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active{
+    background-color: #bfbf00 !important;
+    color: white !important;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover{
+    background-color: #f2f7f8 !important;
+    color: #585858 !important;
+}

@@ -1,0 +1,575 @@
+/* SEARCH AJAX */
+#searchajax {
+    background-color: #FEF1B5;
+    border-radius: 15px 15px 15px 15px;
+    color: black;
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 13px;
+    font-weight: bold;
+}
+
+#searchajax td{
+    background-color: inherit;
+    color: inherit;
+    font-weight: inherit;
+}
+
+#searchajax input{
+    color: #00009C;
+    font-size: 16px;
+}
+
+#searchajax .searchajax_title{
+    margin-left: 5px;
+}
+
+#searchajax .searchajax_text{
+    margin-left: 8px;
+    margin-top: 5px;
+}
+
+
+
+
+
+.searchajax {
+    /*background-color: #4F81BD;*/
+    border: 1px solid darkgray;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #365F9A;
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 13px;
+    font-weight: bold;
+}
+
+.searchajax td{
+    background-color: inherit;
+    color: inherit;
+    font-weight: inherit;
+}
+
+.searchajax input{
+    color: #00009C;
+    font-size: 16px;
+    border: 1px solid darkgray;
+    width: 400px;
+}
+
+.searchajax .searchajax_title{
+    margin-left: 5px;
+    display: inline;
+}
+
+.searchajax .searchajax_text{
+    display: inline;
+    margin-left: 12px;
+}
+
+ul.cfr_quicksearch_list{
+    list-style: none outside none;
+    margin-left: 0;
+    margin-top: 18px;
+    padding-left: 5px;
+}
+
+.cfr_quicksearch_text{
+
+}
+
+.cfr_quicksearch_result{
+    padding-left: 0px;
+}
+
+.cfr_quicksearch_list li{
+    background-image: url("/intern/cfr/cfr_img/arrow_right_orange.png");
+    background-repeat: no-repeat;
+    margin-top: 7px;
+    padding-left: 22px;
+}
+
+.cfr_quicksearch_list{
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+/*.searchajax input:focus{
+	color:red;
+	border:1px solid red;
+}*/
+
+
+
+
+
+
+
+/* LINK */
+.cfr_link {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.cfr_link .link_icon {
+    width: 50px;
+    height: 50px;
+}
+
+
+
+.cfr_link .link_text {
+    margin-top: -48px;
+    margin-left: 55px;
+}
+
+.cfr_link .link_text a{
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.cfr_link .link_text p.link_subtitle {
+    font-size: 14px;
+    margin-top: 0px;
+}
+
+
+.cfr_link .link_icon .icon {
+    width: 24px;
+    height: 24px;
+    background-repeat:no-repeat;
+    margin-top: -20px;
+    margin-left: 23px;
+}
+
+
+/* LINKLIST */
+.cfr_linklist {
+    margin-top: -12px;
+    margin-bottom: 18px;
+    padding-left: 14px;
+}
+
+.cfr_linklist ul {
+    float:right;
+    width:100%;
+    margin: 0 0 19px;
+    padding:0px;
+    list-style: none outside none;
+}
+
+.cfr_linklist_text{
+    height: 17px;
+}
+
+.cfr_linklist_count{
+    color: #AAAAAA;
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+li.cfr_linklist_element {
+    width: 246px;
+    height:24px;
+    float:left;
+    margin-right: 9px;
+    padding-left: 23px;
+    width: 235px;
+    background-image: url("/intern/cfr/cfr_img/arrow_right_orange.png");
+    background-repeat: no-repeat;
+
+}
+
+.cfr_linklist a{
+    font-size:12px;
+}
+
+/* DATATABLE DATAGRID */
+table.cfr_dataTable{
+    border-collapse:collapse;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-color: #D3D3D3 !important;
+    width: 100%;
+}
+
+.column_first{
+    max-width: 50px;
+}
+
+.cfr_dataTable th {
+
+}
+
+.cfr_dataTable td {
+    border-color: #D3D3D3 !important;
+    border-right: 1px solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    white-space: nowrap;
+}
+
+.cfr_dataTable div.DataTables_sort_wrapper{
+    white-space: nowrap;
+    height: 16px;
+}
+
+.cfr_dataTable .dataGridHeader{
+    /*display:inline;*/
+    margin-left: 5px;
+    margin-right: 22px;
+    white-space: nowrap;
+}
+
+.cfr_dataTable td.dataGridCheckbox {
+    text-align: center;
+}
+
+.cfr_dataTable td.dataGridCurrency,.cfr_dataTable td.dataGridCurrencyForeign{
+    text-align: right;
+}
+
+.cfr_dataTable td.dataGridSelect select {
+    width: 100%;
+}
+
+.cfr_dataTable td.dataGridDatePicker{
+    min-width: 120px;
+    text-align: center;
+}
+
+.cfr_dataTable td.dataGridDatePicker input.hasDatepicker{
+    width: 70px !important;
+}
+
+.ui-widget-header {
+    border: none !important;
+}
+
+/* DATAGRID*/
+
+.dataGridDatePicker button {
+    background-image: url('/intern/data_site/icons/delete_icon.png');
+    background-repeat: no-repeat;
+    color: transparent;
+    height: 16px;
+    width: 16px;
+    border: none;
+    margin-left: 5px;
+}
+
+td.dataGridSum1, td.dataGridSum2, td.dataGridAvg{
+    text-align: right;
+}
+
+.cfr_dataGridTools{
+
+}
+
+.cfr_dataGridTools .TableTools {
+    float: left;
+}
+
+.cfr_dataGridTools .dataTables_filter {
+    height: 50px;
+    text-align: left;
+    width: 50%;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.ui-state-default .ui-icon {
+    margin-top: -16px;
+}
+
+.dataTables_wrapper {
+    margin-bottom: 20px;
+    min-height: 0px !important;
+    position: relative;
+}
+
+/* ADD/MOD FORM */
+.ui-tabs .ui-tabs-nav li a {
+    font-size: 11px;
+}
+
+.cfr_form table{
+    width: 100%
+}
+
+.cfr_form tr {
+    white-space: nowrap;
+}
+
+.cfr_form td{
+    font-size: 14px;
+}
+
+.cfr_form h3{
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: -3px;
+}
+
+.cfr_form input.cfr_form_save{
+    margin-left: 16px;
+    margin-bottom: 13px;
+    height: 30px;
+}
+
+.cfr_form input[type=text], .cfr_form textarea{
+    border:1px solid #AAAAAA;
+}
+
+.cfr_form input[type=text]:focus, .cfr_form textarea:focus{
+    border:1px solid #FF8000;
+}
+
+.cfr_form .cfr_form_column1{
+    width:25%;
+    text-align: right;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.cfr_form_column2 {
+    width:75%;
+}
+
+.cfr_form_column2 input, .cfr_form_column2 select{
+    width:50%;
+}
+
+.form_error {
+    color: red;
+    font-size: 12px;
+    margin-left:5px;
+}
+
+.cfr_form .cfr_form_column2 input[type=checkbox]{
+    width: 5%;
+    margin-left: -7px;
+}
+
+.cfr_form tr.error1 input[type=text], .cfr_form tr.error2 input[type=text], .cfr_form tr.error3 input[type=text], .cfr_form tr.error1 select, .cfr_form tr.error2 select, .cfr_form tr.error3 select{
+    border-color: red;
+}
+
+
+.cfr_form_notab .cfr_form_column {
+    padding-bottom: 4px;
+    padding-left: 34px;
+    width: 55%
+}
+
+.cfr_form_notab .cfr_form_compact {
+    font-weight: bold;
+}
+
+.cfr_form_notab .cfr_form_column input[type='text'], .cfr_form_notab .cfr_form_column textarea {
+    width: 50%;
+}
+
+.cfr_form_notab h3 {
+    margin-left: 18px;
+    margin-bottom: 0px;
+}
+
+.cfr_form_notab{
+    margin-top: -12px;
+}
+
+.cfr_form_notab input.cfr_form_save{
+    margin-left: 35px;
+    margin-bottom: 13px;
+    margin-top: 5px;
+    height: 30px;
+}
+
+
+.error1, .error2, .error3 {
+    color: red;
+}
+
+.error1.orange, .error2.orange, .error3.orange {
+    color: #FF8000;
+}
+
+.cfr_form .hasDatepicker{
+    width: 93px;
+}
+
+
+/* SHOW */
+
+.cfr_show table{
+    width: 100%
+}
+
+.cfr_show tr{
+
+}
+
+.cfr_show td{
+    font-size: 12px;
+}
+
+.cfr_show td h3{
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: -3px;
+}
+
+.cfr_show_column1{
+    width:33%;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.cfr_show_column2 {
+    width:67%;
+    font-weight: bold;
+}
+
+/* SEARCH */
+
+.cfr_search input[type=text]{
+    border:1px solid #AAAAAA;
+}
+
+.cfr_search input[type=text]:focus{
+    border:1px solid #FF8000;
+}
+
+.cfr_search table{
+    width: 100%;
+    margin-top: 15px;
+}
+
+.cfr_search tr{
+
+}
+
+.cfr_search td{
+    font-size: 14px;
+}
+
+.cfr_search td h3{
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: -3px;
+}
+
+.cfr_search_column1{
+    width:33%;
+    text-align: right;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.cfr_search_column2 {
+    width:67%;
+}
+
+.cfr_search_column2 input{
+    width:50%;
+}
+
+.cfr_search_button{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 30px;
+}
+
+.cfr_controls{
+    border: 1px solid darkgray;
+    /*border-radius: 5px 5px 5px 5px;*/
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+.cfr_quicksearch_text_extra{
+    color: #AAA;
+    font-size: 12px;
+    margin-right:5px;
+}
+
+.hasDatepicker{
+    width: 70px;
+}
+
+/* ADD/MOD POPUP */
+
+#cfr_popup .cfr_form{
+    border: none;
+    height: 100%;
+}
+
+#cfr_popup .cfr_form_notab .cfr_form_column {
+    padding-left: 0px;
+}
+
+#cfr_popup .cfr_form_notab input.cfr_form_save {
+    margin-left: 0px;
+}
+
+/* SPECIAL SEARCH */
+
+#leftnav #cfr_specialsearch {
+    margin-left: 7px;
+}
+
+#leftnav #cfr_specialsearch label {
+    font-weight: bold;
+}
+
+#leftnav #cfr_specialsearch input {
+    border: 1px solid darkgray;
+    background-color: #CFDDEF;
+}
+
+#leftnav #cfr_specialsearch li a:link, #leftnav #cfr_specialsearch li a:hover, #leftnav #cfr_specialsearch li a:visited {
+    background-image: none;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    color: #11356F;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#leftnav #cfr_specialsearch ul {
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+}
+
+#leftnav #cfr_specialsearch li a span {
+    padding: 0px 0px 0px 0px;
+    width: 100%;
+    color: #AAAAAA;
+    font-size: 9px;
+    margin-left: 5px;
+
+}
+
+#leftnav #cfr_specialsearch li {
+    background-image: url('/intern/cfr/cfr_img/arrow_right_orange.png');
+    background-repeat: no-repeat;
+    margin-top: 7px;
+    padding-left: 22px;
+}
+
+input.init_value {
+    color: #867970;
+    font-style:italic;
+}

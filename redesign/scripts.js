@@ -1,27 +1,37 @@
+
+
+$(function() { $( "[id ^= datedelimiter], .cfr_datepicker" ).datepicker({
+    showOn: "both", buttonText: "<i class='fas fa-calendar'></i>" });
+});
+
+
+
 $(document).ready( function() {
 
     var search_icon = '<i class=\'fas fa-search\'></i>';
     $('.searchajax_text').append(search_icon);
     $('.searchajax input').attr('placeholder', 'search');
 
-    var burger_menu = '<div id=\'mobile-nav\'> <i class=\'fas fa-bars\'></i> </div>';
+    var burger_menu = '<div id=\'mobile-nav\'> <i class=\'fas fa-bars\'></i></div>';
     $(burger_menu).insertBefore('#menu');
 
     $('#logo').clone().appendTo('#mobile-nav');
     $('#user').clone().appendTo('#mobile-nav');
 
     $('body').on('click', '#mobile-nav', function () {
-       $('#menu').toggleClass('active-menu')
+        $('#menu').toggleClass('active-menu')
     });
 
+
     $('#pagebody h1').appendTo('#header');
+
     $('.searchajax').appendTo('#header');
-
-
-    $('[name=\"ssr_reload\"]').insertAfter('form[id^=\"ssr\"] .ui-tabs');
 
     var aside_button = '<button class=\'aside-button\'><i class=\'fas fa-chevron-right\'></i></button>';
     $(aside_button).insertAfter('aside');
+
+
+    $('input[name=\"ssr_reload\"]').appendTo('form[id^=\"ssr\"]');
 
     $('#sidebar .cfr_link').addClass('col-12');
     $('#pagebody .cfr_link').addClass('col-3');
@@ -96,29 +106,29 @@ $(document).ready( function() {
     });
 
 
+    /* FLOATING LABELS */
+
+
+    var $inputs = $('.float-placeholder-input'),
+        update = function(){
+            var $input = $(this),
+                $wrapper = $input.closest('.float-placeholder');
+
+            if( $input.val() !== '' || $input.is(':active') || $input.is(':focus') || $input.prop('tagName') === 'SELECT'){
+                $input.addClass('is-floating');
+            } else {
+                $input.removeClass('is-floating');
+            }
+
+            if($input.is(':focus')){
+                $wrapper.addClass('is-focused');
+            } else {
+                $wrapper.removeClass('is-focused');
+            }
+        };
+
+    $inputs.each( update );
+    $inputs.on('click focus input blur', update);
+
 });
 
-
-/* FLOATING LABELS */
-
-
-var $inputs = $('.float-placeholder-input'),
-    update = function(){
-        var $input = $(this),
-            $wrapper = $input.closest('.float-placeholder');
-
-        if( $input.val() !== '' || $input.is(':active') || $input.is(':focus') || $input.prop('tagName') === 'SELECT'){
-            $input.addClass('is-floating');
-        } else {
-            $input.removeClass('is-floating');
-        }
-
-        if($input.is(':focus')){
-            $wrapper.addClass('is-focused');
-        } else {
-            $wrapper.removeClass('is-focused');
-        }
-    };
-
-$inputs.each( update );
-$inputs.on('click focus input blur', update);
