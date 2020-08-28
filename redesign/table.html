@@ -1,0 +1,254 @@
+
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'><html><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+    <link rel='stylesheet' type='text/css' href='../../../cfr/cfr_types/columns/styles.css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'><link href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300&display=swap' rel='stylesheet'><script src='https://kit.fontawesome.com/6136bf7352.js'></script>
+    <script src='https://code.jquery.com/jquery-3.5.1.min.js' integrity='sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=' crossorigin='anonymous'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous'></script>
+    <link rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
+    <script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>
+    <script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>
+    <link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css'/>
+    <link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css'/>
+    <script src='../../../cfr/cfr_types/columns/script.js'></script>
+    <script src='../../../cfr/cfr_files/forms/'></script>
+    <script src='../../../cfr/cfr_files/datagrid/datagrid.js'></script>
+    <script src='../../../cfr/cfr_files/forms/forms.js'></script>
+    <script type='text/javascript'>CFR_DATESEPARATOR='/';</script>
+
+
+    <link rel='stylesheet' href='styles.css' type='text/css'/>
+    <script type="text/javascript" src="scripts.js"></script>
+
+
+    <style type='text/css'>.red{color:red!important}.orange{color:#ff8000!important}.green{color:green!important}.blue{color:#00f!important}.black{color:#000!important}.grey{color:gray!important}.bold{font-weight:bold!important}div.legend{overflow:hidden;border:1px solid #365f9a;border-radius:5px 5px 5px 5px;margin-left:6px;margin-top:10px;margin-bottom:0px}div.legend ul{padding-top:7px}div.legend li{font-size:10px;font-weight:normal}div.legend li span{}.red1{color:red}.orange1{color:#ef9b0f}.green1{color:green}.green2{color:green}.blue2{color:#00f}.blue1{color:#7ec0ee}.pink1{color:#ffc0cb}.purple1{color:purple}.brown1{color:#a52a2a}.yellow1{color:#ffd700}.cfr_controls{border:1px solid #365f9a;border-radius:5px 5px 5px 5px;padding-bottom:15px;padding-left:15px;padding-top:15px}#questions{min-height:425px;width:125%!important}.question{border:1px solid #aaa!important;float:left;height:250px;margin:15px 15px 0px 0px!important;padding:5px;width:388px!important}.question_body{border:1px solid #efefef;display:block;height:200px;overflow:auto;text-align:center!important;width:100%!important}.question_body strong{text-align:left!important}.question_head{border-bottom:1px dotted #aaa!important;display:block;font-size:12px!important;font-weight:bold;height:20px;line-height:18px;text-align:left!important;width:100%!important}.am_table thead th{border-bottom:1px solid #a0a0a0}.am_table tfoot th{border-top:1px solid #a0a0a0}.am_table tbody td.odd{background-color:#ededed}.am_table .center{text-align:center}.am_table th.today,td.today{background-color:#e8e8e8;font-weight:bold}.am_table td.today.odd{background-color:#e0e0e0}.am_table td.buttons{}.am_table td.buttons img{height:18px;width:18px}.right{text-align:right}.left{text-align:left}</style><link rel='stylesheet' type='text/css' href='/intern/cfr/cfr_files/multicheckbox/jquery.multiselect.css'/>
+    <link rel='stylesheet' type='text/css' href='/intern/cfr/cfr_files/multicheckbox/jquery.multiselect.filter.css'/>
+    <link rel='stylesheet' type='text/css' href='/intern/cfr/cfr_files/multicheckbox/multicheckbox.css'/>
+    <script type='text/javascript' src='/intern/cfr/cfr_files/multicheckbox/jquery.multiselect.min.js'></script>
+    <script type='text/javascript' src='/intern/cfr/cfr_files/multicheckbox/jquery.multiselect.filter.min.js'></script>
+    <script type='text/javascript' src='/intern/cfr/cfr_files/multicheckbox/multicheckbox.js'></script>
+    <script>var table = null;
+    $(document).ready(function () {
+        table = $('#cfrlist6219').jexcel({
+            license: 'fd12c-f6d85-227f1-85ed4',
+            editable: false,
+            search: true,
+            csvDelimiter: ';',
+            contextMenu: function () {
+                return false;
+            },
+            csvFileName: 'cfrlist6219',
+            includeHeadersOnCopy: true,
+            stripHTMLOnCopy: true,
+            stripHTML: false,
+            copyCompatibility: true
+        });
+        table.hideIndex();
+        var searchdiv = $('.jexcel_search').parent();
+        $(' <button onClick="table.download()"><i class=\'fas fa-file-download\'></i></button>').appendTo(searchdiv);
+        $(' <button onClick="table.copy();"><i class=\'fas fa-copy\'></i></button>').appendTo(searchdiv);
+    });</script>
+    <title>EDORA::: Kunden</title></head>
+<body>
+<div id='menu'>
+    <ul class='link1'>
+        <li style='z-index: 1000000;'><a href='/intern/modules/CPP/index.php'>Startseite</a>
+            <ul>
+                <li class='' style=''><a href='/intern/modules/CPP/SSR/index.php'>Berichte</a></li>
+                <li class='' style=''><a href='/intern/modules/CPP/SCORECARDS/index.php'>Scorecards</a></li>
+                <li class='' style=''><a href='/intern/modules/CPP/REPORTS/index.php'>Dossiers</a></li>
+                <li class='' style=''><a href='/intern/modules/CPP/CFG/index.php'>Konto</a></li>
+                <li class='' style=''><a href='/logout.php'>Schließen</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class='link1'>
+        <li style='z-index: 1000000;'><a href='/intern/modules/AGI/CLIENTS/index.php'>Kunden</a>
+            <ul>
+                <li class='' style=''><a href='/intern/modules/AGI/CLIENTS/index.php'>Kunden</a></li>
+                <li class='' style=''><a href='/intern/modules/AGI/PV/index.php'>Verkaufspunkte</a></li>
+                <li class='' style=''><a href='/intern/modules/PRICING/ORDER/index.php'>Bestellungen</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class='link1'>
+        <li style='z-index: 1000000;'><a href='/intern/modules/GPV/ROUTE/index.php'>Vetriebsteam</a>
+            <ul>
+                <li class='' style=''><a href='/intern/modules/GPV/ROUTE/index.php'>Besuche</a></li>
+                <li class='' style=''><a href='/intern/modules/GPV/ROUTE/RTM/index.php'>Routen</a></li>
+                <li class='' style=''><a href='/intern/modules/GPV/ROUTE/CAMPAIGNS/index.php'>Kampagnen</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class='link1'>
+        <li style='z-index: 1000000;'><a href='/intern/modules/AGI/PRODUCTS/'>Konfiguration</a>
+            <ul>
+                <li class='' style=''><a href='/intern/modules/AGI/PRODUCTS/'>Produkte</a></li>
+                <li class='' style=''><a href='/intern/modules/AGI/QUERY/index.php'>Umfragen</a></li>
+                <li class='' style=''><a href='/intern/modules/AGI/FOLDER/index.php'>Sales Folder</a></li>
+                <li class='' style=''><a href='/intern/modules/AGI/ALERTS/index.php'>Memos</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul id="logo">
+        <li>
+            <img src="Edora-Logo.jpg" alt="Wortbildmarke von Edora">
+        </li>
+    </ul>
+    <div id='user'>
+        <a href='/logout.php'><i class='fas fa-user'></i></a>
+        <a href='/intern/modules/CPP/CFG/index.php'><i class='fad fa-sign-out-alt'></i></a>
+    </div>
+</div>
+<div style='clear: both;'></div><aside><ul><li><a href='index.php'>Kundenverwaltung</a></li><li><a href='clients_add.php'>Kunde hinzufügen</a></li></ul></aside><main><div class='content col-12'><style>.a-center{text-align:center}.right{text-align:right}.freq{width:30px}th.header1{background-color:#5190ed;color:#fff;text-align:center}th.header2{background-color:#bcd2ee}th.total,td.total{background-color:#eee}th.total2{background-color:#e0e0e0}td.days{color:#777}</style><style type='text/css'>.cfr_brands_list{}.cfr_brands_list div.save_button{display:inline-block;margin-top:-14px;padding-top:0;width:100%}.cfr_brands_list div.save_button button{float:right;margin-right:7px}.cfr_brands_list ul{list-style:none outside none;margin:0;padding:0 0 0 9px}.cfr_brands_list ul li{border:1px solid #365f9a;border-radius:7px 7px 7px 7px;padding-top:10px;width:200px;display:inline-block;margin-top:6px;width:260px;float:left;margin-right:6px;height:145px}.cfr_brands_list ul li .brand_img{text-align:center;min-height:100px;min-width:200px}.cfr_brands_list ul li .brand_info{display:inline-block;position:relative;font-size:17px;text-align:center;width:100%;color:#365f9a}.cfr_brands_list ul li .brand_info a{font-weight:normal}.cfr_brands_list ul li .brand_resume{color:#365f9a;display:inline-block;font-size:10px;font-weight:normal;text-align:center;width:100%}.cfr_brands_list ul li .brand_resume a{text-decoration:underline}</style>
+
+    <div id="header" class="col-12"></div>
+    <div id="sidebar" class="col-3">
+        <form action='' id='cfr_control_form10636' method='POST'><div class='cfr_controls'>
+            <div class='cfr_controls_field  clearfix'>
+                <div class='cfr_controls_label'>&nbsp;</div><div class='cfr_controls_values'>
+                <input type='checkbox' id='checkbox_10636_2' name='param3'><span>Aktiv</span>
+            </div>
+            </div>
+            <div class='cfr_controls_button'>
+                <input class='submit' type='submit' name='button10636' value='Aktualisieren'>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div id="pagebody" class="col-9">
+        <h2>Auflistung</h2>
+        <div id='ssr_report'>
+            <table cellspacing=0 cellpadding=0 border=0 class='display' align=center id='cfrlist6219'>
+                <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>SAP - Nr.</th>
+                    <th>SAP - Name</th>
+                    <th>Name</th>
+                    <th>GLN</th>
+                    <th>Kategorie</th>
+                    <th>KAM</th>
+                    <th>2. KAM</th>
+                    <th>Mutterunternehmen</th>
+                    <th>Name Bericht</th>
+                    <th>Verkaufspunkte</th>
+                    <th>Factor</th>
+                    <th>% Impakt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td><a class='pointer' href='clients_show.php?id=00001'><i class='fal fa-search'></i></a>00001</td><td></td><td>Alnatura</td><td>Alnatura</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>228</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00002'><i class='fal fa-search'></i></a>00002</td><td></td><td>Rewe</td><td>Rewe</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>3111</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00003'><i class='fal fa-search'></i></a>00003</td><td></td><td>Edeka</td><td>Edeka</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>3307</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00004'><i class='fal fa-search'></i></a>00004</td><td></td><td>E xpress</td><td>E xpress</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>42</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00005'><i class='fal fa-search'></i></a>00005</td><td></td><td>E-aktiv Markt</td><td>E-aktiv Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>303</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00006'><i class='fal fa-search'></i></a>00006</td><td></td><td>Kaufland</td><td>Kaufland</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>658</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00007'><i class='fal fa-search'></i></a>00007</td><td></td><td>Metro Gastro</td><td>Metro Gastro</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>47</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00008'><i class='fal fa-search'></i></a>00008</td><td></td><td>Mix Markt</td><td>Mix Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>105</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00009'><i class='fal fa-search'></i></a>00009</td><td></td><td>Nahkauf</td><td>Nahkauf</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>356</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00010'><i class='fal fa-search'></i></a>00010</td><td></td><td>Combi</td><td>Combi</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>168</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00011'><i class='fal fa-search'></i></a>00011</td><td></td><td>Rewe Center</td><td>Rewe Center</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>126</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00012'><i class='fal fa-search'></i></a>00012</td><td></td><td>E-neukauf</td><td>E-neukauf</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>144</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00013'><i class='fal fa-search'></i></a>00013</td><td></td><td>Nah & Gut</td><td>Nah & Gut</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>211</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00014'><i class='fal fa-search'></i></a>00014</td><td></td><td>E-center</td><td>E-center</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>449</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00015'><i class='fal fa-search'></i></a>00015</td><td></td><td>Tegut</td><td>Tegut</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>247</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00016'><i class='fal fa-search'></i></a>00016</td><td></td><td>EBL Naturkost</td><td>EBL Naturkost</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>25</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00017'><i class='fal fa-search'></i></a>00017</td><td></td><td>Kein Banner</td><td>Kein Banner</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>626</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00018'><i class='fal fa-search'></i></a>00018</td><td></td><td>Markant</td><td>Markant</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>78</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00019'><i class='fal fa-search'></i></a>00019</td><td></td><td>K+K Markt</td><td>K+K Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>207</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00020'><i class='fal fa-search'></i></a>00020</td><td></td><td>Konsum Leipzig</td><td>Konsum Leipzig</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>37</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00021'><i class='fal fa-search'></i></a>00021</td><td></td><td>Wasgau</td><td>Wasgau</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>75</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00022'><i class='fal fa-search'></i></a>00022</td><td></td><td>Famila (Bartels-Langness)</td><td>Famila (Bartels-Langness)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>86</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00023'><i class='fal fa-search'></i></a>00023</td><td></td><td>Feneberg</td><td>Feneberg</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>67</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00024'><i class='fal fa-search'></i></a>00024</td><td></td><td>AWO</td><td>AWO</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00025'><i class='fal fa-search'></i></a>00025</td><td></td><td>Real</td><td>Real</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>275</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00026'><i class='fal fa-search'></i></a>00026</td><td></td><td>E-C+C Großmarkt</td><td>E-C+C Großmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>99</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00027'><i class='fal fa-search'></i></a>00027</td><td></td><td>Hit</td><td>Hit</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>88</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00028'><i class='fal fa-search'></i></a>00028</td><td></td><td>Denn's Biomarkt</td><td>Denn's Biomarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>250</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00029'><i class='fal fa-search'></i></a>00029</td><td></td><td>Evenord</td><td>Evenord</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00030'><i class='fal fa-search'></i></a>00030</td><td></td><td>Handelshof</td><td>Handelshof</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>16</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00031'><i class='fal fa-search'></i></a>00031</td><td></td><td>Minimix</td><td>Minimix</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>10</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00032'><i class='fal fa-search'></i></a>00032</td><td></td><td>Rewe Ihr Kaufpark</td><td>Rewe Ihr Kaufpark</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>106</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00033'><i class='fal fa-search'></i></a>00033</td><td></td><td>Gastro</td><td>Gastro</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>7</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00034'><i class='fal fa-search'></i></a>00034</td><td></td><td>Metzgerei</td><td>Metzgerei</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>3</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00035'><i class='fal fa-search'></i></a>00035</td><td></td><td>Selgros Cash & Carry</td><td>Selgros Cash & Carry</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>37</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00036'><i class='fal fa-search'></i></a>00036</td><td></td><td>Dornseifer Frischemarkt</td><td>Dornseifer Frischemarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>15</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00037'><i class='fal fa-search'></i></a>00037</td><td></td><td>Simmel</td><td>Simmel</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>15</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00038'><i class='fal fa-search'></i></a>00038</td><td></td><td>Basic</td><td>Basic</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>31</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00039'><i class='fal fa-search'></i></a>00039</td><td></td><td>Karstadt Lebensmittel</td><td>Karstadt Lebensmittel</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>37</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00040'><i class='fal fa-search'></i></a>00040</td><td></td><td>Marktkauf</td><td>Marktkauf</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>108</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00041'><i class='fal fa-search'></i></a>00041</td><td></td><td>Metro C&C (D)</td><td>Metro C&C (D)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>56</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00042'><i class='fal fa-search'></i></a>00042</td><td></td><td>Rewe City</td><td>Rewe City</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>278</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00043'><i class='fal fa-search'></i></a>00043</td><td></td><td>Nah & Frisch (Bela)</td><td>Nah & Frisch (Bela)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>31</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00044'><i class='fal fa-search'></i></a>00044</td><td></td><td>Markant Nah & Frisch</td><td>Markant Nah & Frisch</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>18</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00045'><i class='fal fa-search'></i></a>00045</td><td></td><td>Calle</td><td>Calle</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>8</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00046'><i class='fal fa-search'></i></a>00046</td><td></td><td>Fleggaard</td><td>Fleggaard</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>8</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00047'><i class='fal fa-search'></i></a>00047</td><td></td><td>SB-Zentralmarkt</td><td>SB-Zentralmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>6</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00048'><i class='fal fa-search'></i></a>00048</td><td></td><td>SBK</td><td>SBK</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>9</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00049'><i class='fal fa-search'></i></a>00049</td><td></td><td>Jibi Markt</td><td>Jibi Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>11</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00050'><i class='fal fa-search'></i></a>00050</td><td></td><td>Nah & Frisch (Markant Nordwest)</td><td>Nah & Frisch (Markant Nordwest)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>4</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00051'><i class='fal fa-search'></i></a>00051</td><td></td><td>Kupsch</td><td>Kupsch</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>18</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00052'><i class='fal fa-search'></i></a>00052</td><td></td><td>Wasgau C+C</td><td>Wasgau C+C</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>6</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00053'><i class='fal fa-search'></i></a>00053</td><td></td><td>Hieber</td><td>Hieber</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>14</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00054'><i class='fal fa-search'></i></a>00054</td><td></td><td>Ihr Frischmarkt</td><td>Ihr Frischmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>14</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00055'><i class='fal fa-search'></i></a>00055</td><td></td><td>Rewe XL</td><td>Rewe XL</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>12</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00056'><i class='fal fa-search'></i></a>00056</td><td></td><td>Biomarkt</td><td>Biomarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>39</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00057'><i class='fal fa-search'></i></a>00057</td><td></td><td>Landmann's Biomarkt</td><td>Landmann's Biomarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00058'><i class='fal fa-search'></i></a>00058</td><td></td><td>V-Markt</td><td>V-Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>37</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00059'><i class='fal fa-search'></i></a>00059</td><td></td><td>Cap</td><td>Cap</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>73</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00060'><i class='fal fa-search'></i></a>00060</td><td></td><td>Konsum SB Frischemarkt</td><td>Konsum SB Frischemarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>9</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00061'><i class='fal fa-search'></i></a>00061</td><td></td><td>Inkoop</td><td>Inkoop</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>9</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00062'><i class='fal fa-search'></i></a>00062</td><td></td><td>Vorwerk Podemus</td><td>Vorwerk Podemus</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>9</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00063'><i class='fal fa-search'></i></a>00063</td><td></td><td>SuperBioMarkt</td><td>SuperBioMarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>21</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00064'><i class='fal fa-search'></i></a>00064</td><td></td><td>Bio Company</td><td>Bio Company</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>54</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00065'><i class='fal fa-search'></i></a>00065</td><td></td><td>Erdkorn</td><td>Erdkorn</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>7</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00066'><i class='fal fa-search'></i></a>00066</td><td></td><td>Frische Paradies</td><td>Frische Paradies</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>10</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00067'><i class='fal fa-search'></i></a>00067</td><td></td><td>Hamberger Großmarkt</td><td>Hamberger Großmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>4</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00068'><i class='fal fa-search'></i></a>00068</td><td></td><td>LPG Bio Markt</td><td>LPG Bio Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>9</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00069'><i class='fal fa-search'></i></a>00069</td><td></td><td>Globus</td><td>Globus</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>48</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00070'><i class='fal fa-search'></i></a>00070</td><td></td><td>Biomammut</td><td>Biomammut</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>6</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00071'><i class='fal fa-search'></i></a>00071</td><td></td><td>Bioladen</td><td>Bioladen</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00072'><i class='fal fa-search'></i></a>00072</td><td></td><td>Famila (Bünting)</td><td>Famila (Bünting)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>20</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00073'><i class='fal fa-search'></i></a>00073</td><td></td><td>Edeka </td><td>Edeka </td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00074'><i class='fal fa-search'></i></a>00074</td><td></td><td>Elli</td><td>Elli</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>16</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00075'><i class='fal fa-search'></i></a>00075</td><td></td><td>AEZ</td><td>AEZ</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>10</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00076'><i class='fal fa-search'></i></a>00076</td><td></td><td>Tegut Lädchen für alles</td><td>Tegut Lädchen für alles</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>2</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00077'><i class='fal fa-search'></i></a>00077</td><td></td><td>Prima Markt</td><td>Prima Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>4</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00078'><i class='fal fa-search'></i></a>00078</td><td></td><td>Frida</td><td>Frida</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>8</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00079'><i class='fal fa-search'></i></a>00079</td><td></td><td>Konsum</td><td>Konsum</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>25</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00080'><i class='fal fa-search'></i></a>00080</td><td></td><td>Bonus</td><td>Bonus</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>13</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00081'><i class='fal fa-search'></i></a>00081</td><td></td><td>Naturgut</td><td>Naturgut</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>8</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00082'><i class='fal fa-search'></i></a>00082</td><td></td><td>Citti</td><td>Citti</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>3</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00083'><i class='fal fa-search'></i></a>00083</td><td></td><td>Ihre Kette</td><td>Ihre Kette</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00084'><i class='fal fa-search'></i></a>00084</td><td></td><td>Topkauf</td><td>Topkauf</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00085'><i class='fal fa-search'></i></a>00085</td><td></td><td>Nah & Frisch (Cames)</td><td>Nah & Frisch (Cames)</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>2</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00086'><i class='fal fa-search'></i></a>00086</td><td></td><td>Spar</td><td>Spar</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00087'><i class='fal fa-search'></i></a>00087</td><td></td><td>Edeka Stenger</td><td>Edeka Stenger</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00088'><i class='fal fa-search'></i></a>00088</td><td></td><td>Akzenta</td><td>Akzenta</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00089'><i class='fal fa-search'></i></a>00089</td><td></td><td>Ums Eck</td><td>Ums Eck</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00090'><i class='fal fa-search'></i></a>00090</td><td></td><td>Kaiser's</td><td>Kaiser's</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>2</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00091'><i class='fal fa-search'></i></a>00091</td><td></td><td>Landmarkt</td><td>Landmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>6</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00092'><i class='fal fa-search'></i></a>00092</td><td></td><td>Aktiv Verbraucher-Markt</td><td>Aktiv Verbraucher-Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00093'><i class='fal fa-search'></i></a>00093</td><td></td><td>Kaufmarkt</td><td>Kaufmarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>6</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00094'><i class='fal fa-search'></i></a>00094</td><td></td><td>Mein Markt</td><td>Mein Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00095'><i class='fal fa-search'></i></a>00095</td><td></td><td>Ihre Kette Extra Markt</td><td>Ihre Kette Extra Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>3</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00096'><i class='fal fa-search'></i></a>00096</td><td></td><td>IK-Ihr Kaufmann</td><td>IK-Ihr Kaufmann</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00097'><i class='fal fa-search'></i></a>00097</td><td></td><td>Irma Verbraucher-Markt</td><td>Irma Verbraucher-Markt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>5</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00098'><i class='fal fa-search'></i></a>00098</td><td></td><td>Getränke</td><td>Getränke</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00099'><i class='fal fa-search'></i></a>00099</td><td></td><td>Schuwe</td><td>Schuwe</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00100'><i class='fal fa-search'></i></a>00100</td><td></td><td>City-Supermarkt</td><td>City-Supermarkt</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>2</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00101'><i class='fal fa-search'></i></a>00101</td><td></td><td>Um's Eck</td><td>Um's Eck</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00102'><i class='fal fa-search'></i></a>00102</td><td></td><td>Nutzkauf</td><td>Nutzkauf</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                <tr><td><a class='pointer' href='clients_show.php?id=00103'><i class='fal fa-search'></i></a>00103</td><td></td><td>Other</td><td>Other</td><td></td><td>Knoten</td><td></td><td></td><td></td><td></td><td>1</td><td>0</td><td>0,0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h1>Kunden</h1>
+
+
+</div></main><script type="text/javascript">//<![CDATA[
+(function(){var e=encodeURIComponent,f=window,g=document,h="documentElement",k="length",l="prototype",n="body",p="&ci=",q="&oh=",r=",",s="Content-Type",t="Microsoft.XMLHTTP",u="Msxml2.XMLHTTP",v="POST",w="application/x-www-form-urlencoded",x="img",y="input",z="load",A="on",B="pagespeed_url_hash",C="url=";f.pagespeed=f.pagespeed||{};var D=f.pagespeed,E=function(a,b,c){this.e=a;this.c=b;this.d=c;this.b=this.f();this.a={}};E[l].f=function(){return{height:f.innerHeight||g[h].clientHeight||g[n].clientHeight,width:f.innerWidth||g[h].clientWidth||g[n].clientWidth}};E[l].i=function(a){a=a.getBoundingClientRect();return{top:a.top+(void 0!==f.pageYOffset?f.pageYOffset:(g[h]||g[n].parentNode||g[n]).scrollTop),left:a.left+(void 0!==f.pageXOffset?f.pageXOffset:(g[h]||g[n].parentNode||g[n]).scrollLeft)}};E[l].g=function(a){if(0>=a.offsetWidth&&0>=a.offsetHeight)return!1;a=this.i(a);var b=JSON.stringify(a);if(this.a.hasOwnProperty(b))return!1;this.a[b]=!0;return a.top<=this.b.height&&a.left<=this.b.width};E[l].h=function(a){var b;if(f.XMLHttpRequest)b=new XMLHttpRequest;else if(f.ActiveXObject)try{b=new ActiveXObject(u)}catch(c){try{b=new ActiveXObject(t)}catch(d){}}if(!b)return!1;b.open(v,this.e);b.setRequestHeader(s,w);b.send(a);return!0};E[l].k=function(){for(var a=[x,y],b={},c=0;c<a[k];++c)for(var d=g.getElementsByTagName(a[c]),m=0;m<d[k];++m)d[m].hasAttribute(B)&&(d[m].getBoundingClientRect&&this.g(d[m]))&&(b[d[m].getAttribute(B)]=!0);b=Object.keys(b);if(0!=b[k]){a=C+e(this.c);a+=q+this.d;a+=p+e(b[0]);for(c=1;c<b[k];++c){d=r+e(b[c]);if(131072<a[k]+d[k])break;a+=d}D.criticalImagesBeaconData=a;this.h(a)}};D.j=function(a,b,c){if(a.addEventListener)a.addEventListener(b,c,!1);else if(a.attachEvent)a.attachEvent(A+b,c);else{var d=a[A+b];a[A+b]=function(){c.call(this);d&&d.call(this)}}};D.l=function(a,b,c){var d=new E(a,b,c);D.j(f,z,function(){f.setTimeout(function(){d.k()},0)})};D.criticalImagesBeaconInit=D.l;})();pagespeed.criticalImagesBeaconInit('/mod_pagespeed_beacon','http://edora.market-control.net/intern/modules/AGI/CLIENTS/clients_list.php','djXhA43tBd');
+//]]></script></body></html>

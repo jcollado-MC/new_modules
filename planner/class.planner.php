@@ -603,6 +603,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
 
         return $code;
     }
+
 //SUBTASK 18224: "STUFF" --------------------------------------------
 
 private function eventModal(){
