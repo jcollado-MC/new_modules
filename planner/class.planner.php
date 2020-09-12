@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-07-29
+  // Date of creation: 2020-09-12 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -13,6 +13,77 @@
     }
     class PLANNER{
 //[SUBTASKS]
+//SUBTASK 18266: "OBJECT" --------------------------------------------
+private function object(){
+  global $myPageBody;
+  $data = [];
+  $sql= "SELECT gpv_previsit_bs.kam_id AS gpv_id, 
+                gpv_previsit_bs.id AS id, 
+                              gpv_previsit_bs.date_start AS date_start, 
+                gpv_previsit_bs.pos AS pos, 
+                gpv_previsit_bs.cat_id AS cat_id, 
+                gpv_previsit_bs.shop_id AS shop_id, 
+                gpv_previsit_bs.time_start AS time, 
+                gpv_previsit_bs.comment AS comment 
+                   FROM gpv_previsit_bs
+          WHERE gpv_previsit_bs.kam_id          IN ('".implode("','",$this->user)."')
+            AND gpv_previsit_bs.date_start IN ('".implode("','",array_keys($this->dates))."') 
+              AND gpv_previsit_bs.status < 90
+       GROUP BY gpv_previsit_bs.date_start, 
+                  gpv_previsit_bs.pos, 
+                  gpv_previsit_bs.cat_id, 
+                  gpv_previsit_bs.shop_id 
+       ORDER BY gpv_previsit_bs.kam_id, 
+                  gpv_previsit_bs.date_start, 
+                  gpv_previsit_bs.pos, 
+                gpv_previsit_bs.id";
+  // $myPageBody .= "$sql<hr>"; 
+  $result = db_query($sql);
+  while($row = db_fetch_row($result)){
+    if($last_date <> $row['date_start']) $pos=1;
+    $entry['id']             = $row['id'];
+    $entry['date']         = $row['date_start'];
+    $entry['pos']         = $pos;
+    $entry['cat_id']     = $row['cat_id'];
+    $entry['shop_id'] = $row['shop_id'];
+    $entry['time']         = $row['time'];
+    $entry['comment'] = $row['comment'];
+    $data[] = $entry;
+    $pos++;
+    $last_date = $row['date_start'];
+  }
+  // $myPageBody .= "<pre>".print_r($data,true)."</pre>";
+  $json = json_encode($data);
+  return $json;
+}
+//SUBTASK 18267: "SAVE" --------------------------------------------
+function save($object){
+  try{
+    $entries = json_decode($object, true);
+    foreach($entries as $entry){
+      $dates[$entry['date']] = $entry['date'];
+    }
+    foreach($dates as $dates){
+      // DEACTIVATE OLD ENTRIES
+    }
+    foreach($entries as $entry){
+      // SAVE NEW ENTRIES
+      \PREVISITS::add(
+        $entry['shop_id'], 
+        implode(',', $this->user), 
+        $entry['date'], 
+        $entry['cat_id'], 
+        $entry['time'], 
+        '', /*$merchants*/ 
+        ''  /*$link*/, 
+        $entry['comment']
+      );
+    }
+  }
+  catch (Exception $e) {
+    $myPageBody .=  "Exception Subtask 18267: ". $e->getMessage(). "<hr>\n";
+  }
+}
 //SUBTASK 18259: "DATES" --------------------------------------------
 static function dates($date_start, $date_end, $weekends= FALSE){
     global $myPageBody;
@@ -43,7 +114,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
         
         /* UNDEFINED LABEL FOR GROUPING */
         var undefined_label = '". l(18221, 101, 'no category') ."';
-
         $(document).ready( function() {
         
         
@@ -183,7 +253,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 $('#myPlan').val(JSON.stringify(savedShops));
              });             
             
-
             /*Add Event Modal*/
             
             $('button#add-event-modal').on('click', function() {        
@@ -375,7 +444,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             list-style-type: none;
             display: block;
             }
-
             .pos p{
             margin: 0 0 5px 0;
             }
@@ -494,9 +562,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             .comment p span{
             display: none;
             }
-
             /* COLOR FILTERS */
-
             #color-filter{
                 margin: 15px 0 0 0;
                 
@@ -894,7 +960,6 @@ private function loadSavedShops(){
     return $code;
 }
 
-
 //SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
 var $user = '';
 var $date_start = '';
@@ -1054,7 +1119,6 @@ private function sidebar(){
                              html += '</p>';}
                          if(shop['client']) {html += '<p class=\'pos-client\'>' + shop['client'] + ' </p>';}
                          if(shop['cat']) {html += '<p class=\'pos-type\'>' + shop['cat'] +' </p>';}
-
                          html += '<div class=\'comment hidden col-12\'>';
                            html += '<i class=\'fas fa-info col-2\'></i>';
                            html += '<div class=\'col-10\'>';
@@ -1152,7 +1216,6 @@ private function content(){
   $code .= "</div>";
   return $code;
 }
-
 
 //[/SUBTASKS]
   }
