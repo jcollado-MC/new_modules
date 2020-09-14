@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-09-12 
+  // Date of creation: 2020-09-14 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -57,15 +57,22 @@ private function object(){
   return $json;
 }
 //SUBTASK 18267: "SAVE" --------------------------------------------
-function save($object){
+function save($dates=[], $object){
+    global $myPageBody;
   try{
+      // DELETE
+    foreach($dates as $date){
+      $date = mysql_real_escape_string($date);
+      $sql = "UPDATE gpv_previsit_bs SET
+                                   status = 99
+               WHERE kam_id = ".$this->user['id']." 
+                    AND date_start = '$date'";
+      // $myPageBody .= "$sql<br>";
+      db_query($sql);
+    }
+    // SAVE
     $entries = json_decode($object, true);
-    foreach($entries as $entry){
-      $dates[$entry['date']] = $entry['date'];
-    }
-    foreach($dates as $dates){
-      // DEACTIVATE OLD ENTRIES
-    }
+    // $myPageBody .= "<pre>".print_r($entries,true)."</pre>";
     foreach($entries as $entry){
       // SAVE NEW ENTRIES
       \PREVISITS::add(
@@ -76,7 +83,8 @@ function save($object){
         $entry['time'], 
         '', /*$merchants*/ 
         ''  /*$link*/, 
-        $entry['comment']
+        $entry['comment'], 
+        $entry['pos']
       );
     }
   }
@@ -100,29 +108,19 @@ static function dates($date_start, $date_end, $weekends= FALSE){
 }
 
 //SUBTASK 18223: "STATIC: HEADER" --------------------------------------------
-    private static $header;
-    static function Header(){
-        if (self::$header == TRUE) return;
-        self::$header = TRUE;
-
-        $code  = "";
-
-        $code .= "
-        
+private static $header;
+static function Header(){
+  if (self::$header == TRUE) return;
+  self::$header = TRUE;
+  $code  = "
         <script>
-        
-        
         /* UNDEFINED LABEL FOR GROUPING */
         var undefined_label = '". l(18221, 101, 'no category') ."';
         $(document).ready( function() {
-        
-        
-            
             /*SAVED SHOPS JSON*/
-        
             var value = $('#myPlan').val();
             var savedShops = JSON.parse(value);
-            
+
             /**/
             $('form').children().css({userSelect: 'none'});
             
@@ -168,13 +166,9 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                 }        
             });
             
-            
-        
-             
-             
              /* SORTABLES */
              $( function() {
-                 
+
                  var recieverId;
                  
                 $( '[id *= \'sortable-\']' ).sortable({                
@@ -242,19 +236,25 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                  } else {
                     $('#' + liElementId).appendTo(li);
                  }     
+
                  for(let i = 0; i < savedShops.length; i++){
+                    if(savedShops[i].shop_id == shopID){
+                        savedShops.splice(i, 1);
+                    }
+                    if(('event-' + savedShops[i].cat_id)==shopID  && savedShops[i].pos==shopPos && savedShops[i].date===shopDate){
+                        savedShops.splice(i, 1);
+                    }
+
                     if(savedShops[i].date === shopDate && savedShops[i].pos >= shopPos){                        
                         savedShops[i].pos --;
                     }
-                    if(savedShops[i].shop_id == shopID || ('event-' + savedShops[i].cat_id) == shopID  && savedShops[i].pos == shopPos && savedShops[i].date === shopDate){
-                        savedShops.splice(i, 1);
-                    }
+
                  }
                 $('#myPlan').val(JSON.stringify(savedShops));
              });             
-            
+
             /*Add Event Modal*/
-            
+
             $('button#add-event-modal').on('click', function() {        
                 var id = $(this).attr('id');
                 var date = $(this).attr('date');
@@ -343,19 +343,28 @@ static function dates($date_start, $date_end, $weekends= FALSE){
                         savedShops[i].comment = comment;
                     }
                 }
-                
-                if(time.length > 0 || comment.length > 0){
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment').removeClass('hidden');
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment p.time').text(time);
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment p[class^=\'comment-\']').text(comment);
-                } else if(time.length === 0 || comment.length === 0){
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment').addClass('hidden');
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment p.time').text(time);
-                    $('li#' + id + ':eq( '+ pos +' ) div.comment p[class^=\'comment-\']').text(comment);
+
+                                if($.isNumeric(id)){ // STORE
+                  console.log('Adding store comment to ' + id + ' - ' + pos);
+                  $('li#' + id  + ' div.comment p.time').text(time);
+                  $('li#' + id  + ' div.comment p[class^=\'comment-\']').text(comment);
+                  if(time.length > 0 || comment.length > 0){
+                    $('li#' + id + ' div.comment').removeClass('hidden');                    
+                  } else {
+                    $('li#' + id + ' div.comment').addClass('hidden');                    
+                  }
+                }else{ // EVENT
+                                    console.log('Adding event comment to ' + id + ' - ' + pos);
+                  $('li#' + id + ':eq( '+ pos +' ) div.comment p.time').text(time);
+                  $('li#' + id + ':eq( '+ pos +' ) div.comment p[class^=\'comment-\']').text(comment);
+                  if(time.length > 0 || comment.length > 0){
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment').removeClass('hidden');                    
+                  } else {
+                    $('li#' + id + ':eq( '+ pos +' ) div.comment').addClass('hidden');                    
+                  }
                 }
-                
-                $('.pos-modal').hide();
-                
+
+                $('.pos-modal').hide();                
                 $('#myPlan').val(JSON.stringify(savedShops));
                 
             });
@@ -428,7 +437,7 @@ static function dates($date_start, $date_end, $weekends= FALSE){
              });
              </script>";
 
-        $code .= "<style>
+      $code .= "<style>
             h4{
                 margin: 15px 0 10px 0;
             }
@@ -569,15 +578,15 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             }
             
             #color-filter button{
-            margin-right: 5px;
-            margin-bottom: 5px;
-            height: 20px;
-            width: 20px;
-            border: 2px solid;
-            border-radius: 15px;
-            float: right;
+              margin-right: 5px;
+              margin-bottom: 5px;
+              height: 20px;
+              width: 20px;
+              border: 2px solid;
+              border-radius: 15px;
+              float: left;
             }
-            
+
            
             #color-filter button#red, #color-filter button#red:hover{
                 border-color: darkred;
@@ -663,66 +672,11 @@ static function dates($date_start, $date_end, $weekends= FALSE){
             a.readMore{
                 display: none;
             }
-            
-            </style>";
-
-
-        return $code;
-    }
-
-//SUBTASK 18224: "STUFF" --------------------------------------------
-
-private function eventModal(){
-    $eventCnt = 0;
-    $commentCnt = 0;
-    $code = "";
-    $code .= "<div class='add-event-modal'>";
-    $code .= "<div class='modal-content'>";
-    $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
-    $code  .= "<h5>".l(18224,102,'Add Event')."</h5>";
-    $code  .= "<hr>";
-    $code  .= "<div class='col-12'>";
-    $code  .= "<label>".l(18224,11,"Select Event")."</label>";
-    $code .= "<ul>";
-    foreach ($this->events as $event) {
-        $code .= "<li class='event-infos col-6";
-        if ($event['multiple'] != 'true') {
-            $code .=" single ";
-        }
-        $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
-        $code .= "<i class='fas fa-times delete'></i>";
-        $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
-        $code .= "<div class='col-12'>";
-        $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
-        if (isset($event['icon'])) {
-            $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
-        }
-        $code .= "</div>";
-        $code .="<div class='comment hidden col-12'>";
-        $code .="<i class='fas fa-info col-2'></i>";
-        $code .="<div class='col-10'>";
-        $code .="<p class='time'></p>";
-        $code .="<p class='comment-" . $commentCnt ."'>";
-        $code .="</p>";
-        $code .="<a class='readMore' id='comment-'" . $commentCnt ."'> + </a>";
-        $code .="</div>";
-        $code .="</div>";
-        
-        $code .= "</li>";
-        $eventCnt++;
-        $commentCnt ++;
-    }
-    $code .= "</ul>";
-    $code .= "</div>";
-    $code .= "<div class='modal-buttons'>";
-    $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
-    $code .= "</div>";
-    $code .= "</div>";
-    $code .= "</div>";
-    return $code;
+    </style>";
+  return $code;
 }
 
-
+//SUBTASK 18224: "STUFF" --------------------------------------------
 private function commentModal(){
   $code = "";
   $code .= "<div class='pos-modal'>";
@@ -738,7 +692,7 @@ private function commentModal(){
   $code .= "</div>";
   $code .= "<div class='modal-buttons'>";
   $code .= "<button id='save' type='button'>".l(18224,3,"Save Comment")."</button>";
-  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  // $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
   $code .= "</div>";
   $code .= "</div>";
   $code .= "</div>";
@@ -748,9 +702,7 @@ private function commentModal(){
 
 private function filter(){
   $eventCnt = 0;
-  $code  = "";
-
-  $code .= "<div class='content row col-9'>";
+  $code  = "<div class='content row col-9'  style='display: inline-flex !important;'>";
   $code .= "<div class='col-9 autoplans'>";
   $code  .= "<button class='dropbtn modal-button' id='autoplan-modal' type='button'>";
   $code  .= "<h5>".l(18224,5,"Autoplan week")."</h5>";
@@ -808,8 +760,7 @@ private function filter(){
 
 
 private function actions(){
-  $code = "";
-  $code .= "<div class='col-3 actions'>";
+  $code  = "<div class='col-3 actions'>";
   $code .= "<button class='download' type='button'>";
   $code .= "<i class='fas fa-file-download'></i>";
   $code .= "</button>";
@@ -818,20 +769,75 @@ private function actions(){
   $code .= "</button>";
   $code .= "</div>";
   $code .= "</div>";
-  
   return $code;
 }
 
 
-
-private function loadSavedShops(){
-    $code = "";
-    $jsonEvents = [];
-    foreach($this->events as $event){
-        $jsonEvents[$event['id']] = $event;
+//SUBTASK 18309: "MODAL: EVENT" --------------------------------------------
+private function eventModal(){
+  $eventCnt = 0;
+  $commentCnt = 0;
+  $code  = "<div class='add-event-modal'>";
+  $code .= "<div class='modal-content'>";
+  $code .= "<span class='close'><i class='fas fa-times delete'></i></span>";
+  $code  .= "<h5>".l(18224,102,'Add Event')."</h5>";
+  $code  .= "<hr>";
+  $code  .= "<div class='col-12'>";
+  $code .= "<ul>";
+  foreach ($this->events as $event) {
+    $code .= "<li class='event-infos col-6";
+    if ($event['multiple'] != 'true') {
+      $code .=" single ";
     }
-    $code .= "<script> var events = ".json_encode($jsonEvents) ."; </script>";
-    $code .= "<script>
+    $code .= "' id='event-" . $event['id'] ."' name='panel-multiple-event'>";
+    $code .= "<i class='fas fa-times delete'></i>";
+    $code .= "<i class='fas fa-comment add-comment modal-button' id='pos-modal'></i>";
+    $code .= "<div class='col-12'>";
+    $code .= "<p class='event-name col-10'>" . $event['name'] . "</p>";
+    if (isset($event['icon'])) {
+      $code .= "<img class='col-2' src='" . $event['icon'] . "'>";
+    }
+    $code .= "</div>";
+    $code .="<div class='comment hidden col-12'>";
+    $code .="<i class='fas fa-info col-2'></i>";
+    $code .="<div class='col-10'>";
+    $code .="<p class='time'></p>";
+    $code .="<p class='comment-" . $commentCnt ."'>";
+    $code .="</p>";
+    $code .="<a class='readMore' id='comment-'" . $commentCnt ."'> + </a>";
+    $code .="</div>";
+    $code .="</div>";
+    
+    $code .= "</li>";
+    $eventCnt++;
+    $commentCnt ++;
+  }
+  $code .= "</ul>";
+  $code .= "</div>";#
+
+  $code .= "<div class='modal-buttons'>";
+  // IF NOT HERE; BACKGROUND GETS NOT SHOW
+  // OTHERWISE DELETE
+  $code .= "<button id='delete' class='cancel' type='button'>".l(18224,4,"Cancel")."</button>";
+  $code .= "</div>"; 
+
+  $code .= "</div>";
+  $code .= "</div>";
+  return $code;
+}
+//SUBTASK 18310: "LOAD SAVED SHOPS" --------------------------------------------
+private function loadSavedShops(){
+  global $myPageBody;
+  $jsonEvents = [];
+  // $myPageBody .= "<pre>".print_r($this->events,true)."</pre>";
+  foreach($this->events as $event){
+    // $event['name'] = htmlentities($event['name'] );
+    // $event['name'] = str_replace("ü","ue",$event['name']);
+    $event['name'] = utf8_encode($event['name']);
+    $jsonEvents[$event['id']] = $event;
+  }
+  $code  = "<script> var events = ".json_encode($jsonEvents) ."; </script>";
+  $code .= "<script>
         $(document).ready( function() {
             /*SAVED SHOPS JSON*/
         
@@ -982,6 +988,11 @@ function __construct($user, $date_start='', $date_end=''){
   $this->user = $user;
   $this->date_start = $date_start;
   $this->date_end = $date_end;
+  if($this->date_start=='' || $this->date_start==''){
+    throw new Exception(
+      label('EXCEPTION', 'DATE_MISSING', 'Falta una fecha limite')
+    );
+  }
   $this->dates = self::dates($date_start, $date_end);
   // LOAD SHOPS
   $myShops = \rtm::shops($user['id']);
@@ -1018,7 +1029,10 @@ function __construct($user, $date_start='', $date_end=''){
               WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
   // $myPageBody .= "$sql<br>";
   $result = db_query($sql);
-  while($row = mysql_fetch_assoc($result)){
+  while($row = mysql_fetch_assoc($result)){    
+    foreach($row as $key=>$value){
+      $row[$key] = utf8_encode($row[$key]);
+    }
     $this->groups[$row['client']][] = $row;
   }
   $sql= "SELECT * 
@@ -1027,14 +1041,13 @@ function __construct($user, $date_start='', $date_end=''){
               AND is_visit <> 'true' 
        ORDER BY pos, name";
   $result = db_query($sql);
-  while($row = db_fetch_row($result)){
+  while($row = mysql_fetch_assoc($result)){
     $this->events[] = $row;
   }
 }
 //SUBTASK 18221: "SIDEBAR" --------------------------------------------
 private function sidebar(){
-  $code = "";
-  $code .= "<div class='col-3'>";
+  $code  = "<div class='col-3'>";
   $code .= "<div class='col-12 tabs'>";
   $code .= "<h2  class='col-12'>".l( 18221, 103, 'Planning Settings')."</h2>";
   
@@ -1042,15 +1055,14 @@ private function sidebar(){
   $code .= "<input class='col-11' type='text' id='searchInput' placeholder='".l( 18221, 3, 'search')."'>";
   $code .= "<i class='fas fa-search search-icon col-1'></i>";
   $code .= "</div>";
-  
-  $code .= "<h4  class='col-7'>".l( 18221, 104, 'Point of sales')."</h4>";
-  $code .= "<div class='col-5' id='color-filter'>";
+
+  $code .= "<div class='col-12' id='color-filter'>";
   $code .= "<button class='active' id='blue' type='button'></button>";
   $code .= "<button class='active' id='green' type='button'></button>";
   $code .= "<button class='active' id='yellow' type='button'></button>";
   $code .= "<button class='active' id='red' type='button'></button>";
   $code .= "</div>";
-  $code .= "<div class='grouping col-12'>";
+  $code .= "<div class='grouping col-12' style='display: inline-flex !important;'>";
   $code .= "<button class='active' type='button' id='group1'>".l( 18221, 6, 'Chain')."</button>";
   $code .= "<button type='button' id='group2'>".l( 18221, 7, 'City')."</button>";
   $code .= "<button type='button' id='group3'>".l( 18221, 8, 'Group')."</button>";
@@ -1169,24 +1181,32 @@ private function sidebar(){
   $code .= "var shops = ".json_encode($jsonShops) .";";
   $code .= "</script>";
   $code .= "</div>";
-  $code .= "<div><button class='update' type='submit' name='button18191' value=1>".l(18221,2,"Save")."</button></div>";
+  $code .= "<div><button class='update' type='submit' name='savePlan' value=1>".l(18221,2,"Save")."</button></div>";
   $code .= "</div>";
   
   return $code;
 }
 //SUBTASK 18222: "SHOW" --------------------------------------------
 function show(){
-  $code = "";
-  $code .= self::header();
+  if($_REQUEST['savePlan']){
+    $this->save(
+      explode(',', $_REQUEST['myDates']), 
+      $_REQUEST['myPlan']
+    );
+  }
+  $code  = self::header();
   $code .= "<main>";
-  $code .="<form method='post'>";
+  $code .="<form method='post' style='padding: 0px'>";
   $code .= $this->sidebar();
-  $code .= $this->filter();
-  $code .= $this->actions();
+  // $code .= $this->filter();
+  // $code .= $this->actions();
   $code .= $this->commentModal();
   $code .= $this->eventModal();
   $code .= $this->content();
   $code .= $this->loadSavedShops();
+  $code .= "<input type='hidden' name='myPlan' id='myPlan' value='".$this->object()."'>";
+  $code .= "<input type='hidden' name='myDates' value='".implode(",", array_keys($this->dates))."'>";
+  // $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
   $code .= "</form>";
   $code .= "</main>";
   return $code;
@@ -1194,10 +1214,7 @@ function show(){
 //SUBTASK 18260: "CONTENT" --------------------------------------------
 private function content(){
   $cnt = 0;
-  $code = "";
-  $code .=  "<div class='col-9 content'>";
-  //$code .= "<input type='text' name='myPlan' id='myPlan' value='".$this->object()."'>";
-  $code .= "<textarea name='myPlan' id='myPlan' style='width: 100%; height:200px'>".$this->object()."</textarea>";
+  $code =  "<div class='col-9 content'>";
   foreach($this->dates as $date=>$day) {
     $code .= "<div class='timetable-box'>";
     $code .= "<p class='list-header'>";
