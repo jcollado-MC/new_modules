@@ -22,7 +22,7 @@ class myOrders extends Orders
         $this -> products[1] = ['id' => 1,'product_id' => '', 'units' => '5', 'sap_number' => '111', 'sap-name' => 'Gouda', 'discount1' => '', 'price' => '', 'tarif' => ''];
         $this -> products[3] = ['id' => 3, 'product_id' => '', 'units' => '80', 'sap_number' => '113', 'sap-name' => 'Mozzarella', 'discount1' => '', 'price' => '', 'tarif' => ''];
         $this -> products[6] = ['id' => 6, 'product_id' => '', 'units' => '1337', 'sap_number' => '116', 'sap-name' => 'Beef Burger', 'discount1' => '', 'price' => '', 'tarif' => ''];
-
+        //tarif:description
 
 
         // LOAD FIELDS
@@ -52,12 +52,7 @@ class myOrders extends Orders
             $product['group'] = $row['family'];
             $this->groups[$group][] = $product;
         }
-
-
-
-
     }
-
 }
 
 ?>

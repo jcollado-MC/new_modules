@@ -59,13 +59,12 @@ class orders{
         
             });
             */
-            
-            
             function search(value){   
             
                 //filter checkbox-labels for search value            
-                $( '.checkboxes label.checkbox-label' ).each(function( index ) {
-                    if($(this).text().toLowerCase().indexOf(value) < 0){               
+                $( '.checkboxes label.checkbox-label' ).each(function ( index ) {
+                    var label = $(this).text().trim().toLowerCase();
+                    if(!label.includes(value)){        
                         //console.log( index + \": \" + $( this ).text() );
                         $(this).hide();
                     }
@@ -78,11 +77,13 @@ class orders{
                     }                
                 });
                 
-                $('[class*=\'panel-\']').each( function() {                 
-                    if ($(this).children('label').text().toLowerCase().indexOf(value) < 0) {
-                        $(this).hide();
+                $('[class^=\'panel-\']').each( function() {       
+                    var label = $(this).children('label').text().toLowerCase().trim();
+                    if (!label.includes(value)) {
+                        console.log(label, value);
+                       // $(this).hide();
                     }                
-                });
+                });// this block is not working properly
             }
             
             
@@ -107,12 +108,6 @@ class orders{
             });
             
             
-            
-            
-            
-            
-            
-            
             /* ACCORDION */
 
              $('.accordion').on('click', function(){
@@ -134,8 +129,11 @@ class orders{
                  var idThis = $(this).attr('id');
                  var name = $(this).parent().text();
                  var qty = $(this).parent().siblings().children('.quantity input').val();
+                      
                  var length = table.rows.length;
-                 var productCode = 
+                
+                 var productCode = 5;
+                 //the productCode is the sap_number on class.myOrders.php
                  
                  var checked = $(this).prop('checked');
                  if(checked){
