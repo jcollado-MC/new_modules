@@ -18,92 +18,57 @@ class orders{
         ";
 
         $code .= "<script>
-
        
-        $(document).ready( function(){    
+        $(document).ready(function(){    
             
             updateRow();
-
-            
             
             /* SEARCH TABLE SIDEBAR */
-            
-            /*
-        
+                
             $('#searchInput').on('keyup', function () {
                 
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();
                 
-                 if(value.length > 0){
+                if(value.length > 0){
                 
-                $('[class*=\'panel-\']').addClass('active-accordion');
-                               
-              
-                //filter checkbox-labels for search value
-                $('.checkboxes label.checkbox-label').filter(function () {
-                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-                // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
-                $('.title-part').filter(function () {
+                    $('[class*=\'panel-\']').addClass('active-accordion');
                     
-                    var id = $(this).attr('id');
+                    $('[class*=\'panel-\']').each(function () {
+                        var selector = $(this).find('div label.checkbox-label');
+                        var hasResult = false;
+                        selector.filter(function () {
+                            var found = $(this).text().toLowerCase().indexOf(value) > -1;
+                            $(this).parent().toggle(found);
+                            if (found) {
+                                hasResult = true;
+                            }
+                        });
+                        if (!hasResult) {
+                            $(this).removeClass('active-accordion');
+                        }
+                    });
+                                
+                    // when the title-part still has unfiltered checkboxes as siblings, show, otherwise hide
+                    $('.title-part').filter(function() {
+                         
+                          var checkbox = $(this).attr('id');
+                          if (checkbox) {
+                              if(checkbox.not(':checked')) {
+                                  $('#' + checkbox).hide();                
+                              } else {
+                                  $('#' + checkbox).show();
+                              }
+                          }
+                         
+                    });
                     
-                    $(this).toggle( $(this).siblings('.' + id).find('.checkbox-label').text().toLowerCase().indexOf(value) > -1 );
-
-                });
                 
                 } else {
-                     $('[class*=\'panel-\']').removeClass('active-accordion');
-                }
-        
-            });
-            */
-            function search(value){   
-            
-                //filter checkbox-labels for search value            
-                $( '.checkboxes label.checkbox-label' ).each(function ( index ) {
-                    var label = $(this).text().trim().toLowerCase();
-                    if(!label.includes(value)){        
-                        //console.log( index + \": \" + $( this ).text() );
-                        $(this).hide();
-                    }
-                });
-                
-                $('.title-part').each( function() {
-                    var id = $(this).attr('id');                     
-                    if ($(this).siblings('.' + id).text().toLowerCase().indexOf(value) < 0) {
-                        $(this).hide();
-                    }                
-                });
-                
-                $('[class^=\'panel-\']').each( function() {       
-                    var label = $(this).children('label').text().toLowerCase().trim();
-                    if (!label.includes(value)) {
-                        console.log(label, value);
-                       // $(this).hide();
-                    }                
-                });// this block is not working properly
-            }
-            
-            
-            
-            
-            
-            $('#searchInput').on('keyup', function () {
-                //get value of searchbar input
-                var value = $(this).val().toLowerCase();     
-                
-                $( '.checkboxes label.checkbox-label, [class*=\'panel-\'], .title-part' ).show();       
-                var valueArray = value.split(' ');                                    
-                valueArray.forEach(search);
-                
-                if (value.length > 0){                                       
-                     $('ul.pos[class*=\'panel-\'').addClass('active-accordion');
-                     $('.accordion').addClass('active-accordion');
-                } else {
-                    $('ul.pos').css('display', '');
-                    $('.active-accordion').removeClass('active-accordion');                    
+                    $('[class*=\'panel-\']').removeClass('active-accordion');
+                    $('.checkboxes label.checkbox-label').each(function () {
+                        $(this).parent().show();
+                    })
                 }
             });
             
@@ -115,15 +80,12 @@ class orders{
                  var id = $(this).attr('id');
                 $('.' + id).toggleClass('active-accordion');
             });
-             
-             
-             
+                    
              $('.checkboxes input:checkbox').change(function(){
                  var checked = $(this).prop('checked');                
                  $(this).parent().parent().find('.quantity').toggle(checked);
              });
-             
-             
+
              $('.checkboxes input:checkbox').change( function(){
                  
                  var idThis = $(this).attr('id');
@@ -132,7 +94,7 @@ class orders{
                       
                  var length = table.rows.length;
                 
-                 var productCode = 5;
+                 var productCode = $(this).data('sapNumber');
                  //the productCode is the sap_number on class.myOrders.php
                  
                  var checked = $(this).prop('checked');
@@ -164,7 +126,6 @@ class orders{
   
         });
         
-        
          var updateRow = function(){
                     var tableLength = table.rows.length + 1;
                     
@@ -174,9 +135,8 @@ class orders{
                         table.setReadOnly( 'D' + i , true);                                                
                     }
             };
-        
-        
-            var changed = function(instance, cell, x, y, value) { 
+            
+         var changed = function(instance, cell, x, y, value) { 
                 
                 if (x == 6){
                     
@@ -193,13 +153,13 @@ class orders{
                     var quantityInput = $('#'+id).parent().siblings().children('.quantity input');                
                     quantityInput.val(value);                
                    
-//                   if( value <= 0 ) {                        
-//                        var checkbox = $('#'+id);                                                    
-//                        checkbox.prop('checked', false);                     
-//                        var quantity = $('#'+id).parent().siblings('.quantity'); 
-//                        quantity.hide();                       
-//                        table.deleteRow( y );
-//                   }
+                 if( value <= 0 ) {                        
+                       var checkbox = $('#'+id);                                                    
+                    checkbox.prop('checked', false);                     
+                  var quantity = $('#'+id).parent().siblings('.quantity'); 
+                    quantity.hide();                       
+               table.deleteRow( y );
+                }
                 }    
                 
                 
@@ -249,12 +209,10 @@ class orders{
             
 </script>";
         $code .= "<style>
-
 .quantity{
 display: none;
 margin: 5px 0;
 }
-
 .add-row{
     margin: 5px 0;;
     font-size: 1.2rem;
@@ -263,8 +221,6 @@ margin: 5px 0;
     background: none;
     float: none;
 }
-
-
 </style>";
 
         $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
@@ -317,40 +273,40 @@ margin: 5px 0;
                             </div>";
 
 
-                $code .= "<div class='panel-".$cnt." checkboxes'>";
-                foreach ($products as $product) {
-                    $code .= "<div class='col-12 row'>
+            $code .= "<div class='panel-".$cnt." checkboxes'>";
+            foreach ($products as $product) {
+                $code .= "<div class='col-12 row'>
                         <label class='col-9 checkbox-label'>
-                            <input type='checkbox' id='". $product['id'] ."'";
-                    if(isset($this -> products[$product['id']])){
-                        if ($this -> products[$product['id']]['units'] > 0) {
-                            $code .= "checked";
-                        }
+                            <input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
+                if(isset($this -> products[$product['id']])){
+                    if ($this -> products[$product['id']]['units'] > 0) {
+                        $code .= "checked";
                     }
-                    $code .= ">";
-                    $code .= $product['name'];
-                    $code .= "</label>";
-                    $code .= "<div class='col-3 quantity'";
-                    if(isset($this -> products[$product['id']])){
-                        if ($this -> products[$product['id']]['units'] > 0) {
-                            $code .= "style='display: block' ";
-                        }
-                    }
-                    $code .= ">";
-                    $code .= "<input  class='col-12' type='number' value='";
-                    if(isset($this -> products[$product['id']])){
-                        if ($this -> products[$product['id']]['units'] > 0) {
-                            $code .= $this->products[$product['id']]['units'];
-                        }
-                    } else{
-                        $code .= 1;
-                    }
-                    $code .= "' step='1'>";
-
-                    $code .= "</div>
-                    </div>";
                 }
-                $code .= "</div>";
+                $code .= ">";
+                $code .= $product['name'];
+                $code .= "</label>";
+                $code .= "<div class='col-3 quantity'";
+                if(isset($this -> products[$product['id']])){
+                    if ($this -> products[$product['id']]['units'] > 0) {
+                        $code .= "style='display: block' ";
+                    }
+                }
+                $code .= ">";
+                $code .= "<input  class='col-12' type='number' value='";
+                if(isset($this -> products[$product['id']])){
+                    if ($this -> products[$product['id']]['units'] > 0) {
+                        $code .= $this->products[$product['id']]['units'];
+                    }
+                } else{
+                    $code .= 1;
+                }
+                $code .= "' step='1'>";
+
+                $code .= "</div>
+                    </div>";
+            }
+            $code .= "</div>";
 
             $cnt++;
         }
@@ -409,8 +365,6 @@ margin: 5px 0;
 
                         $code .= "</td>";
 
-
-
                         $code .= "<td>";
                         $code .= $this->products[$product['id']]['units'];
                         $code .= "</td>";
@@ -454,10 +408,10 @@ margin: 5px 0;
         $code .= "<i class='fas fa-plus'></i>";
         $code .= "</button>";
 
-//$code .=" <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
-//            <i class='fas fa-minus'></i>
-//          </button>";
-        $code .="    </div>
+        $code .=" <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
+                  <i class='fas fa-minus'></i>
+                  </button>";
+        $code .=" </div>
     <script>
     
     
@@ -465,7 +419,6 @@ margin: 5px 0;
     
     var table = jexcel(document.getElementById('spreadsheet'),
     {
-
         columns:[],
         onchange: changed,    
         oninsertrow: updateRow,
@@ -474,7 +427,6 @@ margin: 5px 0;
         
         );   
     
-
     </script>
     ";
 
