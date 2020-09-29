@@ -3,7 +3,7 @@
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 2
-  // Date of creation: 2020-09-14 
+  // Date of creation: 2020-09-29 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -1233,7 +1233,3 @@ private function content(){
   $code .= "</div>";
   return $code;
 }
-
-//[/SUBTASKS]
-  }
-?>
