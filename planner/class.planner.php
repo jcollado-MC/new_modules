@@ -7,6 +7,7 @@
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
+
     if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){ 
       header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
       exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
@@ -40,13 +41,14 @@ private function object(){
   // $myPageBody .= "$sql<hr>"; 
   $result = db_query($sql);
   while($row = db_fetch_row($result)){
-    if($last_date <> $row['date_start']) $pos=1;
-    $entry['id']             = $row['id'];
-    $entry['date']         = $row['date_start'];
-    $entry['pos']         = $pos;
-    $entry['cat_id']     = $row['cat_id'];
+    //if($last_date <> $row['date_start']) $pos=1;
+    if($row['date_start']) $pos=1;
+    $entry['id'] = $row['id'];
+    $entry['date'] = $row['date_start'];
+    $entry['pos'] = $pos;
+    $entry['cat_id'] = $row['cat_id'];
     $entry['shop_id'] = $row['shop_id'];
-    $entry['time']         = $row['time'];
+    $entry['time'] = $row['time'];
     $entry['comment'] = $row['comment'];
     $data[] = $entry;
     $pos++;
@@ -599,12 +601,12 @@ static function Header(){
                 box-shadow: inset 0 0 5px #fff;
             }
             
-            #color-filter button#yellow, #color-filter button#yellow:hover{
+            #color-filter button#orange, #color-filter button#orange:hover{
                 border-color: orange;  
                 background: none;             
             }
             
-            #color-filter button#yellow.active{
+            #color-filter button#orange.active{
                 background-color: orange;   
                 box-shadow: inset 0 0 5px #fff;            
             }
@@ -831,9 +833,9 @@ private function loadSavedShops(){
   $jsonEvents = [];
   // $myPageBody .= "<pre>".print_r($this->events,true)."</pre>";
   foreach($this->events as $event){
-    // $event['name'] = htmlentities($event['name'] );
-    // $event['name'] = str_replace("ü","ue",$event['name']);
-    $event['name'] = utf8_encode($event['name']);
+//    $event['name'] = htmlentities($event['name'] );
+//    $event['name'] = str_replace("ü","ue",$event['name']);
+//    $event['name'] = utf8_encode($event['name']);
     $jsonEvents[$event['id']] = $event;
   }
   $code  = "<script> var events = ".json_encode($jsonEvents) ."; </script>";
@@ -1059,7 +1061,7 @@ private function sidebar(){
   $code .= "<div class='col-12' id='color-filter'>";
   $code .= "<button class='active' id='blue' type='button'></button>";
   $code .= "<button class='active' id='green' type='button'></button>";
-  $code .= "<button class='active' id='yellow' type='button'></button>";
+  $code .= "<button class='active' id='orange' type='button'></button>";
   $code .= "<button class='active' id='red' type='button'></button>";
   $code .= "</div>";
   $code .= "<div class='grouping col-12' style='display: inline-flex !important;'>";
