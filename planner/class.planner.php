@@ -7,12 +7,129 @@
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
+require $_SERVER['DOCUMENT_ROOT'] ."/new_modules/helpers.php";
+require $_SERVER['DOCUMENT_ROOT'] ."/new_modules/class.format.php";
 
-    if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){ 
+    if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){
       header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
       exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
     }
-    class PLANNER{
+
+class PLANNER {
+    var $user = '';
+    var $date_start = '';
+    var $date_end = '';
+    var $dates = [];
+    var $shops = [];
+    var $events = [];
+    var $groups = [];
+
+
+     //SUBTASK 18220: "_CONSTRUCT" ------------------------------------
+    function __construct($user, $date_start='', $date_end='')
+    {
+      global $myPageBody;
+      global $sql;
+      $this->date_start = $date_start;
+      $this->date_end = $date_end;
+
+      if ($this->date_start == '' || $this->date_end == '') {
+        throw new Exception(
+            label('EXCEPTION', 'DATE_MISSING', 'Falta una fecha limite')
+        );
+      }
+
+      $this->dates = self::dates($date_start, $date_end);
+
+      if (!$link = mysql_connect('localhost', 'sem', 'sempass')) {
+        echo 'Could not connect to mysql';
+        exit;
+      }
+
+      if (!mysql_select_db('test_new_modules', $link)) {
+        echo 'Could not select database';
+        exit;
+      }
+
+      if (is_numeric($user)) {
+        $sql = ("SELECT id FROM authuser WHERE id=" . $user);
+      }else{
+        $sql = ("SELECT id FROM authuser WHERE uname='" . $user . "'");
+      }
+
+      $result = mysql_query($sql, $link);
+
+      if ($result === FALSE) {
+        die(mysql_error()); // TODO: better error handling
+      }
+
+      $user = mysql_fetch_array($result);
+
+      // CHECK USER
+      if (isset($user['id']) && $user['id']  == '') {
+        throw new Exception(
+            label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
+        );
+      }
+      $this->user = $user;
+
+//      // LOAD SHOPS OF THIS USER
+//      $myShops = \rtm::shops($user['id']);
+//        if(count($myShops)==0){
+//          throw new Exception(
+//              label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
+//          );
+//        }
+
+      $myShops = $this->loadUserShops();
+        //LOAD SHOP DATA
+        $sql = "SELECT crm_shops_bs.id AS shop_id, 
+                              crm_shops_bs.name AS name, 
+                              crm_shops_bs.sap_number AS sap_number, 
+                crm_shops_bs.shop_street AS street, 
+                crm_shops_bs.shop_city AS city, 
+                crm_shops_lk.name AS cat, 
+                crm_clients_bs.name AS client, 
+                crm_shops_bs.comment AS comment,  
+                crm_shops_bs.comment AS reminder, 
+                rt_focus_dt.visits,  
+                rt_focus_dt.freq_act,
+                crm_clients_bs.name AS group1, 
+                crm_shops_bs.shop_city AS group2, 
+                rt_focus_bs.name AS group3
+
+           FROM crm_shops_bs
+      LEFT JOIN crm_shops_lk ON crm_shops_bs.cat_id = crm_shops_lk.id
+      LEFT JOIN crm_clients_bs ON crm_shops_bs.client_id=crm_clients_bs.id
+      LEFT JOIN rt_focus_dt ON crm_shops_bs.id= rt_focus_dt.shop_id 
+                                                      AND rt_focus_dt.status<90
+                              AND ( rt_focus_dt.date_end='0000-00-00' 
+                                          OR rt_focus_dt.date_end >DATE(NOW())
+                                   )
+      LEFT JOIN rt_focus_bs ON rt_focus_bs.id=focus_id 
+                                                  AND rt_focus_bs.status<90
+                                                  AND  rt_focus_bs.gpv_id IN (".$user['id'].") WHERE crm_shops_bs.id IN (".implode(',', $myShops).") LIMIT 200;
+              ";
+// add this line to the query: WHERE crm_shops_bs.id IN (".implode(',', $myShops).")
+
+    $result = mysql_query($sql, $link);
+
+    while ($row = mysql_fetch_assoc($result)) {
+      foreach ($row as $key => $value) {
+        $row[$key] = utf8_encode($row[$key]);
+        $row['visit_frequency'] = max((min(($row['visits'] - $row['freq_act']), 1)), -2);
+      }
+      $this->groups[$row['client']][] = $row; //the shop info comes from the DB;
+      $this->code = "var shops = ".json_encode($this->groups[$row['client']]) .";";
+    }
+
+    $sql = "SELECT * FROM gpv_previsit_lk WHERE active='true' AND is_visit <> 'true' ORDER BY pos, name";
+    $result = mysql_query($sql, $link);
+    while ($row = mysql_fetch_assoc($result)) {
+    $this->events[] = $row;
+    }
+  }
+
 //[SUBTASKS]
 //SUBTASK 18266: "OBJECT" --------------------------------------------
 private function object(){
@@ -20,7 +137,7 @@ private function object(){
   $data = [];
   $sql= "SELECT gpv_previsit_bs.kam_id AS gpv_id, 
                 gpv_previsit_bs.id AS id, 
-                              gpv_previsit_bs.date_start AS date_start, 
+                gpv_previsit_bs.date_start AS date_start, 
                 gpv_previsit_bs.pos AS pos, 
                 gpv_previsit_bs.cat_id AS cat_id, 
                 gpv_previsit_bs.shop_id AS shop_id, 
@@ -38,10 +155,18 @@ private function object(){
                   gpv_previsit_bs.date_start, 
                   gpv_previsit_bs.pos, 
                 gpv_previsit_bs.id";
-  // $myPageBody .= "$sql<hr>"; 
-  $result = db_query($sql);
-  while($row = db_fetch_row($result)){
-    //if($last_date <> $row['date_start']) $pos=1;
+  // $myPageBody .= "$sql<hr>";
+
+  $link = mysql_connect('localhost', 'sem', 'sempass');
+  mysql_select_db('test_new_modules', $link);
+  $result = mysql_query($sql, $link);
+  if ($result === FALSE) {
+    die(mysql_error()); // TODO: better error handling
+  }
+
+  while($row = mysql_fetch_assoc($result)){
+    //if($last_date != $row['date_start']) $pos=1;
+    print_r($row);
     if($row['date_start']) $pos=1;
     $entry['id'] = $row['id'];
     $entry['date'] = $row['date_start'];
@@ -65,12 +190,11 @@ function save($dates=[], $object){
       // DELETE
     foreach($dates as $date){
       $date = mysql_real_escape_string($date);
-      $sql = "UPDATE gpv_previsit_bs SET
-                                   status = 99
+      $sql = "UPDATE gpv_previsit_bs SET status = 99
                WHERE kam_id = ".$this->user['id']." 
-                    AND date_start = '$date'";
+               AND date_start = '$date'";
       // $myPageBody .= "$sql<br>";
-      db_query($sql);
+     db_query($sql);
     }
     // SAVE
     $entries = json_decode($object, true);
@@ -97,9 +221,9 @@ function save($dates=[], $object){
 //SUBTASK 18259: "DATES" --------------------------------------------
 static function dates($date_start, $date_end, $weekends= FALSE){
     global $myPageBody;
-  $dates = array();
+    $dates = array();
     $duration = (strtotime($date_end)-strtotime($date_start));
-  $days = floor(($duration / 24 / 60 / 60));
+    $days = floor(($duration / 24 / 60 / 60));
   // $myPageBody .= "$days =    $duration = ($date_end-$date_start);<hr>";
     for($n=0;$n<$days;$n++){
     $date = date("Y-m-d", strtotime($date_start." +".$n."DAYS"));
@@ -108,7 +232,6 @@ static function dates($date_start, $date_end, $weekends= FALSE){
   }
   return $dates;
 }
-
 //SUBTASK 18223: "STATIC: HEADER" --------------------------------------------
 private static $header;
 static function Header(){
@@ -150,7 +273,6 @@ static function Header(){
                 });
             }
     
-            
             $('#searchInput').on('keyup', function () {
                 //get value of searchbar input
                 var value = $(this).val().toLowerCase();     
@@ -208,7 +330,6 @@ static function Header(){
                         var newDate = $(this).attr('date');
                         console.log('update');
                   
-                        
                         $('ul[date=\"'+ newDate +'\"] li').each( function(){
                             for(let i = 0; i < savedShops.length; i++){
                                 if( $(this).attr('id') ===  savedShops[i].shop_id || $(this).attr('id') === ('event-' + savedShops[i].cat_id)){
@@ -221,7 +342,6 @@ static function Header(){
                     }
                 }).disableSelection();
                });
-             
              
              /* DELETE FROM TIMETABLE */
              
@@ -329,7 +449,6 @@ static function Header(){
                 }
             });
             
-            
             $('.pos-modal').on('click', '#save', function() {
                 var time = $(this).parent().parent().find('input[type=time]').val();
                 var comment = $(this).parent().parent().find('textarea').val();
@@ -371,7 +490,6 @@ static function Header(){
                 
             });
             
-            
             $('a.readMore').click(function() {
                 var id = $(this).attr('id');                
                 $('.comment p.' + id + ' span').toggle();
@@ -383,25 +501,20 @@ static function Header(){
                 }    
             });
             
-            
             /* COLOR FILTERS*/
-            
             $('#color-filter button').click(function() {        
                 $(this).toggleClass('active');
                 
                 var isActive = $(this).hasClass('active');
                 var id = $(this).attr('id');  
               
-                
                 if(isActive){
                     $('ul.pos li.' + id).show();
                 } else {
                     $('ul.pos li.' + id).hide();
                 }
             });
-            
-            
-        
+
             $(document).mouseup(function (e) {
                 // set container value
                 var container = $(\".dropdown-content\");
@@ -419,7 +532,7 @@ static function Header(){
                 var id = $(this).attr('id');
                   $('.grouping .active').removeClass('active');                  
                   $(this).addClass('active');                  
-                  groupShops(id);                  
+                  groupShops(id);               
             });
            
             
@@ -760,7 +873,6 @@ private function filter(){
   return $code;
 }
 
-
 private function actions(){
   $code  = "<div class='col-3 actions'>";
   $code .= "<button class='download' type='button'>";
@@ -773,7 +885,6 @@ private function actions(){
   $code .= "</div>";
   return $code;
 }
-
 
 //SUBTASK 18309: "MODAL: EVENT" --------------------------------------------
 private function eventModal(){
@@ -857,14 +968,13 @@ private function loadSavedShops(){
                 var savedShopTime = savedShop.time;
                 var savedEventCatID = savedShop.cat_id; 
                 var html = ''; 
-                
-                
-                if(savedShopId > 0){
+
+      if(savedShopId > 0){
                     for(let shopID in shops){
                         var shop = shops[shopID];
                         
                         if(savedShopId == shopID){
-                            html += ' <li class=\'pos-infos col-12 ' + shop.color .toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop.shop_id  + '\'> ';
+                            html += ' <li class=\'pos-infos col-12 ' + (shop.color && shop.color .toLowerCase()) + '\'  name=\'panel-' + cnt + '\' id=\'' + shop.shop_id  + '\'> ';
                             html += '<i class=\'fas fa-times delete\'></i>';
                             html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
                             if( shop.offline  == 'true' ) {
@@ -967,86 +1077,6 @@ private function loadSavedShops(){
 
     return $code;
 }
-
-//SUBTASK 18220: "_CONSTRUCT" --------------------------------------------
-var $user = '';
-var $date_start = '';
-var $date_end = '';
-var $dates = [];
-var $shops = [];
-var $events = [];
-function __construct($user, $date_start='', $date_end=''){
-    global $myPageBody;
-  if(!is_numeric($user)){
-    $user = db_value("SELECT id FROM authuser WHERE uname='$user'");
-  }
-  // CHECK USER
-  $user = db_direct("SELECT id FROM authuser WHERE id=$user");
-  if($user['id']==''){
-    throw new Exception(
-      label('EXCEPTION', 'USER_NOT_FOUND', 'No se ha encontrado el usuario')
-    );
-  }
-  $this->user = $user;
-  $this->date_start = $date_start;
-  $this->date_end = $date_end;
-  if($this->date_start=='' || $this->date_start==''){
-    throw new Exception(
-      label('EXCEPTION', 'DATE_MISSING', 'Falta una fecha limite')
-    );
-  }
-  $this->dates = self::dates($date_start, $date_end);
-  // LOAD SHOPS
-  $myShops = \rtm::shops($user['id']);
-  if(count($myShops)==0){
-    throw new Exception(
-      label('EXCEPTION', 'NO_SHOPS', 'No existen puntos de venta')
-    );
-  }
-  $sql= "SELECT crm_shops_bs.id AS shop_id, 
-                              crm_shops_bs.name AS name, 
-                              crm_shops_bs.sap_number AS sap_number, 
-                crm_shops_bs.shop_street AS street, 
-                crm_shops_bs.shop_city AS city, 
-                crm_shops_lk.name AS cat, 
-                crm_clients_bs.name AS client, 
-                crm_shops_bs.comment AS comment,  
-                crm_shops_bs.comment AS reminder, 
-                rt_focus_dt.status_color AS color,  
-                crm_clients_bs.name AS group1, 
-                crm_shops_bs.shop_city AS group2, 
-                rt_focus_bs.name AS group3
-
-           FROM crm_shops_bs
-      LEFT JOIN crm_shops_lk ON crm_shops_bs.cat_id = crm_shops_lk.id
-      LEFT JOIN crm_clients_bs ON crm_shops_bs.client_id=crm_clients_bs.id
-      LEFT JOIN rt_focus_dt ON crm_shops_bs.id= rt_focus_dt.shop_id 
-                                                      AND rt_focus_dt.status<90
-                              AND ( rt_focus_dt.date_end='0000-00-00' 
-                                          OR rt_focus_dt.date_end >DATE(NOW())
-                                   )
-      LEFT JOIN rt_focus_bs ON rt_focus_bs.id=focus_id 
-                                                  AND rt_focus_bs.status<90
-                                                  AND  rt_focus_bs.gpv_id IN (".$user['id'].")
-              WHERE crm_shops_bs.id IN (".implode(',', $myShops).")";
-  // $myPageBody .= "$sql<br>";
-  $result = db_query($sql);
-  while($row = mysql_fetch_assoc($result)){    
-    foreach($row as $key=>$value){
-      $row[$key] = utf8_encode($row[$key]);
-    }
-    $this->groups[$row['client']][] = $row;
-  }
-  $sql= "SELECT * 
-                   FROM gpv_previsit_lk
-          WHERE active='true'
-              AND is_visit <> 'true' 
-       ORDER BY pos, name";
-  $result = db_query($sql);
-  while($row = mysql_fetch_assoc($result)){
-    $this->events[] = $row;
-  }
-}
 //SUBTASK 18221: "SIDEBAR" --------------------------------------------
 private function sidebar(){
   $code  = "<div class='col-3'>";
@@ -1070,12 +1100,24 @@ private function sidebar(){
   $code .= "<button type='button' id='group3'>".l( 18221, 8, 'Group')."</button>";
   $code .= "</div>";
   $code .= "<div class='points-of-sales'></div>";
-  
+
+
+  $jsonShops = [];
+  foreach($this->groups as $name => $shops){
+    foreach ($shops as $shop) {
+      $jsonShops[$shop['shop_id']] = $shop;
+    }
+  }
+
   $code .= "<script>
-        function groupShops(groupName){            
+        var shops = " . json_encode($jsonShops) . " 
+        function groupShops(groupName){
+     
             $('.points-of-sales').empty();
-             var groups = {};            
-             for(let shop in shops){                
+             var groups = {};
+             
+             for(let shop in shops){ 
+                 
                 var myShops = shops[shop];                
                 var myGroups = myShops[groupName];
                 if(groups[myGroups] == undefined){
@@ -1108,9 +1150,16 @@ private function sidebar(){
                  for(let shopIndex in groups[group]){                     
                     var shop = groups[group][shopIndex];
                     /*DON'T LOAD ITEMS THAT ARE ALREADY IN THE TIMETABLE*/
+                      console.log(shop['visit_frequency']);
+                    switch (shop['visit_frequency']) {
+                        case 1: shop.color='blue'; break;
+                        case 0: shop.color='green'; break;
+                        case -1:shop.color='orange'; break;
+                        default: shop.color='red';
+                    }
+                    
                     if($('.timetable').find('li#' + shop['shop_id'] ).length < 1 ){                 
-                     
-                        html += ' <li class=\'pos-infos col-12 ' + shop['color'].toLowerCase() + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
+                         html += ' <li class=\'pos-infos col-12 ' + (shop.color && shop.color.toLowerCase()) + '\'  name=\'panel-' + cnt + '\' id=\'' + shop['shop_id'] + '\'> ';
                         html += '<i class=\'fas fa-times delete\'></i>';
                         html += '<i class=\'fas fa-comment add-comment modal-button\' id=\'pos-modal\'></i>';
                         if( shop['offline'] == 'true' ) {
@@ -1171,16 +1220,8 @@ private function sidebar(){
             });
             $('input#searchInput').keyup();
          }";
-      
-  
-  $jsonShops = [];
-  
-  foreach($this->groups as $name => $shops){
-    foreach ($shops as $shop) {
-      $jsonShops[$shop['shop_id']] = $shop;
-    }
-  }
-  $code .= "var shops = ".json_encode($jsonShops) .";";
+
+
   $code .= "</script>";
   $code .= "</div>";
   $code .= "<div><button class='update' type='submit' name='savePlan' value=1>".l(18221,2,"Save")."</button></div>";
@@ -1190,12 +1231,13 @@ private function sidebar(){
 }
 //SUBTASK 18222: "SHOW" --------------------------------------------
 function show(){
-  if($_REQUEST['savePlan']){
-    $this->save(
-      explode(',', $_REQUEST['myDates']), 
-      $_REQUEST['myPlan']
-    );
-  }
+    if(isset($_REQUEST['savePlan'])){
+      $this->save(
+          explode(',', $_REQUEST['myDates']),
+          $_REQUEST['myPlan']
+      );
+    }
+
   $code  = self::header();
   $code .= "<main>";
   $code .="<form method='post' style='padding: 0px'>";
@@ -1223,9 +1265,9 @@ private function content(){
     $code .=  l('WEEKDAY', $day, $day)."<br>";
     $code .= "<small>".format::date($date)."</small>";
     $code .= "</p>";
-      $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" . $date ."'>";
-      $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
-      $code  .= "</button>";
+    $code  .= "<button class='col-12 dropbtn modal-button' id='add-event-modal' type='button' date='" . $date ."'>";
+    $code  .= "<h5> <i class='fas fa-plus'> </i> ".l(18224,9,"Add Event")."</h5>";
+    $code  .= "</button>";
     $code .= "<ul class='timetable ". $day ." connectedSortable' id='sortable-". $day ."' date='" . $date ."'>";
     /* Saved shops are loaded inside here */
     $code .= "</ul>";
@@ -1236,6 +1278,28 @@ private function content(){
   return $code;
 }
 
-//[/SUBTASKS]
+function loadUserShops(){
+  if (!$link = mysql_connect('localhost', 'sem', 'sempass')) {
+    echo 'Could not connect to mysql';
+    exit;
   }
+
+  if (!mysql_select_db('test_new_modules', $link)) {
+    echo 'Could not select database';
+    exit;
+  }
+
+  $sql  =" SELECT authuser.name, crm_shops_bs.id, crm_shops_bs.name FROM crm_shops_bs JOIN authuser 
+WHERE uname = crm_shops_bs.gpv ";
+  $result = mysql_query($sql, $link);
+  if ($result === FALSE) {
+    die(mysql_error()); // TODO: better error handling
+  }
+  $shops = [];
+  while($row = mysql_fetch_assoc($result)){
+    array_push($shops, $row['id']);
+}
+  return $shops;
+  }
+    }
 ?>

@@ -202,8 +202,7 @@ class orders{
                             quantity.show();
                             quantityInput.val(value);
                         }  
-                    }
-                    
+                    } 
                 }
             }
             
@@ -241,6 +240,10 @@ margin: 5px 0;
                 $jsonProducts[$product['sap_number']] = $product;
             }
         }
+        /**
+         * php den gelen verileri sayfaya gömerek js de kullanma tekniği,
+         *
+         */
         $code .= "var allProducts = ".json_encode($jsonProducts) .";";
         $code .= "</script>";
 

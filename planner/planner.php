@@ -1,7 +1,9 @@
 <?php
-include 'class.myPlanner.php';
-$planner = new myPlanner('2020-07-20', '2020-07-24');
+//include 'class.myPlanner.php';
+//$planner = new myPlanner('2020-07-20', '2020-07-24');
 
+include "class.planner.php";
+$planner = new PLANNER('gmunoz', '2015-01-01', '2016-01-01');
 ?>
 <!DOCTYPE html>
 <html lang="en">
