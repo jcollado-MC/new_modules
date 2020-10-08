@@ -41,16 +41,6 @@ class PLANNER {
 
       $this->dates = self::dates($date_start, $date_end);
 
-      if (!$link = mysql_connect('localhost', 'sem', 'sempass')) {
-        echo 'Could not connect to mysql';
-        exit;
-      }
-
-      if (!mysql_select_db('test_new_modules', $link)) {
-        echo 'Could not select database';
-        exit;
-      }
-
       if (is_numeric($user)) {
         $sql = ("SELECT id FROM authuser WHERE id=" . $user);
       }else{
@@ -81,7 +71,6 @@ class PLANNER {
 //          );
 //        }
 
-      $myShops = $this->loadUserShops();
         //LOAD SHOP DATA
         $sql = "SELECT crm_shops_bs.id AS shop_id, 
                               crm_shops_bs.name AS name, 
@@ -157,8 +146,6 @@ private function object(){
                 gpv_previsit_bs.id";
   // $myPageBody .= "$sql<hr>";
 
-  $link = mysql_connect('localhost', 'sem', 'sempass');
-  mysql_select_db('test_new_modules', $link);
   $result = mysql_query($sql, $link);
   if ($result === FALSE) {
     die(mysql_error()); // TODO: better error handling
@@ -166,7 +153,6 @@ private function object(){
 
   while($row = mysql_fetch_assoc($result)){
     //if($last_date != $row['date_start']) $pos=1;
-    print_r($row);
     if($row['date_start']) $pos=1;
     $entry['id'] = $row['id'];
     $entry['date'] = $row['date_start'];
@@ -1277,29 +1263,5 @@ private function content(){
   $code .= "</div>";
   return $code;
 }
-
-function loadUserShops(){
-  if (!$link = mysql_connect('localhost', 'sem', 'sempass')) {
-    echo 'Could not connect to mysql';
-    exit;
-  }
-
-  if (!mysql_select_db('test_new_modules', $link)) {
-    echo 'Could not select database';
-    exit;
-  }
-
-  $sql  =" SELECT authuser.name, crm_shops_bs.id, crm_shops_bs.name FROM crm_shops_bs JOIN authuser 
-WHERE uname = crm_shops_bs.gpv ";
-  $result = mysql_query($sql, $link);
-  if ($result === FALSE) {
-    die(mysql_error()); // TODO: better error handling
-  }
-  $shops = [];
-  while($row = mysql_fetch_assoc($result)){
-    array_push($shops, $row['id']);
-}
-  return $shops;
-  }
     }
 ?>
