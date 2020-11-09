@@ -411,30 +411,23 @@ margin: 5px 0;
         $code .= "<i class='fas fa-plus'></i>";
         $code .= "</button>";
 
-        $code .=" <button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>
-                  <i class='fas fa-minus'></i>
-                  </button>";
-        $code .=" </div>
-    <script>
-    
-    
-   
-    
-    var table = jexcel(document.getElementById('spreadsheet'),
-    {
-        columns:[],
-        onchange: changed,    
-        oninsertrow: updateRow,
-        license:'fd12c-f6d85-227f1-85ed4',
-        }
-        
-        );   
-    
-    </script>
-    ";
+        $code .="<button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>";
+        $code .= "<i class='fas fa-minus'></i>";
+        $code .= "</button>";
         $code .= "</div>";
-        return $code;
+
+        $code .= "<script>";
+        $code .= "var table = jexcel(document.getElementById('spreadsheet'),";
+        $code .= "{";
+        $code .= "columns:[],";
+        $code .= "    onchange: changed,";
+        $code .= "    oninsertrow: updateRow,";
+        $code .= "license:'fd12c-f6d85-227f1-85ed4',";
+        $code .= "});";
+        $code .= "</script>";
+
+         $code .= "</div>";
+         return $code;
     }
 }
-
 ?>

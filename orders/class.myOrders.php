@@ -1,10 +1,10 @@
 <?php
 
-require_once("class.orders.php");
+require_once("class.ordereditor.php");
 
 include("../helpers.php");
 
-class myOrders extends Orders
+class myOrders extends OrderEditor
 {
     static function header()
     {
