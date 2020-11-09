@@ -13,9 +13,7 @@ class orders{
 
         $code = "";
 
-        $code .= "
-         <script src=\"../Jquery/jquery-3.4.1.min.js\"></script>
-        ";
+        $code .= "<script src=\"../Jquery/jquery-3.4.1.min.js\"></script>";
 
         $code .= "<script>
        
@@ -222,10 +220,10 @@ margin: 5px 0;
 }
 </style>";
 
-        $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
-        $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
-        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
-        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
+//        $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
+//        $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
+//        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
+//        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
 
         return $code;
     }
@@ -241,7 +239,7 @@ margin: 5px 0;
             }
         }
         /**
-         * php den gelen verileri sayfaya gömerek js de kullanma tekniği,
+         * Technique to embed the data comes from PHP to use in JS
          *
          */
         $code .= "var allProducts = ".json_encode($jsonProducts) .";";
@@ -258,28 +256,28 @@ margin: 5px 0;
         return $code;
     }
 
-
-    private function sidebar() {
+    //sidebar can't be a private function
+    public function sidebar() {
         $cnt = 0;
+
         $code = "";
         $code .= "<div class='col-3'>";
         $code .= "<div class='col-12 tabs'>";
         $code .= "<h2>Order Settings</h2>";
-        $code .= "<div class='search col-12'>
-        <input class='col-11' type='text' id='searchInput' placeholder='Search'>
-         <i class='fas fa-search search-icon col-1'></i>          
-        </div>";
+        $code .= "<div class='search col-12'>";
+        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='". l(18408, 1, 'Search') . "'>";
+        $code .= "<i class='fas fa-search search-icon col-1'></i>";
+        $code . "</div>";
+
         foreach($this->groups as $name => $products) {
-            $code .= "<div class='title-part accordion' id='panel-".$cnt ." '>
-                        <h5 class='col-12'>" . $name . "</h5>
-                                <hr class='col-12'>
-                            </div>";
-
-
+            $code .= "<div class='title-part accordion' id='panel-".$cnt ."'>";
+            $code .= "<h5 class='col-12'>" . $name . "</h5>";
+            $code .= "<hr class='col-12'>";
+            $code .= "</div>";
             $code .= "<div class='panel-".$cnt." checkboxes'>";
             foreach ($products as $product) {
                 $code .= "<div class='col-12 row'>
-                        <label class='col-9 checkbox-label'>
+                            <label class='col-9 checkbox-label'>
                             <input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
                 if(isset($this -> products[$product['id']])){
                     if ($this -> products[$product['id']]['units'] > 0) {
@@ -306,20 +304,22 @@ margin: 5px 0;
                 }
                 $code .= "' step='1'>";
 
-                $code .= "</div>
-                    </div>";
+                $code .= "</div>";
+                $code .= "</div>";
             }
             $code .= "</div>";
 
             $cnt++;
         }
 
-        $code .= "</div>
-        <div >
-            <button class='update' type='submit' name='button18191' value=1>Speichern</button>
-        </div>";
+        $code .= "</div>";
+        $code .= "<div>";
+        $code .= "<button class='update' type='submit' name='button18191' value=1>" . l(18408, 1, 'Save') . "</button>";
+        $code .= "</div>";
         $code .= "</div>";
 
+        $code .= "</div>";
+        $code .= "<div>";
         return $code;
     }
 
@@ -432,17 +432,9 @@ margin: 5px 0;
     
     </script>
     ";
-
         $code .= "</div>";
-
         return $code;
     }
-
-
-
 }
-
-
-
 
 ?>
