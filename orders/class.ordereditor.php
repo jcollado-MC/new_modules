@@ -1,6 +1,6 @@
 <?php
 
-class orders{
+class OrderEditor{
 
     function _construct(){
     }
