@@ -1,22 +1,27 @@
 <?php
-
-class OrderEditor{
-
-    function _construct(){
+  // Script created with CFB Framework Builder 
+  // Client:  MARKET CONTROL
+  // Project: MASTER I
+  // Class Revision: 1
+  // Date of creation: 2020-11-09 
+  // All Copyrights reserved 
+  // This is a class file and can not be executed directly 
+  // CLASS FILE
+    if(__FILE__ == $_SERVER['SCRIPT_FILENAME']){ 
+      header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+      exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
     }
+    require_once('class.orders.php');
+    class OrderEditor extends orders{
+//[SUBTASKS]
+//SUBTASK 18415: "VARS" --------------------------------------------
+private static $header;
+//SUBTASK 18407: "HEADER" --------------------------------------------
+static function Header(){
+  if (self::$header == TRUE) return;
+  self::$header = TRUE;
+  $code .= "<script>
 
-    private static $header;
-    static function Header()
-    {
-        if (self::$header == TRUE) return;
-        self::$header = TRUE;
-
-        $code = "";
-
-        $code .= "<script src=\"../Jquery/jquery-3.4.1.min.js\"></script>";
-
-        $code .= "<script>
-       
         $(document).ready(function(){    
             
             updateRow();
@@ -72,7 +77,6 @@ class OrderEditor{
             
             
             /* ACCORDION */
-
              $('.accordion').on('click', function(){
                  $(this).toggleClass('active-accordion');
                  var id = $(this).attr('id');
@@ -83,7 +87,6 @@ class OrderEditor{
                  var checked = $(this).prop('checked');                
                  $(this).parent().parent().find('.quantity').toggle(checked);
              });
-
              $('.checkboxes input:checkbox').change( function(){
                  
                  var idThis = $(this).attr('id');
@@ -220,110 +223,102 @@ margin: 5px 0;
 }
 </style>";
 
-//        $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
-//        $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
-//        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
-//        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
+        $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
+        $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
+        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
+        $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
 
         return $code;
     }
 
-    function show(){
-        $code = "";
-
-        $code .= "<script>";
-        $jsonProducts = [];
-        foreach ($this->groups as $products){
-            foreach ($products as $product){
-                $jsonProducts[$product['sap_number']] = $product;
-            }
+//SUBTASK 18413: "SHOW" --------------------------------------------
+public function show(){
+  $code  = "<script>";
+  $jsonProducts = [];
+  foreach ($this->groups as $products){
+    foreach ($products as $product){
+      $jsonProducts[$product['sap_number']] = $product;
+    }
+  }
+  $code .= "var allProducts = ".json_encode($jsonProducts) .";";
+  $code .= "</script>";
+  $code .= self::header();
+  $code .= "<main>";
+  $code .="<form method='post'>";
+  $code .= $this->sidebar();
+  $code .= $this->content();
+  $code .= "</form>";
+  $code .= "</main>";
+  return $code;
+}
+//SUBTASK 18408: "SIDEBAR" --------------------------------------------
+public function sidebar() {
+  $cnt = 0;
+  
+  $code = "";
+  $code .= "<div class='col-3'>";
+  $code .= "<div class='col-12 tabs'>";
+  $code .= "<h2>Order Settings</h2>";
+  $code .= "<div class='search col-12'>";
+  $code .= "<input class='col-11' type='text' id='searchInput' placeholder='". l(18408, 1, 'Search') . "'>";
+  $code .= "<i class='fas fa-search search-icon col-1'></i>";
+  $code . "</div>";
+  
+  foreach($this->groups as $name => $products) {
+    $code .= "<div class='title-part accordion' id='panel-".$cnt ."'>";
+    $code .= "<h5 class='col-12'>" . $name . "</h5>";
+    $code .= "<hr class='col-12'>";
+    $code .= "</div>";
+    $code .= "<div class='panel-".$cnt." checkboxes'>";
+    foreach ($products as $product) {
+      $code .= "<div class='col-12 row'>
+<label class='col-9 checkbox-label'>
+<input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
+      if(isset($this -> products[$product['id']])){
+        if ($this -> products[$product['id']]['units'] > 0) {
+          $code .= "checked";
         }
-        /**
-         * Technique to embed the data comes from PHP to use in JS
-         *
-         */
-        $code .= "var allProducts = ".json_encode($jsonProducts) .";";
-        $code .= "</script>";
-
-
-        $code .= self::header();
-        $code .= "<main>";
-        $code .="<form method='post'>";
-        $code .= $this->sidebar();
-        $code .= $this->content();
-        $code .= "</form>";
-        $code .= "</main>";
-        return $code;
-    }
-
-    //sidebar can't be a private function
-    public function sidebar() {
-        $cnt = 0;
-
-        $code = "";
-        $code .= "<div class='col-3'>";
-        $code .= "<div class='col-12 tabs'>";
-        $code .= "<h2>Order Settings</h2>";
-        $code .= "<div class='search col-12'>";
-        $code .= "<input class='col-11' type='text' id='searchInput' placeholder='". l(18408, 1, 'Search') . "'>";
-        $code .= "<i class='fas fa-search search-icon col-1'></i>";
-        $code . "</div>";
-
-        foreach($this->groups as $name => $products) {
-            $code .= "<div class='title-part accordion' id='panel-".$cnt ."'>";
-            $code .= "<h5 class='col-12'>" . $name . "</h5>";
-            $code .= "<hr class='col-12'>";
-            $code .= "</div>";
-            $code .= "<div class='panel-".$cnt." checkboxes'>";
-            foreach ($products as $product) {
-                $code .= "<div class='col-12 row'>
-                            <label class='col-9 checkbox-label'>
-                            <input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
-                if(isset($this -> products[$product['id']])){
-                    if ($this -> products[$product['id']]['units'] > 0) {
-                        $code .= "checked";
-                    }
-                }
-                $code .= ">";
-                $code .= $product['name'];
-                $code .= "</label>";
-                $code .= "<div class='col-3 quantity'";
-                if(isset($this -> products[$product['id']])){
-                    if ($this -> products[$product['id']]['units'] > 0) {
-                        $code .= "style='display: block' ";
-                    }
-                }
-                $code .= ">";
-                $code .= "<input  class='col-12' type='number' value='";
-                if(isset($this -> products[$product['id']])){
-                    if ($this -> products[$product['id']]['units'] > 0) {
-                        $code .= $this->products[$product['id']]['units'];
-                    }
-                } else{
-                    $code .= 1;
-                }
-                $code .= "' step='1'>";
-
-                $code .= "</div>";
-                $code .= "</div>";
-            }
-            $code .= "</div>";
-
-            $cnt++;
+      }
+      $code .= ">";
+      $code .= $product['name'];
+      $code .= "</label>";
+      $code .= "<div class='col-3 quantity'";
+      if(isset($this -> products[$product['id']])){
+        if ($this -> products[$product['id']]['units'] > 0) {
+          $code .= "style='display: block' ";
         }
-
-        $code .= "</div>";
-        $code .= "<div>";
-        $code .= "<button class='update' type='submit' name='button18191' value=1>" . l(18408, 1, 'Save') . "</button>";
-        $code .= "</div>";
-        $code .= "</div>";
-
-        $code .= "</div>";
-        $code .= "<div>";
-        return $code;
+      }
+      $code .= ">";
+      $code .= "<input  class='col-12' type='number' value='";
+      if(isset($this -> products[$product['id']])){
+        if ($this -> products[$product['id']]['units'] > 0) {
+          $code .= $this->products[$product['id']]['units'];
+        }
+      } else{
+        $code .= 1;
+      }
+      $code .= "' step='1'>";
+      
+      $code .= "</div>";
+      $code .= "</div>";
     }
-
-    private function content() {
+    $code .= "</div>";
+    
+    $cnt++;
+  }
+  
+  $code .= "</div>";
+  $code .= "<div>";
+  $code .= "<button class='update' type='submit' name='button18191' value=1>" . l(18408, 1, 'Save') . "</button>";
+  $code .= "</div>";
+  $code .= "</div>";
+  
+  $code .= "</div>";
+  $code .= "<div>";
+  return $code;
+}
+//SUBTASK 18409: "CONTENT" --------------------------------------------
+  private function content() {
         $code = "";
 
         $code .= "<div class='col-9 content'>";
@@ -429,5 +424,6 @@ margin: 5px 0;
          $code .= "</div>";
          return $code;
     }
-}
+//[/SUBTASKS]
+  }
 ?>
