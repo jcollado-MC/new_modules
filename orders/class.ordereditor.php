@@ -21,7 +21,6 @@ static function Header(){
   if (self::$header == TRUE) return;
   self::$header = TRUE;
   $code .= "<script>
-
         $(document).ready(function(){    
             
             updateRow();
@@ -258,7 +257,7 @@ public function sidebar() {
   $code = "";
   $code .= "<div class='col-3'>";
   $code .= "<div class='col-12 tabs'>";
-  $code .= "<h2>Order Settings</h2>";
+  $code .= "<h2>" .l('18408' ,'1', 'Order Settings') ."</h2>";
   $code .= "<div class='search col-12'>";
   $code .= "<input class='col-11' type='text' id='searchInput' placeholder='". l(18408, 1, 'Search') . "'>";
   $code .= "<i class='fas fa-search search-icon col-1'></i>";
@@ -272,8 +271,8 @@ public function sidebar() {
     $code .= "<div class='panel-".$cnt." checkboxes'>";
     foreach ($products as $product) {
       $code .= "<div class='col-12 row'>
-<label class='col-9 checkbox-label'>
-<input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
+      <label class='col-9 checkbox-label'>
+      <input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
       if(isset($this -> products[$product['id']])){
         if ($this -> products[$product['id']]['units'] > 0) {
           $code .= "checked";
@@ -326,13 +325,13 @@ public function sidebar() {
         $code .= "<thead>";
         $code .= "<tr>";
         $code .= "<th data-celltype='hidden'>id</th>";
-        $code .= "<th>Product Code</th>";
-        $code .= "<th>Name</th>";
-        $code .= "<th>Einheiten/Kiste</th>";
-        $code .= "<th>Menge</th>";
-        $code .= "<th>PNR</th>";
-        $code .= "<th>Rabatt</th>";
-        $code .= "<th>PNF</th>";
+        $code .= "<th>". l('1840','1','Product Code') ."</th>";
+        $code .= "<th>". l('1840','1','Name') ."</th>";
+        $code .= "<th>". l('1840','1','Einheiten/Kiste') ."</th>";
+        $code .= "<th>". l('1840','1','Menge') ."</th>";
+        $code .= "<th>". l('1840','1','PNR') ."</th>";
+        $code .= "<th>". l('1840','1','Rabatt') ."</th>";
+        $code .= "<th>". l('1840','1','PNF') ."PNF</th>";
         $code .= "</tr>";
         $code .= "</thead>";
         $code .= "<tbody>";
