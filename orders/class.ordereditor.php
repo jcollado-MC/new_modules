@@ -308,7 +308,7 @@ public function sidebar() {
   
   $code .= "</div>";
   $code .= "<div>";
-  $code .= "<button class='update' type='submit' name='button18191' value=1>" . l(18408, 1, 'Save') . "</button>";
+  $code .= "<button class='update' type='submit' name='button18191' value=1>" . l(18408, 2, 'Save') . "</button>";
   $code .= "</div>";
   $code .= "</div>";
   
@@ -325,13 +325,13 @@ public function sidebar() {
         $code .= "<thead>";
         $code .= "<tr>";
         $code .= "<th data-celltype='hidden'>id</th>";
-        $code .= "<th>". l('18409','1','Product Code') ."</th>";
-        $code .= "<th>". l('18409','1','Name') ."</th>";
-        $code .= "<th>". l('18409','1','Einheiten/Kiste') ."</th>";
-        $code .= "<th>". l('18409','1','Menge') ."</th>";
-        $code .= "<th>". l('18409','1','PNR') ."</th>";
-        $code .= "<th>". l('18409','1','Rabatt') ."</th>";
-        $code .= "<th>". l('18409','1','PNF') ."</th>";
+        $code .= "<th>". l('18409','3','Product Code') ."</th>";
+        $code .= "<th>". l('18409','4','Name') ."</th>";
+        $code .= "<th>". l('18409','5','Einheiten/Kiste') ."</th>";
+        $code .= "<th>". l('18409','6','Menge') ."</th>";
+        $code .= "<th>". l('18409','7','PNR') ."</th>";
+        $code .= "<th>". l('18409','8','Rabatt') ."</th>";
+        $code .= "<th>". l('18409','9','PNF') ."</th>";
         $code .= "</tr>";
         $code .= "</thead>";
         $code .= "<tbody>";
