@@ -1,4 +1,5 @@
 <?php
+//require "../helpers.php";
   // Script created with CFB Framework Builder 
   // Client:  MARKET CONTROL
   // Project: MASTER I
@@ -68,8 +69,7 @@ static function Header(){
                               } else {
                                   $('#' + checkbox).show();
                               }
-                          }
-                         
+                          } 
                     });
                     
                 
@@ -81,9 +81,9 @@ static function Header(){
                 }
             });
             
-            
             /* ACCORDION */
              $('.accordion').on('click', function(){
+                 event.stopPropagation();
                  $(this).toggleClass('active-accordion');
                  var id = $(this).attr('id');
                 $('.' + id).toggleClass('active-accordion');
@@ -188,7 +188,6 @@ static function Header(){
                             }
                         }
                     
-                    
                         if(!isProductInTable){
                             table.setValueFromCoords([0],[y], product.id, true);
                             table.setValueFromCoords([2],[y], product.name, true);
@@ -220,7 +219,15 @@ display: none;
 margin: 5px 0;
 }
 .add-row{
-    margin: 5px 0;;
+    margin: 5px 0;
+    font-size: 1.2rem;
+    color: #3f48cc;
+    border: none;
+    background: none;
+    float: none;
+}
+.delete-row{
+    margin: 5px 0;
     font-size: 1.2rem;
     color: #3f48cc;
     border: none;
@@ -231,6 +238,7 @@ margin: 5px 0;
 
         $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
         $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
+        $code .= "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>";
         $code .= "<link rel='stylesheet' href='https://bossanova.uk/jexcel/v4/jexcel.css' type='text/css' />";
         $code .= "<link rel='stylesheet' href='https://bossanova.uk/jsuites/v2/jsuites.css' type='text/css' />";
 
@@ -412,7 +420,7 @@ public function sidebar() {
         $code .= "<i class='fas fa-plus'></i>";
         $code .= "</button>";
 
-        $code .="<button class='add add-filter-fields' type='button' onclick='table.deleteRow();'>";
+        $code .="<button class='delete-row' type='button' onclick='table.deleteRow();'>";
         $code .= "<i class='fas fa-minus'></i>";
         $code .= "</button>";
         $code .= "</div>";

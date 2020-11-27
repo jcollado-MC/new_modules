@@ -15,8 +15,9 @@ class ListReport extends _reports{}
 class MatrixReport extends _reports{}
 class GalleryReport extends _reports{}
 
+global $link;
 function db_connection(){
-    if (!$link = mysql_connect('localhost', 'sem', 'sempass')) {
+    if (!$link = mysql_connect('localhost', 'sem', 'sifre')) {
         echo 'Could not connect to mysql';
         exit;
     }
@@ -27,13 +28,20 @@ function db_connection(){
     }
 
     if(isset($link)){
-        echo "success";
+        //echo "success";
     }
     return $link;
 }
 
-//function db_query(){}
-//function db_fetch_row(){}
+function db_query($query , $link) {
+    $result = mysql_query($query , $link);
+    return $result;
+}
+
+// FETCH ROW STATEMENT
+function db_fetch_row($result) {
+    return mysql_fetch_array($result);
+}
 //function db_direct(){}
 //function db_value(){}
 
