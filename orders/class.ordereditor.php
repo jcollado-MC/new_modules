@@ -129,7 +129,18 @@ static function Header(){
                              table.setValue( ('E' + (i+1)), qty, true);
                          }
                      }
-             });           
+             });   
+             
+             $('.delete-row').on('click' , function(){
+                 var rowCount = $('tbody tr').length;
+                 if(rowCount == 1){
+                    $(this).closest('td').empty();
+                    console.log( $(this).closest('td'));
+                }
+                table.deleteRow();
+                
+                
+             });
   
         });
         
@@ -219,6 +230,7 @@ display: none;
 margin: 5px 0;
 }
 .add-row{
+    display: inline;
     margin: 5px 0;
     font-size: 1.2rem;
     color: #3f48cc;
@@ -227,6 +239,7 @@ margin: 5px 0;
     float: none;
 }
 .delete-row{
+    display: inline;
     margin: 5px 0;
     font-size: 1.2rem;
     color: #3f48cc;
@@ -332,83 +345,85 @@ public function sidebar() {
   return $code;
 }
 //SUBTASK 18409: "CONTENT" --------------------------------------------
-  private function content() {
-        $code = "";
+  private function content()
+  {
+      $code = "";
 
-        $code .= "<div class='col-9 content'>";
-        $code .= "<table id='spreadsheet' class='scorecard'>";
-        $code .= "<thead>";
-        $code .= "<tr>";
-        $code .= "<th data-celltype='hidden'>id</th>";
-        $code .= "<th>". l('18409','3','Product Code') ."</th>";
-        $code .= "<th>". l('18409','4','Name') ."</th>";
-        $code .= "<th>". l('18409','5','Einheiten/Kiste') ."</th>";
-        $code .= "<th>". l('18409','6','Menge') ."</th>";
-        $code .= "<th>". l('18409','7','PNR') ."</th>";
-        $code .= "<th>". l('18409','8','Rabatt') ."</th>";
-        $code .= "<th>". l('18409','9','PNF') ."</th>";
-        $code .= "</tr>";
-        $code .= "</thead>";
-        $code .= "<tbody>";
+      $code .= "<div class='col-9 content'>";
+      $code .= "<table id='spreadsheet' class='scorecard'>";
+      $code .= "<thead>";
+      $code .= "<tr>";
+      $code .= "<th data-celltype='hidden'>id</th>";
+      $code .= "<th>" . l('18409', '3', 'Product Code') . "</th>";
+      $code .= "<th>" . l('18409', '4', 'Name') . "</th>";
+      $code .= "<th>" . l('18409', '5', 'Stock') . "</th>";
+      $code .= "<th>" . l('18409', '6', 'Quantity') . "</th>";
+      $code .= "<th>" . l('18409', '7', 'PNR') . "</th>";
+      $code .= "<th>" . l('18409', '8', 'Discount') . "</th>";
+      $code .= "<th>" . l('18409', '9', 'PNF') . "</th>";
+      $code .= "</tr>";
+      $code .= "</thead>";
+      $code .= "<tbody>";
 
-        $foundone = false;
-        foreach($this->groups as $name => $products) {
-            foreach ($products as $product) {
-                if (isset($this->products[$product['id']])) {
-                    if ($this->products[$product['id']]['units'] > 0) {
+      $foundone = false;
+//        $groups = [
+//            group_name => [
+//                'id1' => [],
+//                'id2' => []
+//                ]
+//        ];
 
-                        $foundone = true;
+      if(isset($this->orders)){
+          foreach($this->orders as $order) {
+              if (isset($order['id'])) {
+                  //if ($order['units'] > 0) {
 
-                        $code .= "<tr>";
+                  $foundone = true;
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['id'];
-                        $code .= "</td>";
+                  $code .= "<tr>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['sap_number'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  $code .= $order['id'];
+                  $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['sap-name'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  $code .= $order['sap_number'];
+                  $code .= "</td>";
 
-                        $code .= "<td>";
+                  $code .= "<td>";
+                  $code .= $order['name'];
+                  $code .= "</td>";
 
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  //$code .= $order['stock'];  -> in prducts_bs in db
+                  $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['units'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  $code .= $order['quantity'];
+                  $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['price'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  //$code .= $order['price'];
+                  $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['discount1'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  //$code .= $this->products[$product['id']]['discount1'];
+                  $code .= "</td>";
 
-                        $code .= "<td>";
-                        $code .= $this->products[$product['id']]['tarif'];
-                        $code .= "</td>";
+                  $code .= "<td>";
+                  //$code .= $this->products[$product['id']]['tarif'];
+                  $code .= "</td>";
 
 
-                        $code .= "</tr>";
-                    }
-                }
-            }
-        }
+                  $code .= "</tr>";
+                  //}
+              }
+
+          }
+
+      }
 
         if(!$foundone){
-            $code .= "<tr>";
-            $code .= "</tr>";
-            $code .= "<tr>";
-            $code .= "</tr>";
-            $code .= "<tr>";
-            $code .= "</tr>";
-            $code .= "<tr>";
-            $code .= "</tr>";
             $code .= "<tr>";
             $code .= "</tr>";
         }
@@ -420,7 +435,7 @@ public function sidebar() {
         $code .= "<i class='fas fa-plus'></i>";
         $code .= "</button>";
 
-        $code .="<button class='delete-row' type='button' onclick='table.deleteRow();'>";
+        $code .="<button class='delete-row' type='button'>";
         $code .= "<i class='fas fa-minus'></i>";
         $code .= "</button>";
         $code .= "</div>";
