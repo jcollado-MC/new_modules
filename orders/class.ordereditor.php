@@ -134,13 +134,11 @@ static function Header(){
              $('.delete-row').on('click' , function(){
                  var rowCount = $('tbody tr').length;
                  if(rowCount == 1){
-                    $(this).closest('td').empty();
-                    console.log( $(this).closest('td'));
-                }
+                    table.insertRow( ['', '', '', '' , '' , ''] ,0, true);
+                    $('tbody tr').children().last().text('');
+            }
                 table.deleteRow();
-                
-                
-             });
+            });
   
         });
         
