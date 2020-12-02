@@ -142,10 +142,12 @@ static function Header(){
                        $(selector).parent().siblings().toggle();
                   
                  }else if(rowCount == 1){
+                     
                     table.insertRow( ['', '', '', '' , '' , ''] ,0, true);                  
                     $('tbody tr').last().text('');
                     $('.checkboxes input:checkbox').prop('checked', false);
-                    $('.quantity input').css('display' , 'none');
+                    var selector = '[data-sap-number=' + lastRow_sap + ']';
+                    $(selector).parent().siblings().css('display', 'none');
                     
                  }                
                  table.deleteRow();
