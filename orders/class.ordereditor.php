@@ -124,21 +124,33 @@ static function Header(){
                  var length = table.rows.length;                
                  
                  for(let i = 0; i < length; i++){
-                         let val = table.getValueFromCoords([0], [i]);
-                         if(val == idThis){
-                             table.setValue( ('E' + (i+1)), qty, true);
-                         }
+                     let val = table.getValueFromCoords([0], [i]);
+                     if(val == idThis){
+                         table.setValue( ('E' + (i+1)), qty, true);
                      }
+                 }
              });   
              
              $('.delete-row').on('click' , function(){
+                 
                  var rowCount = $('tbody tr').length;
-                 if(rowCount == 1){
-                    table.insertRow( ['', '', '', '' , '' , ''] ,0, true);
-                    $('tbody tr').children().last().text('');
-            }
-                table.deleteRow();
-            });
+                 var lastRow_sap = $('tbody tr').last().children(':eq(2)').text();
+                 if(rowCount != 1 && lastRow_sap.length != ''){
+                     
+                       var selector = '[data-sap-number=' + lastRow_sap + ']';
+                       $(selector).prop('checked', false);
+                       $(selector).parent().siblings().toggle();
+                  
+                 }else if(rowCount == 1){
+                    table.insertRow( ['', '', '', '' , '' , ''] ,0, true);                  
+                    $('tbody tr').last().text('');
+                    $('.checkboxes input:checkbox').prop('checked', false);
+                    $('.quantity input').css('display' , 'none');
+                    
+                 }                
+                 table.deleteRow();
+                 
+                 });
   
         });
         
