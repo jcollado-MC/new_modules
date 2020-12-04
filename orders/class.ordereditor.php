@@ -1,5 +1,4 @@
 <?php
-//require "../helpers.php";
   // Script created with CFB Framework Builder 
   // Client:  MARKET CONTROL
   // Project: MASTER I
@@ -12,7 +11,7 @@
       header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
       exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
     }
-//the files that you have the DB functions require_once('../helpers.php');
+
     class OrderEditor{
         var $groups = []; //created this
         var $orders = []; // and this arrays here
@@ -273,8 +272,8 @@ margin: 5px 0;
     }
 
 //SUBTASK 18413: "SHOW" --------------------------------------------
-public function show(){
-    $this->getProducts(); //called the function I created, here
+public function show($order_id){
+    $this->getProducts($order_id);
 
   $code  = "<script>";
   $jsonProducts = [];
@@ -364,7 +363,6 @@ public function sidebar() {
 //SUBTASK 18409: "CONTENT" --------------------------------------------
   private function content()
   {
-
       $code = "";
 
       $code .= "<div class='col-9 content'>";
@@ -430,9 +428,7 @@ public function sidebar() {
                   $code .= "</tr>";
                   //}
               }
-
           }
-
       }
 
         if(!$foundone){
@@ -466,7 +462,7 @@ public function sidebar() {
          return $code;
     }
 
-  private function getProducts(){
+  private function getProducts($order_id){
 
 
       $sql = "SELECT crm_products_bs.id AS id,
@@ -496,7 +492,7 @@ public function sidebar() {
           $product['group'] = $row['family'];
           $this->groups[$group][] = $product;
       }
-
+      //table items
       $sql = "SELECT crm_order_bs.id AS order_id,
                 crm_products_bs.sap_number AS sap_number,
                 crm_order_dt.quantity,
@@ -509,7 +505,7 @@ public function sidebar() {
                 JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                 JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
                 
-                WHERE crm_order_bs.id = " . $order_id;
+                WHERE crm_order_bs.id = " . mysqli_real_escape_string($order_id);
 
       $result = db_query($sql);
 
