@@ -1,10 +1,9 @@
 <?php
-//require "../helpers.php";
   // Script created with CFB Framework Builder 
   // Client:  MARKET CONTROL
   // Project: MASTER I
   // Class Revision: 1
-  // Date of creation: 2020-11-09 
+  // Date of creation: 2020-12-04 
   // All Copyrights reserved 
   // This is a class file and can not be executed directly 
   // CLASS FILE
@@ -12,13 +11,13 @@
       header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
       exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
     }
-    require_once('../helpers.php');  //the files that you have the DB functions
-    class OrderEditor{
-        var $groups = []; //created this
-        var $orders = []; // and this arrays here
+    require_once('class.orders.php');
+    class OrderEditor extends orders{
 //[SUBTASKS]
 //SUBTASK 18415: "VARS" --------------------------------------------
 private static $header;
+var $groups = []; //created this
+var $orders = []; // and this arrays here
 //SUBTASK 18407: "HEADER" --------------------------------------------
 static function Header(){
   if (self::$header == TRUE) return;
@@ -271,17 +270,16 @@ margin: 5px 0;
 
         return $code;
     }
-
 //SUBTASK 18413: "SHOW" --------------------------------------------
 public function show(){
-    $this->getProducts(); //called the function I created, here
-
+  $this->getProducts(); //called the function I created, here
+  
   $code  = "<script>";
   $jsonProducts = [];
   foreach ($this->groups as $products){
-        foreach ($products as $product){
-          $jsonProducts[$product['sap_number']] = $product;
-        }
+    foreach ($products as $product){
+      $jsonProducts[$product['sap_number']] = $product;
+    }
   }
   $code .= "var allProducts = ".json_encode($jsonProducts) .";";
   $code .= "</script>";
@@ -296,7 +294,7 @@ public function show(){
 }
 //SUBTASK 18408: "SIDEBAR" --------------------------------------------
 public function sidebar() {
-
+  
   $cnt = 0;
   
   $code = "";
@@ -316,8 +314,8 @@ public function sidebar() {
     $code .= "<div class='panel-".$cnt." checkboxes'>";
     foreach ($products as $product) {
       $code .= "<div class='col-12 row'>
-      <label class='col-9 checkbox-label'>
-      <input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
+<label class='col-9 checkbox-label'>
+<input type='checkbox' data-sap-number='". $product['sap_number'] ."' id='". $product['id'] ."'";
       if(isset($this -> products[$product['id']])){
         if ($this -> products[$product['id']]['units'] > 0) {
           $code .= "checked";
@@ -362,167 +360,165 @@ public function sidebar() {
   return $code;
 }
 //SUBTASK 18409: "CONTENT" --------------------------------------------
-  private function content()
-  {
-
-      $code = "";
-
-      $code .= "<div class='col-9 content'>";
-      $code .= "<table id='spreadsheet' class='scorecard'>";
-      $code .= "<thead>";
-      $code .= "<tr>";
-      $code .= "<th data-celltype='hidden'>id</th>";
-      $code .= "<th>" . l('18409', '3', 'Product Code') . "</th>";
-      $code .= "<th>" . l('18409', '4', 'Name') . "</th>";
-      $code .= "<th>" . l('18409', '5', 'Stock') . "</th>";
-      $code .= "<th>" . l('18409', '6', 'Quantity') . "</th>";
-      $code .= "<th>" . l('18409', '7', 'PNR') . "</th>";
-      $code .= "<th>" . l('18409', '8', 'Discount') . "</th>";
-      $code .= "<th>" . l('18409', '9', 'PNF') . "</th>";
-      $code .= "</tr>";
-      $code .= "</thead>";
-      $code .= "<tbody>";
-
-      $foundone = false;
-
-      if(isset($this->orders)){
-          foreach($this->orders as $order) {
-              if (isset($order['id'])) {
-                  //if ($order['units'] > 0) {
-
-                  $foundone = true;
-
-                  $code .= "<tr>";
-
-                  $code .= "<td>";
-                  $code .= $order['id'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  $code .= $order['sap_number'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  $code .= $order['name'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  //$code .= $order['stock'];  -> in prducts_bs in db
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  $code .= $order['quantity'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  //$code .= $order['price'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  //$code .= $this->products[$product['id']]['discount1'];
-                  $code .= "</td>";
-
-                  $code .= "<td>";
-                  //$code .= $this->products[$product['id']]['tarif'];
-                  $code .= "</td>";
-
-
-                  $code .= "</tr>";
-                  //}
-              }
-
-          }
-
+private function content()
+{
+  
+  $code = "";
+  
+  $code .= "<div class='col-9 content'>";
+  $code .= "<table id='spreadsheet' class='scorecard'>";
+  $code .= "<thead>";
+  $code .= "<tr>";
+  $code .= "<th data-celltype='hidden'>id</th>";
+  $code .= "<th>" . l('18409', '3', 'Product Code') . "</th>";
+  $code .= "<th>" . l('18409', '4', 'Name') . "</th>";
+  $code .= "<th>" . l('18409', '5', 'Stock') . "</th>";
+  $code .= "<th>" . l('18409', '6', 'Quantity') . "</th>";
+  $code .= "<th>" . l('18409', '7', 'PNR') . "</th>";
+  $code .= "<th>" . l('18409', '8', 'Discount') . "</th>";
+  $code .= "<th>" . l('18409', '9', 'PNF') . "</th>";
+  $code .= "</tr>";
+  $code .= "</thead>";
+  $code .= "<tbody>";
+  
+  $foundone = false;
+  
+  if(isset($this->orders)){
+    foreach($this->orders as $order) {
+      if (isset($order['id'])) {
+        //if ($order['units'] > 0) {
+        
+        $foundone = true;
+        
+        $code .= "<tr>";
+        
+        $code .= "<td>";
+        $code .= $order['id'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        $code .= $order['sap_number'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        $code .= $order['name'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        //$code .= $order['stock'];  -> in prducts_bs in db
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        $code .= $order['quantity'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        //$code .= $order['price'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        //$code .= $this->products[$product['id']]['discount1'];
+        $code .= "</td>";
+        
+        $code .= "<td>";
+        //$code .= $this->products[$product['id']]['tarif'];
+        $code .= "</td>";
+        
+        
+        $code .= "</tr>";
+        //}
       }
-
-        if(!$foundone){
-            $code .= "<tr>";
-            $code .= "</tr>";
-        }
-
-        $code .= "</tbody>";
-        $code .= "</table>";
-        $code .= "<div>";
-        $code .= "<button class='add-row' style='box-shadow: none;' type='button' onclick='table.insertRow()'>";
-        $code .= "<i class='fas fa-plus' style='color: #a41e34;'></i>";
-        $code .= "</button>";
-
-        $code .="<button class='delete-row' style='margin: 5px 0px 0px 5px; box-shadow: none;' type='button'>";
-        $code .= "<i class='fas fa-minus' style='color: #a41e34;'></i>";
-        $code .= "</button>";
-        $code .= "</div>";
-
-        $code .= "<script>";
-        $code .= "var table = jexcel(document.getElementById('spreadsheet'),";
-        $code .= "{";
-        $code .= "columns:[],";
-        $code .= "    onchange: changed,";
-        $code .= "    oninsertrow: updateRow,";
-        $code .= "license:'fd12c-f6d85-227f1-85ed4',";
-        $code .= "});";
-        $code .= "</script>";
-
-         $code .= "</div>";
-         return $code;
+      
     }
-
-  private function getProducts(){
-
-
-      $sql = "SELECT crm_products_bs.id AS id,
-                crm_products_bs.sap_number AS sap_number,
-                crm_products_lk.name AS family,
-                crm_prices_dt.price AS price,
-                crm_products_bs.name AS product_name
-        
-        
-                FROM crm_prices_dt
-                JOIN crm_products_bs ON crm_products_bs.id = product_id
-                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
-                
-                WHERE crm_prices_dt.status<90
-                AND crm_products_bs.status<90
-                
-                ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
-
-      //sidebar items
-      $result = db_query($sql);
-      while ($row = db_fetch_row($result)){
-          $group = $row['family'];
-          $product['id'] = $row['id'];
-          $product['sap_number'] = $row['sap_number'];
-          $product['name'] = $row['product_name'];
-          $product['price'] = $row['price'];
-          $product['group'] = $row['family'];
-          $this->groups[$group][] = $product;
-      }
-
-      $sql = "SELECT crm_order_bs.id AS order_id,
-                crm_products_bs.sap_number AS sap_number,
-                crm_order_dt.quantity,
-                crm_products_bs.name,
-                crm_products_lk.name AS family
-
-                FROM crm_order_bs
-
-                JOIN crm_order_dt ON crm_order_bs.id = crm_order_dt.order_id
-                JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
-                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
-                
-                WHERE crm_order_bs.id = " . $order_id;
-
-      $result = db_query($sql);
-
-      while($row = db_fetch_row($result)) {
-
-          $order['id'] = $row['order_id'];
-          $order['sap_number'] = $row['sap_number'];
-          $order['quantity'] = $row['quantity'];
-          $order['name'] = $row['name'];
-          array_push($this->orders, $order);
-      }
-
+    
   }
+  
+  if(!$foundone){
+    $code .= "<tr>";
+    $code .= "</tr>";
+  }
+  
+  $code .= "</tbody>";
+  $code .= "</table>";
+  $code .= "<div>";
+  $code .= "<button class='add-row' style='box-shadow: none;' type='button' onclick='table.insertRow()'>";
+  $code .= "<i class='fas fa-plus' style='color: #a41e34;'></i>";
+  $code .= "</button>";
+  
+  $code .="<button class='delete-row' style='margin: 5px 0px 0px 5px; box-shadow: none;' type='button'>";
+  $code .= "<i class='fas fa-minus' style='color: #a41e34;'></i>";
+  $code .= "</button>";
+  $code .= "</div>";
+  
+  $code .= "<script>";
+  $code .= "var table = jexcel(document.getElementById('spreadsheet'),";
+  $code .= "{";
+  $code .= "columns:[],";
+  $code .= "    onchange: changed,";
+  $code .= "    oninsertrow: updateRow,";
+  $code .= "license:'fd12c-f6d85-227f1-85ed4',";
+  $code .= "});";
+  $code .= "</script>";
+  
+  $code .= "</div>";
+  return $code;
+}
+//SUBTASK 18461: "GET PRODUCTS" --------------------------------------------
+private function getProducts(){
+  
+  
+  $sql = "SELECT crm_products_bs.id AS id,
+crm_products_bs.sap_number AS sap_number,
+crm_products_lk.name AS family,
+crm_prices_dt.price AS price,
+crm_products_bs.name AS product_name
+
+
+FROM crm_prices_dt
+JOIN crm_products_bs ON crm_products_bs.id = product_id
+JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
+
+WHERE crm_prices_dt.status<90
+AND crm_products_bs.status<90
+
+ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
+  
+  //sidebar items
+  $result = db_query($sql);
+  while ($row = db_fetch_row($result)){
+    $group = $row['family'];
+    $product['id'] = $row['id'];
+    $product['sap_number'] = $row['sap_number'];
+    $product['name'] = $row['product_name'];
+    $product['price'] = $row['price'];
+    $product['group'] = $row['family'];
+    $this->groups[$group][] = $product;
+  }
+  
+  $sql = "SELECT crm_order_bs.id AS order_id,
+crm_products_bs.sap_number AS sap_number,
+crm_order_dt.quantity,
+crm_products_bs.name,
+crm_products_lk.name AS family
+FROM crm_order_bs
+JOIN crm_order_dt ON crm_order_bs.id = crm_order_dt.order_id
+JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
+JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
+
+WHERE crm_order_bs.id = " . $order_id;
+  
+  $result = db_query($sql);
+  
+  while($row = db_fetch_row($result)) {
+    
+    $order['id'] = $row['order_id'];
+    $order['sap_number'] = $row['sap_number'];
+    $order['quantity'] = $row['quantity'];
+    $order['name'] = $row['name'];
+    array_push($this->orders, $order);
+  }
+  
+}
 //[/SUBTASKS]
   }
 ?>
