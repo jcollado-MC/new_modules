@@ -467,7 +467,7 @@ public function sidebar() {
     }
 
   private function getProducts(){
-      $link = db_connection();
+
 
       $sql = "SELECT crm_products_bs.id AS id,
                 crm_products_bs.sap_number AS sap_number,
@@ -486,7 +486,7 @@ public function sidebar() {
                 ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
 
       //sidebar items
-      $result = db_query($sql, $link);
+      $result = db_query($sql);
       while ($row = db_fetch_row($result)){
           $group = $row['family'];
           $product['id'] = $row['id'];
@@ -511,7 +511,7 @@ public function sidebar() {
                 
                 WHERE crm_order_bs.id = " . $order_id;
 
-      $result = db_query($sql, $link);
+      $result = db_query($sql);
 
       while($row = db_fetch_row($result)) {
 
