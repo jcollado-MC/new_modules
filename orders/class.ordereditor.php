@@ -443,11 +443,11 @@ public function sidebar() {
         $code .= "</tbody>";
         $code .= "</table>";
         $code .= "<div>";
-        $code .= "<button class='add-row' type='button' onclick='table.insertRow()'>";
+        $code .= "<button class='add-row' style='box-shadow: none;' type='button' onclick='table.insertRow()'>";
         $code .= "<i class='fas fa-plus' style='color: #a41e34;'></i>";
         $code .= "</button>";
 
-        $code .="<button class='delete-row' type='button'>";
+        $code .="<button class='delete-row' style='margin: 5px 0px 0px 5px; box-shadow: none;' type='button'>";
         $code .= "<i class='fas fa-minus' style='color: #a41e34;'></i>";
         $code .= "</button>";
         $code .= "</div>";
