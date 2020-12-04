@@ -1,8 +1,11 @@
 
 <?php
-include 'class.myOrders.php';
-$order = new myOrders();
+include 'class.ordereditor.php';
+$order = new OrderEditor();
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

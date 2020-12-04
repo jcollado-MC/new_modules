@@ -12,8 +12,10 @@
       header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
       exit("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\r\n<html><head>\r\n<title>404 Not Found</title>\r\n</head><body>\r\n<h1>Not Found</h1>\r\n<p>The requested URL " . $_SERVER['SCRIPT_NAME'] . " was not found on this server.</p>\r\n</body></html>");
     }
-    //require_once('class.orders.php');
+    require_once('../helpers.php');  //the files that you have the DB functions
     class OrderEditor{
+        var $groups = []; //created this
+        var $orders = []; // and this arrays here
 //[SUBTASKS]
 //SUBTASK 18415: "VARS" --------------------------------------------
 private static $header;
@@ -272,12 +274,14 @@ margin: 5px 0;
 
 //SUBTASK 18413: "SHOW" --------------------------------------------
 public function show(){
+    $this->getProducts(); //called the function I created, here
+
   $code  = "<script>";
   $jsonProducts = [];
   foreach ($this->groups as $products){
-    foreach ($products as $product){
-      $jsonProducts[$product['sap_number']] = $product;
-    }
+        foreach ($products as $product){
+          $jsonProducts[$product['sap_number']] = $product;
+        }
   }
   $code .= "var allProducts = ".json_encode($jsonProducts) .";";
   $code .= "</script>";
@@ -292,6 +296,7 @@ public function show(){
 }
 //SUBTASK 18408: "SIDEBAR" --------------------------------------------
 public function sidebar() {
+
   $cnt = 0;
   
   $code = "";
@@ -359,6 +364,7 @@ public function sidebar() {
 //SUBTASK 18409: "CONTENT" --------------------------------------------
   private function content()
   {
+
       $code = "";
 
       $code .= "<div class='col-9 content'>";
@@ -378,12 +384,6 @@ public function sidebar() {
       $code .= "<tbody>";
 
       $foundone = false;
-//        $groups = [
-//            group_name => [
-//                'id1' => [],
-//                'id2' => []
-//                ]
-//        ];
 
       if(isset($this->orders)){
           foreach($this->orders as $order) {
@@ -465,6 +465,64 @@ public function sidebar() {
          $code .= "</div>";
          return $code;
     }
+
+  private function getProducts(){
+      $link = db_connection();
+
+      $sql = "SELECT crm_products_bs.id AS id,
+                crm_products_bs.sap_number AS sap_number,
+                crm_products_lk.name AS family,
+                crm_prices_dt.price AS price,
+                crm_products_bs.name AS product_name
+        
+        
+                FROM crm_prices_dt
+                JOIN crm_products_bs ON crm_products_bs.id = product_id
+                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
+                
+                WHERE crm_prices_dt.status<90
+                AND crm_products_bs.status<90
+                
+                ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
+
+      //sidebar items
+      $result = db_query($sql, $link);
+      while ($row = db_fetch_row($result)){
+          $group = $row['family'];
+          $product['id'] = $row['id'];
+          $product['sap_number'] = $row['sap_number'];
+          $product['name'] = $row['product_name'];
+          $product['price'] = $row['price'];
+          $product['group'] = $row['family'];
+          $this->groups[$group][] = $product;
+      }
+
+      $sql = "SELECT crm_order_bs.id AS order_id,
+                crm_products_bs.sap_number AS sap_number,
+                crm_order_dt.quantity,
+                crm_products_bs.name,
+                crm_products_lk.name AS family
+
+                FROM crm_order_bs
+
+                JOIN crm_order_dt ON crm_order_bs.id = crm_order_dt.order_id
+                JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
+                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
+                
+                WHERE crm_order_bs.id = " . $order_id;
+
+      $result = db_query($sql, $link);
+
+      while($row = db_fetch_row($result)) {
+
+          $order['id'] = $row['order_id'];
+          $order['sap_number'] = $row['sap_number'];
+          $order['quantity'] = $row['quantity'];
+          $order['name'] = $row['name'];
+          array_push($this->orders, $order);
+      }
+
+  }
 //[/SUBTASKS]
   }
 ?>
