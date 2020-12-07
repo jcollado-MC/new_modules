@@ -1,5 +1,5 @@
-
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
 include 'class.ordereditor.php';
 $order = new OrderEditor();
 ?>

@@ -462,9 +462,37 @@ public function sidebar() {
          return $code;
     }
 
-  private function getProducts($order_id){
+  private function getProducts(){
+     //existing orders, table item
+    if(isset($_GET['id'])){
+        //table items
+        $sql = "SELECT crm_order_bs.id AS order_id,
+                crm_products_bs.sap_number AS sap_number,
+                crm_order_dt.quantity,
+                crm_products_bs.name,
+                crm_products_lk.name AS family
 
+                FROM crm_order_bs
 
+                JOIN crm_order_dt ON crm_order_bs.id = crm_order_dt.order_id
+                JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
+                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
+                
+                WHERE crm_order_bs.id = " . mysqli_real_escape_string($_GET['id']);
+
+        $result = db_query($sql);
+
+        while($row = db_fetch_row($result)) {
+
+            $order['id'] = $row['order_id'];
+            $order['sap_number'] = $row['sap_number'];
+            $order['quantity'] = $row['quantity'];
+            $order['name'] = $row['name'];
+            array_push($this->orders, $order);
+        }
+
+    }
+      //sidebar items
       $sql = "SELECT crm_products_bs.id AS id,
                 crm_products_bs.sap_number AS sap_number,
                 crm_products_lk.name AS family,
@@ -480,8 +508,6 @@ public function sidebar() {
                 AND crm_products_bs.status<90
                 
                 ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
-
-      //sidebar items
       $result = db_query($sql);
       while ($row = db_fetch_row($result)){
           $group = $row['family'];
@@ -491,31 +517,6 @@ public function sidebar() {
           $product['price'] = $row['price'];
           $product['group'] = $row['family'];
           $this->groups[$group][] = $product;
-      }
-      //table items
-      $sql = "SELECT crm_order_bs.id AS order_id,
-                crm_products_bs.sap_number AS sap_number,
-                crm_order_dt.quantity,
-                crm_products_bs.name,
-                crm_products_lk.name AS family
-
-                FROM crm_order_bs
-
-                JOIN crm_order_dt ON crm_order_bs.id = crm_order_dt.order_id
-                JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
-                JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
-                
-                WHERE crm_order_bs.id = " . mysqli_real_escape_string($order_id);
-
-      $result = db_query($sql);
-
-      while($row = db_fetch_row($result)) {
-
-          $order['id'] = $row['order_id'];
-          $order['sap_number'] = $row['sap_number'];
-          $order['quantity'] = $row['quantity'];
-          $order['name'] = $row['name'];
-          array_push($this->orders, $order);
       }
 
   }
