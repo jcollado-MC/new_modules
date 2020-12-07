@@ -478,7 +478,7 @@ public function sidebar() {
                 JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                 JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
                 
-                WHERE crm_order_bs.id = " . mysqli_real_escape_string($_GET['id']);
+                WHERE crm_order_bs.id = " . mysql_real_escape_string($_GET['id']);
 
         $result = db_query($sql);
 
