@@ -25,7 +25,7 @@ $order = new OrderEditor();
 <main>
     <div class="content col-12">
         <?php
-        echo $order->show($_GET['id']);
+        $order->show($_GET['id']);
         ?>
     </div>
 </main>
