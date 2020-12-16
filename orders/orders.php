@@ -1,10 +1,15 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE);
+
 include 'class.ordereditor.php';
-$order = new OrderEditor();
+$order = new OrderEditor($_GET['id']);
+if(isset($_POST['order'])){
+
+    $orderList = json_decode($_POST['order'], true);
+    unset($_POST);
+    $order->saveOrders($orderList);
+
+}
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +30,7 @@ $order = new OrderEditor();
 <main>
     <div class="content col-12">
         <?php
-        $order->show($_GET['id']);
+        $myPageBody = $order->show();
         ?>
     </div>
 </main>
