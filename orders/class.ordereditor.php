@@ -29,8 +29,6 @@ class OrderEditor{
         $this->existingOrders = $this->getExistingOrders();
     }
 
-
-
     //SUBTASK 18407: "HEADER" --------------------------------------------
     static function Header(){
         if (self::$header == TRUE) return;
@@ -62,7 +60,7 @@ class OrderEditor{
                       url:'orders.php',
                       contentType: 'application/json',
                       dataType: 'json',
-                      data: {'order': orderList},
+                      data: {'order': postData},
                     });
                 });
                 
@@ -126,7 +124,6 @@ class OrderEditor{
                      $(this).parent().parent().find('.quantity').toggle(checked);
                  });
                  $('.checkboxes input:checkbox').change( function(){
-                     
                      var idThis = $(this).attr('id');
                      var name = $(this).parent().text();
                      var qty = $(this).parent().siblings().children('.quantity input').val();
@@ -134,12 +131,19 @@ class OrderEditor{
                      var length = table.rows.length;
                     
                      var productCode = $(this).data('sapNumber');
-                     //the productCode is the sap_number on class.myOrders.php
                      
                      var checked = $(this).prop('checked');
                      if(checked){
-                         table.insertRow( [idThis, productCode, name, '' , qty , ''] ,0, true);
-                        
+                          var element = $('tr:contains(' + productCode + ')').children().eq(2).text(); 
+                          if(element == productCode){
+                             //this element exists on the table, increase the quantity
+                             var qnty = $('tr:contains(' + productCode + ')').children().eq(5).text();
+                             $('tr:contains(' + productCode + ')').children().eq(5).text(parseInt(qnty) + 1); 
+                          }else{
+                             //this element does not exist on the table, insert 
+                             console.log('INSERT');
+                             table.insertRow( [idThis, productCode, name, '' , qty , ''] ,0, true);
+                          }                  
                      } else {
                          for(let i = 0; i < length; i++){
                              let val = table.getValueFromCoords([0], [i]);
@@ -299,7 +303,6 @@ class OrderEditor{
 
         return $code;
     }
-
     //SUBTASK 18413: "SHOW" --------------------------------------------
     public function show(){
         $this->getSidebarProducts();
@@ -494,7 +497,7 @@ class OrderEditor{
         $code .= "</div>";
         return $code;
     }
-
+    //GET THE EXISTING ORDER LIST FROM THE DB
     private function getExistingOrders(){
         $existingOrders = [];
 
@@ -526,7 +529,7 @@ class OrderEditor{
         }
         return $existingOrders;
     }
-
+    //GET ALL PRODUCTS FROM THE DB
     private function getSidebarProducts(){
 
         //RETRIEVE ALL THE ITEMS FROM THE DB TO DISPLAY ON THE SIDEBAR
@@ -556,15 +559,14 @@ class OrderEditor{
             $this->groups[$group][] = $product;
         }
     }
-
+    //SAVE NEW ORDERS
     function saveOrders($newOrders){
 
         if($this->orderStatus == 5){
             $this->compareLists($newOrders, $this->existingOrders);
-            header('Location orders.php');
         }
     }
-
+    //DETECT THE CHANGES ON THE ORDER LIST
     private function compareLists($newList, $oldList){
 
         $newSize = sizeof($newList);
@@ -637,7 +639,6 @@ class OrderEditor{
                 }
 
             }
-
             foreach ($deleted as $deleted_item){
                 $product_id = 0;
                 $sql = "

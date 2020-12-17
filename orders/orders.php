@@ -1,5 +1,4 @@
 <?php
-
 include 'class.ordereditor.php';
 $order = new OrderEditor($_GET['id']);
 if(isset($_POST['order'])){
@@ -7,7 +6,7 @@ if(isset($_POST['order'])){
     $orderList = json_decode($_POST['order'], true);
     unset($_POST);
     $order->saveOrders($orderList);
-
+    header('Location: orders.php' , true);
 }
 ?>
 
