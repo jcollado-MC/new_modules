@@ -1,4 +1,5 @@
 <?php
+require "../helpers.php";
 // Script created with CFB Framework Builder
 // Client:  MARKET CONTROL
 // Project: MASTER I
@@ -40,19 +41,35 @@ class OrderEditor{
 
         $code .= "<script>
                     
-            $(document).ready(function(){    
-                
+            $(document).ready(function(){
                 updateRow();
-                var orderList = new Array();
-                $('.update').on('click', function() {
-                    $('tr').siblings().each(function(){
+                
+                var arr = [];
+                $('tr').siblings().each(function(){
+                    productCode = $(this).find('[data-x=1]').text();
+                    arr.push(productCode);
+                });
+                     
+                arr.forEach(function(index){
+                    $('[data-sap-number=' + index + ']').prop('checked', true);
+                    $('.checkboxes input:checkbox').each(function(){
+                         var checked = $(this).prop('checked'); 
+                         if(checked){
+                             $(this).parent().parent().find('.quantity').toggle(checked);
+                         }
+                     
+                    });
+                });
+                           
+                $('.update').on('click', function(){
+                    var orderList = [];
+                    $('tr').siblings().each(function() {
                           var sap_number = $(this).find('[data-x=1]').text();
                           var quantity = $(this).find('[data-x=4]').text();
                           var name = $(this).find('[data-x=2]').text();
                           var order = { 'sap_number' : sap_number, 'quantity' :quantity, 'name' : name };          
                           orderList.push(order);   
                     });
-                   
                     var postData = JSON.stringify(orderList);
                     $('#order_input').val(JSON.stringify(orderList));
                     $.ajax({
@@ -60,8 +77,8 @@ class OrderEditor{
                       url:'orders.php',
                       contentType: 'application/json',
                       dataType: 'json',
-                      data: {'order': postData},
-                    });
+                      data: {'order': postData}
+                    });               
                 });
                 
                 /* SEARCH TABLE SIDEBAR */  
@@ -123,8 +140,10 @@ class OrderEditor{
                      var checked = $(this).prop('checked');                
                      $(this).parent().parent().find('.quantity').toggle(checked);
                  });
+                 
                  $('.checkboxes input:checkbox').change( function(){
                      var idThis = $(this).attr('id');
+                     
                      var name = $(this).parent().text();
                      var qty = $(this).parent().siblings().children('.quantity input').val();
                           
@@ -141,17 +160,18 @@ class OrderEditor{
                              $('tr:contains(' + productCode + ')').children().eq(5).text(parseInt(qnty) + 1); 
                           }else{
                              //this element does not exist on the table, insert 
-                             console.log('INSERT');
-                             table.insertRow( [idThis, productCode, name, '' , qty , ''] ,0, true);
+                              table.insertRow( [idThis, productCode, name, '' , qty , ''] ,0, true);
                           }                  
                      } else {
+                          
                          for(let i = 0; i < length; i++){
-                             let val = table.getValueFromCoords([0], [i]);
-                             if(val == idThis){
+                             let val = table.getValueFromCoords([1], [i]);
+                             console.log(val);
+                             if(val == productCode){
                                  table.deleteRow(i);
                              }
                          }
-                     }                 
+                     }           
                  });
                  
                  $('.quantity input').change(function() {
@@ -167,7 +187,7 @@ class OrderEditor{
                          }
                      }
                  });   
-                 
+                
                  $('.delete-row').on('click' , function(){
                      
                      var rowCount = $('tbody tr').length;
@@ -188,8 +208,9 @@ class OrderEditor{
                         
                      }                
                      table.deleteRow();
-                 });          
-            });     
+                 });                             
+            }); 
+            //document.ready closing here
             var updateRow = function(){
                 var tableLength = table.rows.length + 1;
                 
@@ -199,7 +220,10 @@ class OrderEditor{
                     table.setReadOnly( 'D' + i , true);                                                
                 }
             };
-                
+            </script>";
+
+        $code .= "<script>
+            
             var changed = function(instance, cell, x, y, value) { 
                     
                     if (x == 6){
@@ -211,7 +235,6 @@ class OrderEditor{
                             table.setValueFromCoords( [6], [y], '', true );
                         }
                     }
-                    
                     if (x == 4){                   
                         var id =  table.getValueFromCoords([0], [y]);    
                         var quantityInput = $('#'+id).parent().siblings().children('.quantity input');                
@@ -222,11 +245,9 @@ class OrderEditor{
                                 checkbox.prop('checked', false);                     
                                 var quantity = $('#'+id).parent().siblings('.quantity'); 
                                 quantity.hide();                       
-                                table.deleteRow( y );
+                                table.deleteRow(y);
                          }
-                    }    
-                    
-                    
+                    }
                     if (x == 1){            
                         var product = allProducts[value];
                         
@@ -234,7 +255,7 @@ class OrderEditor{
                         var tableLength = table.rows.length + 1;
                 
                         if(product != undefined){
-                            for(let i = 0; i < tableLength; i++){                            
+                            for(var i=0 ; i < tableLength; i++){
                                 if(i != y ){
                                     var productCode = table.getValueFromCoords( [1], [i]);
                                     if(productCode == product.sap_number){
@@ -244,7 +265,7 @@ class OrderEditor{
                                     }
                                 }
                             }
-                        
+                            
                             if(!isProductInTable){
                                 table.setValueFromCoords([0],[y], product.id, true);
                                 table.setValueFromCoords([2],[y], product.name, true);
@@ -253,47 +274,45 @@ class OrderEditor{
                                 table.setValueFromCoords([5],[y], product.price, true);
                                 table.setValueFromCoords([6],[y], product.discount1, true);
                                 table.setValueFromCoords([7],[y], product.tarif, true);
-                                
-                                
+                                                                
                                 var id =  table.getValueFromCoords([0], [y]);
                                 var value =  table.getValueFromCoords([4], [y]);  
-                                
-                                
+                                                               
                                 $('#' + id).prop('checked', true);
                                 var quantity = $('#'+id).parent().siblings('.quantity');
                                 var quantityInput = $('#'+id).parent().siblings().children('.quantity input'); 
                                 quantity.show();
                                 quantityInput.val(value);
                             }  
-                        } 
+                        }
                     }
-            }
-            
-    </script>";
+            }          
+        </script>";
+
         $code .= "<style>
-    .quantity{
-    display: none;
-    margin: 5px 0;
-    }
-    .add-row{
-        display: inline;
-        margin: 5px 0px;
-        font-size: 1.2rem;
-        border: none;
-        background: none;
-        float: none;
-        box-shadow: none;
-    }
-    .delete-row{
-        display: inline;
-        margin: 5px 0px;
-        font-size: 1.2rem;
-        border: none;
-        background: none;
-        float: none;
-        box-shadow: none;
-    }
-    </style>";
+            .quantity{
+            display: none;
+            margin: 5px 0;
+            }
+            .add-row{
+                display: inline;
+                margin: 5px 0px;
+                font-size: 1.2rem;
+                border: none;
+                background: none;
+                float: none;
+                box-shadow: none;
+            }
+            .delete-row{
+                display: inline;
+                margin: 5px 0px;
+                font-size: 1.2rem;
+                border: none;
+                background: none;
+                float: none;
+                box-shadow: none;
+            }
+        </style>";
 
         $code .= "<script src='https://bossanova.uk/jexcel/v4/jexcel.js'></script>";
         $code .= "<script src='https://bossanova.uk/jsuites/v2/jsuites.js'></script>";
@@ -500,6 +519,7 @@ class OrderEditor{
     //GET THE EXISTING ORDER LIST FROM THE DB
     private function getExistingOrders(){
         $existingOrders = [];
+        $link = db_connection();
 
         //RETRIEVE THE EXISTING ORDERS FROM THE DB
         $sql = "SELECT 
@@ -517,7 +537,7 @@ class OrderEditor{
             JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
             
             WHERE crm_order_bs.id = " . mysql_real_escape_string($this->orderID);
-        $result = db_query($sql);
+        $result = db_query($sql, $link);
         while($row = db_fetch_row($result)) {
 
             $this->orderStatus = $row['status'];
@@ -532,6 +552,7 @@ class OrderEditor{
     //GET ALL PRODUCTS FROM THE DB
     private function getSidebarProducts(){
 
+        $link = db_connection();
         //RETRIEVE ALL THE ITEMS FROM THE DB TO DISPLAY ON THE SIDEBAR
         $sql = "SELECT crm_products_bs.id AS id,
                 crm_products_bs.sap_number AS sap_number,
@@ -548,7 +569,7 @@ class OrderEditor{
                 AND crm_products_bs.status<90
                 
                 ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
-        $result = db_query($sql);
+        $result = db_query($sql, $link);
         while ($row = db_fetch_row($result)){
             $group = $row['family'];
             $product['id'] = $row['id'];
@@ -568,7 +589,7 @@ class OrderEditor{
     }
     //DETECT THE CHANGES ON THE ORDER LIST
     private function compareLists($newList, $oldList){
-
+        $link = db_connection();
         $newSize = sizeof($newList);
         $oldSize = sizeof($oldList);
 
@@ -585,7 +606,7 @@ class OrderEditor{
                         JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                  
                         WHERE crm_order_bs.id = ". $this->orderID . " AND sap_number = " . mysql_real_escape_string($newList[$i]['sap_number']);
-                    $result = db_query($sql);
+                    $result = db_query($sql, $link);
                     while($row = db_fetch_row($result)) {
                         $product_id = $row['product_id'];
                     }
@@ -598,7 +619,7 @@ class OrderEditor{
       
                           WHERE crm_order_dt.order_id = " . mysql_real_escape_string($this->orderID) . "
                           AND crm_order_dt.product_id = " . mysql_real_escape_string($product_id);
-                    db_query($sql);
+                    db_query($sql, $link);
                 }
             }
         }
@@ -616,7 +637,7 @@ class OrderEditor{
                        SELECT id 
                        FROM crm_products_bs 
                        WHERE sap_number  = " . mysql_real_escape_string($added_item['sap_number']);
-                $result = db_query($sql);
+                $result = db_query($sql, $link);
                 while($row = db_fetch_row($result)) {
                     $product_id = $row['id'];
                 }
@@ -626,7 +647,7 @@ class OrderEditor{
                           VALUES('" . mysql_real_escape_string($this->orderID) . "',
                                  '" . mysql_real_escape_string($product_id) . "',
                                  '" . mysql_real_escape_string($added_item['quantity']) ."')";
-                db_query($sql);
+                db_query($sql, $link);
             }
 
         }else{
@@ -639,6 +660,8 @@ class OrderEditor{
                 }
 
             }
+
+
             foreach ($deleted as $deleted_item){
                 $product_id = 0;
                 $sql = "
@@ -651,7 +674,7 @@ class OrderEditor{
                         JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                  
                         WHERE crm_order_bs.id = ". $this->orderID . " AND sap_number = " . mysql_real_escape_string($deleted_item['sap_number']);
-                $result = db_query($sql);
+                $result = db_query($sql, $link);
                 while($row = db_fetch_row($result)) {
                     $product_id = $row['product_id'];
                 }
@@ -660,7 +683,7 @@ class OrderEditor{
                           DELETE
                           FROM crm_order_dt
                           WHERE crm_order_dt.product_id = " . mysql_real_escape_string($product_id);
-                db_query($sql);
+                db_query($sql, $link);
             }
         }
     }
