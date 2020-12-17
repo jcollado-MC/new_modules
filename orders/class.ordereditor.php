@@ -1,5 +1,4 @@
 <?php
-require "../helpers.php";
 // Script created with CFB Framework Builder
 // Client:  MARKET CONTROL
 // Project: MASTER I
@@ -519,7 +518,6 @@ class OrderEditor{
     //GET THE EXISTING ORDER LIST FROM THE DB
     private function getExistingOrders(){
         $existingOrders = [];
-        $link = db_connection();
 
         //RETRIEVE THE EXISTING ORDERS FROM THE DB
         $sql = "SELECT 
@@ -537,7 +535,7 @@ class OrderEditor{
             JOIN crm_products_lk ON crm_products_bs.cat_id = crm_products_lk.id
             
             WHERE crm_order_bs.id = " . mysql_real_escape_string($this->orderID);
-        $result = db_query($sql, $link);
+        $result = db_query($sql);
         while($row = db_fetch_row($result)) {
 
             $this->orderStatus = $row['status'];
@@ -552,7 +550,6 @@ class OrderEditor{
     //GET ALL PRODUCTS FROM THE DB
     private function getSidebarProducts(){
 
-        $link = db_connection();
         //RETRIEVE ALL THE ITEMS FROM THE DB TO DISPLAY ON THE SIDEBAR
         $sql = "SELECT crm_products_bs.id AS id,
                 crm_products_bs.sap_number AS sap_number,
@@ -569,7 +566,7 @@ class OrderEditor{
                 AND crm_products_bs.status<90
                 
                 ORDER BY crm_products_bs.product_pos, crm_products_bs.name";
-        $result = db_query($sql, $link);
+        $result = db_query($sql);
         while ($row = db_fetch_row($result)){
             $group = $row['family'];
             $product['id'] = $row['id'];
@@ -589,7 +586,7 @@ class OrderEditor{
     }
     //DETECT THE CHANGES ON THE ORDER LIST
     private function compareLists($newList, $oldList){
-        $link = db_connection();
+
         $newSize = sizeof($newList);
         $oldSize = sizeof($oldList);
 
@@ -606,7 +603,7 @@ class OrderEditor{
                         JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                  
                         WHERE crm_order_bs.id = ". $this->orderID . " AND sap_number = " . mysql_real_escape_string($newList[$i]['sap_number']);
-                    $result = db_query($sql, $link);
+                    $result = db_query($sql);
                     while($row = db_fetch_row($result)) {
                         $product_id = $row['product_id'];
                     }
@@ -619,7 +616,7 @@ class OrderEditor{
       
                           WHERE crm_order_dt.order_id = " . mysql_real_escape_string($this->orderID) . "
                           AND crm_order_dt.product_id = " . mysql_real_escape_string($product_id);
-                    db_query($sql, $link);
+                    db_query($sql);
                 }
             }
         }
@@ -637,7 +634,7 @@ class OrderEditor{
                        SELECT id 
                        FROM crm_products_bs 
                        WHERE sap_number  = " . mysql_real_escape_string($added_item['sap_number']);
-                $result = db_query($sql, $link);
+                $result = db_query($sql);
                 while($row = db_fetch_row($result)) {
                     $product_id = $row['id'];
                 }
@@ -647,7 +644,7 @@ class OrderEditor{
                           VALUES('" . mysql_real_escape_string($this->orderID) . "',
                                  '" . mysql_real_escape_string($product_id) . "',
                                  '" . mysql_real_escape_string($added_item['quantity']) ."')";
-                db_query($sql, $link);
+                db_query($sql);
             }
 
         }else{
@@ -661,7 +658,6 @@ class OrderEditor{
 
             }
 
-
             foreach ($deleted as $deleted_item){
                 $product_id = 0;
                 $sql = "
@@ -674,7 +670,7 @@ class OrderEditor{
                         JOIN crm_products_bs ON crm_products_bs.id = crm_order_dt.product_id
                  
                         WHERE crm_order_bs.id = ". $this->orderID . " AND sap_number = " . mysql_real_escape_string($deleted_item['sap_number']);
-                $result = db_query($sql, $link);
+                $result = db_query($sql);
                 while($row = db_fetch_row($result)) {
                     $product_id = $row['product_id'];
                 }
@@ -683,7 +679,7 @@ class OrderEditor{
                           DELETE
                           FROM crm_order_dt
                           WHERE crm_order_dt.product_id = " . mysql_real_escape_string($product_id);
-                db_query($sql, $link);
+                db_query($sql);
             }
         }
     }
